@@ -14,7 +14,28 @@ __User Experience__: Team effort - everyone worked on this task together using a
 When making any type of decision, we have an open-ended chat. We research and list out potential options, then discuss which option we think is best. We voice our concerns with each option and attempt to find a way to address those concerns. After all our concerns have been addressed, we run a poll to figure out which option the team liked best. 
 
 #### How did you define priority and/or points of user stories? How many rounds of voting (on average) did you need to come to a consensus for the point estimate?
-We discussed and decided upon this in a group meeting. We analysed each user story and agreed upon the best way to set the building blocks for the application while taking the client’s needs into consideration at the same time. It was stated by the client that the users should be the first focus of the application which is why we have decided to implement user signup and logins to start off and then coordinate with the client on what they would like done next. Additionally, we created polls to make sure all decisions are based on majority vote.
+We discussed and decided upon this in a group meeting. We analysed each user story and agreed upon the best way to set the building blocks for the application while taking the client’s needs into consideration at the same time. It was stated by the client that the users should be the first focus of the application which is why we have decided to implement user signup and logins to start off and then coordinate with the client on what they would like done next. Additionally, we created polls to make sure all decisions are based on majority vote. The following lists how we assigned the priority of each of the user stories. __Please note that the full user stories are available on JIRA.__
+
+1. User signup
+2. User login and logout
+3. Update profile
+4. View profile
+5. View other users' profiles
+6. App tutorial
+7. Reset password
+8. Access Open Court
+9. Moderate Open Court
+10. Create Debates
+11. View Debates
+12. Debate with other users
+13. Play trivia
+14. Solo trivia play
+15. Play Trivia with Friends
+16. Play Trivia with people online
+17. Picks and Predictions
+18. Relative difficulty for Trivia
+19. Live scores 
+
 
 #### Did you meet in person or online?
 We met online because of the pandemic.
