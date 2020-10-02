@@ -1,4 +1,4 @@
-#Summary#
+# Summary #
 
 SportCred is an application that allows users to put their reputation where their mouth is. It is a social debate app that scores users on their analytical ability, picks and predictions, sports knowledge and overall participation. The key users of this app are sports fans, analysts and people who are interested in learning about sports.
  
