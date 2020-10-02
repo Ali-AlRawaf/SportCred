@@ -21,11 +21,11 @@ __The following is available on JIRA along with the CoS for each of the user sto
 
 ### Picks and predictions:
 
-- As a user I would like to make picks and predictions related to
--- Playoff brackets
--- Coach of the year
--- Defensive player of the year
--- Rookie of the year
+- As a user I would like to make picks and predictions related to<br>
+-- Playoff brackets<br>
+-- Coach of the year<br>
+-- Defensive player of the year<br>
+-- Rookie of the year<br>
 
 ### Debates:
 - As a user, I would like to view all the ongoing debates so that I can provide my input and additionally view all previous debates so that I can understand what users think regarding a certain topic
@@ -39,11 +39,11 @@ __The following is available on JIRA along with the CoS for each of the user sto
 
 ### Open court:
 
-- As a user, I want to access the OPEN COURT where I can make a new post including reposting from other social media platforms
--- View posts made by other users
--- Repost to other social media platforms
--- Agree and disagree to user posts
--- As a moderator, I want to the ability to delete user posts so that I can delete inappropriate/nonsensical ones
+- As a user, I want to access the OPEN COURT where I can make a new post including reposting from other social media platforms<br>
+-- View posts made by other users<br>
+-- Repost to other social media platforms<br>
+-- Agree and disagree to user posts<br>
+-- As a moderator, I want to the ability to delete user posts so that I can delete inappropriate/nonsensical ones<br>
 
 ### Live scores:
 - As a user, I want to be able to view the scores of ongoing games
