@@ -6,7 +6,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "dev": "concurrently \"node ../server.js\" \"expo start\""
+    "dev": "concurrently \"node server.js\" \"expo start\""
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",

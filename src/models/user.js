@@ -18,19 +18,12 @@ const userSchema = new mongoose.Schema({
   status: {
     type: String,
     max: 200
-  }
+  },
 
   bio: {
     type: String,
     max: 255
   },
-
-  acs: {
-    type: Number,
-    max: 1100,
-    required: true,
-    default: 0,
-  }
 
   password: {
     type: String,
