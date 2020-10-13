@@ -11,19 +11,31 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    min: 6,
+    min: 5,
     max: 255,
   },
+
+  status: {
+    type: String,
+    max: 200
+  }
+
+  bio: {
+    type: String,
+    max: 255
+  },
+
+  acs: {
+    type: Number,
+    max: 1100,
+    required: true,
+    default: 0,
+  }
 
   password: {
     type: String,
     required: true,
     min: 6
-  },
-
-  date: {
-    type: Date,
-    default: Date.now,
   },
 
 })
