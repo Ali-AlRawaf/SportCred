@@ -5,9 +5,18 @@ const {registrationValidation} = require('../validations/user_validations');
 
 router.post('/register', async (req, res) => {
 
+  // Front end validations
   const {error} = registrationValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message)
+  if (error) return res.status(400).send(error.details[0].message);
 
+  // Check if the user already exists
+  const username_exists = await User.findOne({username: req.body.username});
+  if (username_exists) return res.status(400).send('User with this username already exists');
+
+  const email_exists = await User.findOne({email: req.body.email});
+  if (email_exists) return res.status(400).send('User with this email already exists');
+
+  // Create new user
   const user = new User({
     username: req.body.username,
     email: req.body.email,
