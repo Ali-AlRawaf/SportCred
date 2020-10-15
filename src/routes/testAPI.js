@@ -1,8 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const verify = require('./verifyToken')
 
-router.get('/', (req, res, next) => {
-    res.send('This is a string response');
+// Test for authentication middleware
+router.get('/', verify, (req, res, next) => {
+    res.send(req.user);
+    // User.findbyOne({_id: req.user})
 });
 
 router.get('/json', (req, res, next) => {

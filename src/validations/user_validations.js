@@ -20,19 +20,12 @@ const registrationValidation = (data) => {
 
 const loginValidation = (data) => {
 
-  const schema = {
-    username: Joi.string()
-              .min(5)
-              .max(25)
-              .required(),
+  const schema = Joi.object({
+    username: Joi.string().min(5).max(25).required(),
+    password: Joi.string().min(6).required(),
+  })
 
-    password: Joi.string()
-              .min(6)
-              .required(),
-
-  }
-
-  return Joi.validate(data, schema)
+  return schema.validate(data)
 }
 
 
