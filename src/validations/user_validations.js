@@ -4,13 +4,9 @@ const registrationValidation = (data) => {
 
   const schema = Joi.object({
     username: Joi.string().min(5).max(25).required(),
-
     email: Joi.string().min(5).max(255).required().email(),
-
     status: Joi.string().max(200),
-
     bio: Joi.string().max(255),
-
     password: Joi.string().min(6).required(),
 
   })
