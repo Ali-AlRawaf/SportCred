@@ -7,7 +7,7 @@ const cors = require('cors');
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 19006;
+const port = process.env.PORT || 5000;
 
 mongoose.connect(
   process.env.DB_CONNECT,
@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const testAPI = require('./routes/testAPI')
 const authRoutes = require('./routes/auth')
 
-// app.use(cors({origin: '*'}));
+app.use(cors({origin: '*'}));
 
 app.use('/testAPI', testAPI);
 app.use('/user', authRoutes);

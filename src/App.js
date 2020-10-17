@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import {testAPIString, testAPIJSON, testAPIConditional} from './controller/testAPIActions'
-import {register} from './controller/user.js'
+import {register, login} from './controller/user.js'
 
 class App extends Component {
   state = {
     username: "",
-    email: "",
     password: "",
   };
 
@@ -21,9 +20,8 @@ class App extends Component {
 
   formSubmit = e => {
     e.preventDefault();
-    register(this.state)
+    login(this.state)
     .then(response => {
-      // alert(response)
       console.log(response)
     })
   }
@@ -40,12 +38,6 @@ class App extends Component {
               name="username"
               type="text"
               placeholder="username"
-              onChange={this.handleChange}
-            ></input>
-            <input
-              name="email"
-              type="text"
-              placeholder="email"
               onChange={this.handleChange}
             ></input>
             <input
