@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center'
   },
-  button:{
+  button: {
     backgroundColor: "#222629",
     borderRadius: 4,
     borderWidth: 1,
@@ -17,16 +17,16 @@ const styles = StyleSheet.create({
     width: "80%",
     alignSelf: "center"
   },
-  text:{
+  text: {
     color: "white",
     fontSize: 24,
     paddingVertical: 10,
     textAlign: "center"
   },
-  logo:{
+  logo: {
     alignSelf: "center"
   },
-  background:{
+  background: {
     flex: 1,
     resizeMode: "stretch",
     justifyContent: "center",
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 });
 
 
-const StartingPage = ({navigation}) => {
+const StartingScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -45,38 +45,38 @@ const StartingPage = ({navigation}) => {
       >
         <View
           style={styles.container}
-          flex = "2"
-          >
-            <Logo
-              width = "100%"
-              height = "100%"
-            />
-          </View>
-          <View
-            style={styles.container}
-            justifyContent = "center"
-            flex = "1"
-          >
-            <TouchableOpacity 
-              style={styles.button}
-              activeOpacity={0.7}
-              //onPress={() => navigation.navigate('Login')}
-            >
-            <Text
-                style={styles.text}
-              >Login</Text>
-            </TouchableOpacity>
-            </View>
-          <View
+          flex="2"
+        >
+          {/* <Logo
+            width="100%"
+            height="100%"
+          /> */}
+        </View>
+        <View
           style={styles.container}
-          justifyContent="flex-start"
-          flex = "1"
-          >
+          justifyContent="center"
+          flex="1"
+        >
           <TouchableOpacity
             style={styles.button}
             activeOpacity={0.7}
-            //onPress={() => navigation.navigate('Sign Up')}
-            >
+            onPress={() => navigation.navigate('Login')}
+          >
+            <Text
+              style={styles.text}
+            >Login</Text>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={styles.container}
+          justifyContent="flex-start"
+          flex="1"
+        >
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate('Register')}
+          >
             <Text
               style={styles.text}
             >Sign up</Text>
@@ -87,5 +87,5 @@ const StartingPage = ({navigation}) => {
   );
 }
 
-export default StartingPage;
+export default StartingScreen;
 
