@@ -1,60 +1,27 @@
-import React, { Component } from 'react';
-import {testAPIString, testAPIJSON, testAPIConditional} from './controller/testAPIActions'
-import {register, login} from './controller/user.js'
+// In App.js in a new project
 
-class App extends Component {
-  state = {
-    username: "",
-    password: "",
-  };
+import * as React from 'react';
+import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import StartingScreen from './screens/StartingScreen';
+import LoginScreen from './screens/LoginScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import RegisterScreenOne from './screens/RegisterScreenOne';
+import RegisterScreenTwo from './screens/RegisterScreenTwo';
 
-  handleChange = (e) => {
-    const target = e.target;
-    const value = target.value;
-    const name = target.name;
+const Stack = createStackNavigator();
 
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  formSubmit = e => {
-    e.preventDefault();
-    login(this.state)
-    .then(response => {
-      console.log(response)
-    })
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
-        </header> 
-        <div>
-          <form onSubmit={this.formSubmit}>
-            <input
-              name="username"
-              type="text"
-              placeholder="username"
-              onChange={this.handleChange}
-            ></input>
-            <input
-              name="password"
-              type="text"
-              placeholder="password"
-              onChange={this.handleChange}
-            ></input>
-            <button className="form-submit" type="buton" onSubmit={this.formSubmit}>
-              Submit
-            </button>
-          </form>
-
-        </div>
-      </div>
-    );
-  }
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Start" component={StartingScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Register" component={RegisterScreenOne} options={{ headerShown: false }} />
+        <Stack.Screen name="RegisterTwo" component={RegisterScreenTwo} options={{ headerShown: false }} />
+        <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
-
-export default App;
