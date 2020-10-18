@@ -9,10 +9,10 @@
     "dev": "concurrently \"node server.js\" \"expo start\""
   },
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/native": "^5.7.6",
     "@react-navigation/stack": "^5.9.3",
-    "@hapi/joi": "^17.1.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
