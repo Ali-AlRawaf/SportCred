@@ -10,15 +10,6 @@ import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreenOne from './screens/RegisterScreenOne';
 import RegisterScreenTwo from './screens/RegisterScreenTwo';
 
-
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
-  );
-}
-
 const Stack = createStackNavigator();
 
 function App() {
@@ -34,5 +25,3 @@ function App() {
     </NavigationContainer>
   );
 }
-
-export default App;
