@@ -1,16 +1,14 @@
 import React from 'react';
 import { View, Button, StyleSheet, TextInput, TouchableOpacity, Text } from 'react-native';
+import {register} from '../controller/user'
 
 
 const RegisterScreenOne = ({ navigation }) => {
-    let state = {
+    const state = {
         username: '',
-        password: '',
-        confirmPassword: '',
         email: '',
-        age: ''
+        password: '',
     }
-
 
     return (
         <View style={styles.container}>
@@ -31,7 +29,7 @@ const RegisterScreenOne = ({ navigation }) => {
                     placeholder='Email'
                     autoCapitalize="none"
                     placeholderTextColor="grey"
-                    onChangeText={val => this.onChangeText('email', val)}
+                    onChangeText={val => this.performSignup(val)}
                 />
             </View>
             <View style={styles.textField}>
@@ -43,17 +41,6 @@ const RegisterScreenOne = ({ navigation }) => {
                     placeholderTextColor="grey"
                     secureTextEntry={true}
                     onChangeText={val => this.onChangeText('password', val)}
-                />
-            </View>
-            <View style={styles.textField}>
-                <TextInput
-                    style={styles.input}
-                    color="white"
-                    placeholder='Confirm Password'
-                    autoCapitalize="none"
-                    placeholderTextColor="grey"
-                    secureTextEntry={true}
-                    onChangeText={val => this.onChangeText('confirmPassword', val)}
                 />
             </View>
             <View>
