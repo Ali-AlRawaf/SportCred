@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Button, StyleSheet, TextInput, Text, Image, TouchableOpacity } from 'react-native';
-
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import { useNavigation } from '@react-navigation/native';
 
 export default class TutorialScreen extends React.Component {
   constructor(props) {
@@ -24,7 +26,38 @@ export default class TutorialScreen extends React.Component {
 
       this.nextPage = this.nextPage.bind(this);
       this.previousPage = this.previousPage.bind(this);
+      this.isOnFinal = this.isOnFinal.bind(this);
+      this.isOnFirst = this.isOnFirst.bind(this);
+    }
 
+    isOnFinal() {
+      if (this.state.currentPage == this.state.tutorialTitle.length - 1) {
+        return null;
+      } else {
+        return <TouchableOpacity
+          style={styles.buttonContainer}
+          activeOpacity={0.7}
+          onPress={this.nextPage}
+          id="nextTut">
+
+          <NavigateNextIcon/>
+        </TouchableOpacity>
+      }
+    }
+
+    isOnFirst() {
+      if (this.state.currentPage == 0) {
+        return null;
+      } else {
+        return <TouchableOpacity
+            style={styles.buttonContainer}
+            activeOpacity={0.7}
+            onPress={this.previousPage}
+            id="prevTut">
+
+            <NavigateBeforeIcon/>
+          </TouchableOpacity>
+      }
     }
 
     nextPage() {
@@ -46,6 +79,17 @@ export default class TutorialScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+
+                <View style={styles.backButtonContainer}>
+
+                  <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate('RegisterTwo')}>
+                    <NavigateBeforeIcon/>
+
+                  </TouchableOpacity>
+
+                </View>
+
                 <Image
                     style={styles.logo}
                     source={{
@@ -53,7 +97,7 @@ export default class TutorialScreen extends React.Component {
                     }}
                 />
                 <View style={styles.textField}>
-                    <Text style={styles.textField}>
+                    <Text style={styles.title}>
                         {this.state.tutorialTitle[this.state.currentPage]}
                     </Text>
                 </View>
@@ -70,22 +114,10 @@ export default class TutorialScreen extends React.Component {
                   justifyContent="flex-start"
                   flex="1">
 
-                    <TouchableOpacity
-                      style={styles.buttonContainer}
-                      activeOpacity={0.7}
-                      onPress={this.previousPage}>
+                    {this.isOnFirst()}
 
-                      <Text style={styles.buttonText}> Previous </Text>
-                    </TouchableOpacity>
+                    {this.isOnFinal()}
 
-
-                    <TouchableOpacity
-                      style={styles.buttonContainer}
-                      activeOpacity={0.7}
-                      onPress={this.nextPage}>
-
-                      <Text style={styles.buttonText}> Next </Text>
-                    </TouchableOpacity>
                 </View>
             </View >
         )
@@ -100,9 +132,18 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#222629',
     },
+    title: {
+        width: 450,
+        height: 200,
+        color: '#E5E5E5',
+        backgroundColor: '#222629',
+        margin: 10,
+        padding: 10,
+        fontSize: 32,
+    },
     textField: {
         width: 450,
-        height: 500,
+        height: 400,
         color: '#E5E5E5',
         backgroundColor: '#222629',
         margin: 10,
@@ -122,9 +163,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'yellow',
     },
     logo: {
-        margin: "auto",
+        margin: "50px",
         width: 250,
-        height: 200
+        height: 200,
+        margin: "auto"
     },
     navButtonContainer: {
       display: "flex",
@@ -135,11 +177,17 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       paddingVertical: 10,
       paddingHorizontal: 12,
-      margin: 10,
+      margin: 10
     },
     buttonText: {
       fontSize: 20,
       color: "black",
       alignSelf: "center",
+    },
+    backButtonContainer: {
+      backgroundColor: "lightblue",
+      borderRadius: 10,
+      paddingVertical: 10,
+      paddingHorizontal: 12,
     }
 });
