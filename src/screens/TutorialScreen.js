@@ -1,8 +1,5 @@
 import React from 'react';
 import { View, Button, StyleSheet, TextInput, Text, Image, TouchableOpacity } from 'react-native';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import { useNavigation } from '@react-navigation/native';
 
 export default class TutorialScreen extends React.Component {
   constructor(props) {
@@ -32,30 +29,43 @@ export default class TutorialScreen extends React.Component {
 
     isOnFinal() {
       if (this.state.currentPage == this.state.tutorialTitle.length - 1) {
-        return null;
+        return <TouchableOpacity
+          style={styles.buttonContainer}
+          activeOpacity={0.7}
+          onPress={() => this.props.navigation.navigate('Profile')}>
+          <Text style={styles.buttonText}>
+              I'm ready!
+          </Text>
+        </TouchableOpacity>
       } else {
         return <TouchableOpacity
           style={styles.buttonContainer}
           activeOpacity={0.7}
-          onPress={this.nextPage}
-          id="nextTut">
-
-          <NavigateNextIcon/>
+          onPress={this.nextPage}>
+          <Text style={styles.buttonText}>
+              Next
+          </Text>
         </TouchableOpacity>
       }
     }
 
     isOnFirst() {
       if (this.state.currentPage == 0) {
-        return null;
+        return <TouchableOpacity style={styles.buttonContainer}
+          activeOpacity={0.7}
+          onPress={() => this.props.navigation.navigate('RegisterTwo')}>
+          <Text style={styles.buttonText}>
+              Previous Page
+          </Text>
+        </TouchableOpacity>
       } else {
         return <TouchableOpacity
             style={styles.buttonContainer}
             activeOpacity={0.7}
-            onPress={this.previousPage}
-            id="prevTut">
-
-            <NavigateBeforeIcon/>
+            onPress={this.previousPage}>
+            <Text style={styles.buttonText}>
+                Back
+            </Text>
           </TouchableOpacity>
       }
     }
@@ -79,16 +89,6 @@ export default class TutorialScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-
-                <View style={styles.backButtonContainer}>
-
-                  <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('RegisterTwo')}>
-                    <NavigateBeforeIcon/>
-
-                  </TouchableOpacity>
-
-                </View>
                 <Image
                     style={styles.logo}
                     source={{
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
       flexDirection: "row"
     },
     buttonContainer: {
-      // backgroundColor: "darkorange",
+      backgroundColor: "darkorange",
       borderRadius: 10,
       paddingVertical: 10,
       paddingHorizontal: 12,

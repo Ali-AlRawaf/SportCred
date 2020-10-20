@@ -90,6 +90,7 @@ const StartingScreen = ({ navigation }) => {
               style={styles.text}
             >Sign up</Text>
           </TouchableOpacity>
+
         </View>
 
 
