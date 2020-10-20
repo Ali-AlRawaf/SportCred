@@ -74,6 +74,18 @@ const RegisterScreenTwo = ({ navigation }) => {
                     >Next</Text>
                 </TouchableOpacity>
             </View >
+
+            <View
+              style={styles.container}
+              justifyContent="flex-start"
+              flex="1">
+              <TouchableOpacity
+                style={styles.button}
+                activeOpacity={0.7}
+                onPress={() => navigation.navigate('Tutorial')}>
+                <Text style={styles.text}>Tutorial Page</Text>
+              </TouchableOpacity>
+            </View>
         </View >
     )
 
