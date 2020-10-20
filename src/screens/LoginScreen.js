@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
     header: {
         color: "white",
         fontSize: 40,
-        fontFamily: "Monsterrat",
         paddingStart: 35
     }
 
