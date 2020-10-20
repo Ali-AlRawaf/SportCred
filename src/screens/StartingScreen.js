@@ -47,10 +47,10 @@ const StartingScreen = ({ navigation }) => {
           style={styles.container}
           flex="2"
         >
-          {/* <Logo
+          <Logo
             width="100%"
             height="100%"
-          /> */}
+          />
         </View>
         <View
           style={styles.container}
