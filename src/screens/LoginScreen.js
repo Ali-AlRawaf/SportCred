@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Button, StyleSheet, TextInput, Text, ImageBackground, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -8,7 +8,7 @@ import logo from '../assets/text_logo.png'
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
-        flex: 1    
+        flex: 1
     },
 
     headerContainer: {
@@ -63,25 +63,36 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
 
-    logo:{
+    logo: {
         alignSelf: "center",
         width: "100%",
         height: "100%"
     },
 
-    here:{
+    here: {
         color: "#FF652F",
         alignSelf: "center"
     },
 
-    hereButton:{
-        alignSelf:"center"
+    hereButton: {
+        alignSelf: "center"
     },
 
 
 
 });
 const LoginScreen = ({ navigation }) => {
+    const [userInfo, setState] = useState({
+        username: '',
+        password: ''
+    });
+
+    const updateField = (key, val) => {
+        setState({
+            ...userInfo,
+            [key]: val
+        });
+    };
     {
         return (
             <View style={styles.container}>
@@ -89,66 +100,66 @@ const LoginScreen = ({ navigation }) => {
                     source={bg}
                     style={styles.background}
                 >
-                <View style={styles.headerContainer} >
-                    <Text
-                        style={styles.header}
-                    >Login</Text>
-                </View>
-                <View 
-                    style={styles.formContainer}
-                >
-                    <TextInput
-                        style={styles.input}
-                        placeholder='Email'
-                        autoCapitalize="none"
-                        placeholderTextColor='grey'
-                        onChangeText={val => this.onChangeText('username', val)}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder='Password'
-                        secureTextEntry={true}
-                        autoCapitalize="none"
-                        placeholderTextColor="grey"
-                        onChangeText={val => this.onChangeText('email', val)}
-                    />
-                    <TouchableOpacity
-                        style={styles.button}
-                        activeOpacity={0.7}
-                        onPress={() => navigation.navigate('Profile')}
-                    >
+                    <View style={styles.headerContainer} >
                         <Text
-                        style={styles.prompt}
+                            style={styles.header}
                         >Login</Text>
-                    </TouchableOpacity>
-                </View>
-                <View
-                    style={styles.container}                
-                    flexDirection="row"
-                >
-                    <Text
-                     style={styles.prompt}
-                    >Don't have an account? Sign up</Text>
-                    <TouchableOpacity
-                        style={styles.hereButton}
-                        activeOpacity={0.7}
-                        tex
-                        onPress={() => navigation.navigate('Register')}                   
+                    </View>
+                    <View
+                        style={styles.formContainer}
+                    >
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Email'
+                            autoCapitalize="none"
+                            placeholderTextColor='grey'
+                            onChangeText={text => updateField('username', text)}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Password'
+                            secureTextEntry={true}
+                            autoCapitalize="none"
+                            placeholderTextColor="grey"
+                            onChangeText={text => updateField('password', text)}
+                        />
+                        <TouchableOpacity
+                            style={styles.button}
+                            activeOpacity={0.7}
+                            onPress={() => navigation.navigate('Profile')}
+                        >
+                            <Text
+                                style={styles.prompt}
+                            >Login</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View
+                        style={styles.container}
+                        flexDirection="row"
                     >
                         <Text
-                            style={styles.here}
-                        > here</Text>                        
-                    </TouchableOpacity>
-                </View>
-                <View
-                    style={styles.container}
-                >
-                    <Image
-                        style={styles.logo}
-                        source={logo}
-                    />
+                            style={styles.prompt}
+                        >Don't have an account? Sign up</Text>
+                        <TouchableOpacity
+                            style={styles.hereButton}
+                            activeOpacity={0.7}
+                            tex
+                            onPress={() => navigation.navigate('Register')}
+                        >
+                            <Text
+                                style={styles.here}
+                            > here</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View
+                        style={styles.container}
+                    >
+                        <Image
+                            style={styles.logo}
+                            source={logo}
+                        />
 
-                </View>
+                    </View>
                 </ImageBackground>
 
             </View >
