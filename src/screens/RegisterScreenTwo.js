@@ -73,7 +73,7 @@ const RegisterScreenTwo = ({ navigation }) => {
                     <View style={styles.button}>
                         <TouchableOpacity
                             activeOpacity={0.7}
-                            onPress={() => navigation.navigate('Profile')}>
+                            onPress={() => navigation.navigate('Tutorial')}>
                             <Text style={styles.prompt}>Let's get started!</Text>
                         </TouchableOpacity>
                     </View>

@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Button, StyleSheet, TextInput, Text, Image, TouchableOpacity } from 'react-native';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import { useNavigation } from '@react-navigation/native';
 
 export default class TutorialScreen extends React.Component {
   constructor(props) {
@@ -32,7 +31,15 @@ export default class TutorialScreen extends React.Component {
 
     isOnFinal() {
       if (this.state.currentPage == this.state.tutorialTitle.length - 1) {
-        return null;
+        return <TouchableOpacity
+          style={styles.buttonContainer}
+          activeOpacity={0.7}
+          onPress={() => this.props.navigation.navigate('Profile')}
+          id="nextTut">
+          <Text style={styles.buttonText}>
+              I'm ready!
+          </Text>
+        </TouchableOpacity>
       } else {
         return <TouchableOpacity
           style={styles.buttonContainer}
@@ -170,7 +177,7 @@ const styles = StyleSheet.create({
       flexDirection: "row"
     },
     buttonContainer: {
-      // backgroundColor: "darkorange",
+      backgroundColor: "darkorange",
       borderRadius: 10,
       paddingVertical: 10,
       paddingHorizontal: 12,
