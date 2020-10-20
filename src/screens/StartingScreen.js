@@ -82,10 +82,27 @@ const StartingScreen = ({ navigation }) => {
             >Sign up</Text>
           </TouchableOpacity>
         </View>
+
+      <View
+        style={styles.container}
+        justifyContent="flex-start"
+        flex="1"
+      >
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.7}
+          onPress={() => navigation.navigate('Tutorial')}
+        >
+          <Text
+            style={styles.text}
+          >Tutorial Page</Text>
+        </TouchableOpacity>
+      </View>
+
+
       </ImageBackground>
     </View>
   );
 }
 
 export default StartingScreen;
-
