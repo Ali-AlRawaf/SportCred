@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Button, StyleSheet, TextInput, TouchableOpacity, Text } from 'react-native';
-
+import { View, StyleSheet, TextInput, TouchableOpacity, Text, ImageBackground, Image } from 'react-native';
+import bg from '../assets/bg.png';
+import logo from '../assets/text_logo.png'
 
 const RegisterScreenTwo = ({ navigation }) => {
     let state = {
@@ -13,6 +14,17 @@ const RegisterScreenTwo = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            <ImageBackground
+                style={styles.bg}
+                source={bg}
+            >
+            <View
+                style={styles.container}
+                >
+                    <Text
+                        style={styles.header}
+                    >Help us get to know you</Text>
+                </View>
             <View style={styles.textField}>
                 <TextInput
                     style={styles.input}
@@ -70,10 +82,20 @@ const RegisterScreenTwo = ({ navigation }) => {
                     onPress={() => navigation.navigate('Profile')}
                 >
                     <Text
-                        style={styles.text}
-                    >Next</Text>
+                        style={styles.prompt}
+                    >Let's get started!</Text>
                 </TouchableOpacity>
             </View >
+            <View
+                    style={styles.container}
+                >
+                    <Image
+                        style={styles.logo}
+                        source={logo}
+                    />
+
+                </View>
+            </ImageBackground>
         </View >
     )
 
@@ -82,8 +104,7 @@ const RegisterScreenTwo = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
-        flex: 1,
-        backgroundColor: '#222629',
+        flex: 1
     },
     textField: {
         width: 350,
@@ -101,12 +122,35 @@ const styles = StyleSheet.create({
         color: 'wheat'
     },
     button: {
-        backgroundColor: "#222629",
-        borderRadius: 4,
+        backgroundColor: "#53900F",
+        borderRadius: 7,
         borderWidth: 1,
-        borderColor: "white",
         width: "80%",
         alignSelf: "center"
+    },
+    bg: {
+        flex: 1,
+        resizeMode: "stretch",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%"        
+    },
+    prompt: {
+        alignSelf: "center",
+        color: "white",
+        paddingVertical: 15    
+    },
+    logo:{
+        alignSelf: "center",
+        width: "100%",
+        height: "100%"
+    },
+    header:{
+        color: "white",
+        fontSize: 45,
+        paddingStart: 10,
+        paddingTop: 20,
+        textAlign: "center"
     }
 });
 
