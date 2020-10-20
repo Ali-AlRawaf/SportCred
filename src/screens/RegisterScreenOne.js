@@ -1,99 +1,108 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Image, StyleSheet, TextInput, TouchableOpacity, Text, ImageBackground } from 'react-native';
-import {register} from '../controller/user'
+import { register } from '../controller/user'
 import bg from '../assets/bg.png';
 import logo from '../assets/text_logo.png'
 import arrow from '../assets/arrow_forward.png'
 const RegisterScreenOne = ({ navigation }) => {
-    const state = {
+
+    const [userInfo, setState] = useState({
         username: '',
         email: '',
         password: '',
-    }
+        confirmPassword: ''
+    });
+
+    const updateField = (key, val) => {
+        setState({
+            ...userInfo,
+            [key]: val
+        });
+    };
 
     return (
         <View style={styles.container}>
             <ImageBackground
                 style={styles.bg}
                 source={bg}
-            >   
-            <View
-            style={styles.headerContainer}
             >
-                <Text style={styles.header}>Sign Up</Text>
-            </View>
-            <View style={styles.formContainer}>
-                <TextInput
-                    style={styles.textField}
-                    placeholder='Username'
-                    color="white"
-                    autoCapitalize="none"
-                    placeholderTextColor='grey'
-                    onChangeText={val => this.onChangeText('username', val)}
-                />
-                <TextInput
-                    style={styles.textField}
-                    color="white"
-                    placeholder='Email'
-                    autoCapitalize="none"
-                    placeholderTextColor="grey"
-                    onChangeText={val => this.performSignup(val)}
-                />
-                <TextInput
-                    style={styles.textField}
-                    color="white"
-                    placeholder='Password'
-                    autoCapitalize="none"
-                    placeholderTextColor="grey"
-                    secureTextEntry={true}
-                    onChangeText={val => this.onChangeText('password', val)}
-                />
-                <TextInput
-                    style={styles.textField}
-                    color="white"
-                    placeholder='Confirm Password'
-                    autoCapitalize="none"
-                    placeholderTextColor="grey"
-                    secureTextEntry={true}
-                    onChangeText={val => this.onChangeText('password', val)}
-                />
-                <TouchableOpacity
-                    style={styles.button}
-                    activeOpacity={0.7}
-                    onPress={() => navigation.navigate('RegisterTwo')}
+                <View
+                    style={styles.headerContainer}
                 >
-                    <Image
-                        style={styles.arrow}
-                        source={arrow}
+                    <Text style={styles.header}>Sign Up</Text>
+                </View>
+                <View style={styles.formContainer}>
+                    <TextInput
+                        style={styles.textField}
+                        placeholder='Username'
+                        color="white"
+                        autoCapitalize="none"
+                        placeholderTextColor='grey'
+                        onChangeText={text => updateField('username', text)}
                     />
-                </TouchableOpacity>
-            </View>
-            <View
-                style={styles.container}                
-                flexDirection="row"
-            >
-                <Text
-                 style={styles.prompt}
-                >Already have an account? Login</Text>
-                <TouchableOpacity
-                    style={styles.hereButton}
-                    activeOpacity={0.7}
-                    onPress={() => navigation.navigate('Login')}                   
+                    <TextInput
+                        style={styles.textField}
+                        color="white"
+                        placeholder='Email'
+                        autoCapitalize="none"
+                        placeholderTextColor="grey"
+                        onChangeText={text => updateField('email', text)}
+                    />
+                    <TextInput
+                        style={styles.textField}
+                        color="white"
+                        placeholder='Password'
+                        autoCapitalize="none"
+                        placeholderTextColor="grey"
+                        secureTextEntry={true}
+                        onChangeText={text => updateField('password', text)}
+                    />
+                    <TextInput
+                        style={styles.textField}
+                        color="white"
+                        placeholder='Confirm Password'
+                        autoCapitalize="none"
+                        placeholderTextColor="grey"
+                        secureTextEntry={true}
+                        onChangeText={text => updateField('confirmPassword', text)}
+                    />
+                    <TouchableOpacity
+                        style={styles.button}
+                        activeOpacity={0.7}
+                        onPress={() => navigation.navigate('RegisterTwo')}
+                    >
+                        <Image
+                            style={styles.arrow}
+                            source={arrow}
+                        />
+                    </TouchableOpacity>
+                </View>
+                <View
+                    style={styles.container}
+                    flexDirection="row"
                 >
                     <Text
-                        style={styles.here}
-                    > here</Text>                        
-                </TouchableOpacity>
-            </View>
-            <View
-                style={styles.container}
-            >
-                <Image
-                    style={styles.logo}
-                    source={logo}
-                />
+                        style={styles.prompt}
+                    >Already have an account? Login</Text>
+                    <TouchableOpacity
+                        style={styles.hereButton}
+                        activeOpacity={0.7}
+                        onPress={() => navigation.navigate('Login')}
+                    >
+                        <Text
+                            style={styles.here}
+                        > here</Text>
+                    </TouchableOpacity>
+                </View>
+                <View
+                    style={styles.container}
+                >
+                    <Image
+                        style={styles.logo}
+                        source={logo}
+                    />
 
-            </View>
+                </View>
             </ImageBackground>
         </View >
     )
@@ -122,7 +131,7 @@ const styles = StyleSheet.create({
         marginLeft: 'auto'
     },
 
-    header:{
+    header: {
         color: "white",
         fontSize: 40,
     },
@@ -154,27 +163,27 @@ const styles = StyleSheet.create({
         resizeMode: "stretch",
         justifyContent: "center",
         width: "100%",
-        height: "100%"        
+        height: "100%"
     },
 
-    here:{
+    here: {
         color: "#FF652F",
         alignSelf: "center"
     },
 
-    logo:{
+    logo: {
         alignSelf: "center",
         width: "100%",
         height: "100%"
     },
 
-    hereButton:{
-        alignSelf:"center"
+    hereButton: {
+        alignSelf: "center"
     },
 
     prompt: {
         alignSelf: "center",
-        color: "white"    
+        color: "white"
     },
 
     arrow: {

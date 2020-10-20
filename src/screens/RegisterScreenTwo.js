@@ -1,16 +1,23 @@
-import React from 'react';
-import {ScrollView, View, StyleSheet, TextInput, TouchableOpacity, Text, ImageBackground, Image } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, View, StyleSheet, TextInput, TouchableOpacity, Text, ImageBackground, Image } from 'react-native';
 import bg from '../assets/bg.png';
 import logo from '../assets/text_logo.png'
 
 const RegisterScreenTwo = ({ navigation }) => {
-    let state = {
-        favSport: '',
+    const [userInfo, setState] = useState({
         age: '',
+        favSport: '',
+        favTeam: '',
         levelOfPlay: '',
         learn: '',
-        favTeam: ''
-    }
+    });
+
+    const updateField = (key, val) => {
+        setState({
+            ...userInfo,
+            [key]: val
+        });
+    };
 
     return (
         <View style={styles.container}>
@@ -18,69 +25,69 @@ const RegisterScreenTwo = ({ navigation }) => {
                 style={styles.bg}
                 source={bg}
             >
-            <View
-                style={styles.headerContainer}
+                <View
+                    style={styles.headerContainer}
                 >
-                <Text
-                    style={styles.header}
-                >Help us get to know you</Text>
-            </View>
-
-            <ScrollView styles={styles.formContainer}>
-                <TextInput
-                    style={styles.textField}
-                    placeholder='Age'
-                    autoCapitalize="none"
-                    placeholderTextColor='grey'
-                    onChangeText={val => this.onChangeText('age', val)}
-                />
-                <TextInput
-                    style={styles.textField}
-                    placeholder='Favorite sport?'
-                    autoCapitalize="none"
-                    placeholderTextColor="grey"
-                    onChangeText={val => this.onChangeText('favSport', val)}
-                />
-                <TextInput
-                    style={styles.textField}
-                    placeholder='Favorite sports team?'
-                    autoCapitalize="none"
-                    placeholderTextColor="grey"
-                    onChangeText={val => this.onChangeText('favTeam', val)}
-                />
-                <TextInput
-                    style={styles.textField}
-                    placeholder='Highest level of sport play?'
-                    autoCapitalize="none"
-                    placeholderTextColor="grey"
-                    onChangeText={val => this.onChangeText('levelOfPlay', val)}
-                />
-                <TextInput
-                    style={styles.textField}
-                    placeholder='What sport would you like to know/learn about?'
-                    autoCapitalize="none"
-                    placeholderTextColor="grey"
-                    onChangeText={val => this.onChangeText('learn', val)}
-                />
-
-                <View style={styles.button}>
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    onPress={() => navigation.navigate('Profile')}>
-                    <Text style={styles.prompt}>Let's get started!</Text>
-                  </TouchableOpacity>
+                    <Text
+                        style={styles.header}
+                    >Help us get to know you</Text>
                 </View>
 
-                <View style={styles.logoContainer}>
-                    <Image
-                        style={styles.logo}
-                        source={logo}
+                <ScrollView styles={styles.formContainer}>
+                    <TextInput
+                        style={styles.textField}
+                        placeholder='Age'
+                        autoCapitalize="none"
+                        placeholderTextColor='grey'
+                        onChangeText={text => updateField('age', text)}
                     />
-                </View>
+                    <TextInput
+                        style={styles.textField}
+                        placeholder='Favorite sport?'
+                        autoCapitalize="none"
+                        placeholderTextColor="grey"
+                        onChangeText={text => updateField('favSport', text)}
+                    />
+                    <TextInput
+                        style={styles.textField}
+                        placeholder='Favorite sports team?'
+                        autoCapitalize="none"
+                        placeholderTextColor="grey"
+                        onChangeText={text => updateField('favTeam', text)}
+                    />
+                    <TextInput
+                        style={styles.textField}
+                        placeholder='Highest level of sport play?'
+                        autoCapitalize="none"
+                        placeholderTextColor="grey"
+                        onChangeText={text => updateField('levelOfPlay', text)}
+                    />
+                    <TextInput
+                        style={styles.textField}
+                        placeholder='What sport would you like to know/learn about?'
+                        autoCapitalize="none"
+                        placeholderTextColor="grey"
+                        onChangeText={text => updateField('learn', text)}
+                    />
 
-            </ScrollView>
+                    <View style={styles.button}>
+                        <TouchableOpacity
+                            activeOpacity={0.7}
+                            onPress={() => navigation.navigate('Profile')}>
+                            <Text style={styles.prompt}>Let's get started!</Text>
+                        </TouchableOpacity>
+                    </View>
 
-           
+                    <View style={styles.logoContainer}>
+                        <Image
+                            style={styles.logo}
+                            source={logo}
+                        />
+                    </View>
+
+                </ScrollView>
+
+
             </ImageBackground>
         </View >
     )
@@ -131,19 +138,19 @@ const styles = StyleSheet.create({
         resizeMode: "stretch",
         justifyContent: "center",
         width: "100%",
-        height: "100%"        
+        height: "100%"
     },
     prompt: {
         alignSelf: "center",
         color: "white",
-        paddingVertical: 15    
+        paddingVertical: 15
     },
 
     logoContainer: {
         height: 100
     },
 
-    logo:{
+    logo: {
         alignSelf: "center",
         width: "100%",
         height: "100%"
@@ -154,7 +161,7 @@ const styles = StyleSheet.create({
         width: '100%'
     },
 
-    header:{
+    header: {
         color: "white",
         fontSize: 45,
         paddingStart: 10,
