@@ -89,7 +89,6 @@ export default class TutorialScreen extends React.Component {
                   </TouchableOpacity>
 
                 </View>
-
                 <Image
                     style={styles.logo}
                     source={{
@@ -107,8 +106,6 @@ export default class TutorialScreen extends React.Component {
                         {this.state.tutorialDescription[this.state.currentPage]}
                     </Text>
                 </View>
-
-
                 <View
                   style={styles.navButtonContainer}
                   justifyContent="flex-start"
@@ -173,7 +170,7 @@ const styles = StyleSheet.create({
       flexDirection: "row"
     },
     buttonContainer: {
-      backgroundColor: "darkorange",
+      // backgroundColor: "darkorange",
       borderRadius: 10,
       paddingVertical: 10,
       paddingHorizontal: 12,
@@ -185,7 +182,7 @@ const styles = StyleSheet.create({
       alignSelf: "center",
     },
     backButtonContainer: {
-      backgroundColor: "lightblue",
+      // backgroundColor: "lightblue",
       borderRadius: 10,
       paddingVertical: 10,
       paddingHorizontal: 12,
