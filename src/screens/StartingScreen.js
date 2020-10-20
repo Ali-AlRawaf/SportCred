@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import Logo from '../assets/logo.svg';
+import logo from '../assets/logo_png.png';
 import bg from '../assets/bg.png'
 
 const styles = StyleSheet.create({
@@ -24,7 +24,9 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   logo: {
-    alignSelf: "center"
+    alignSelf: "center",
+    width:"100%",
+    height:"100%"
   },
   background: {
     flex: 1,
@@ -47,9 +49,9 @@ const StartingScreen = ({ navigation }) => {
           style={styles.container}
           flex="2"
         >
-          <Logo
-            width="100%"
-            height="100%"
+          <Image
+            style={styles.logo}
+            source={logo}
           />
         </View>
         <View
