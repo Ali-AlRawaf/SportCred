@@ -84,10 +84,11 @@ const StartingScreen = ({ navigation }) => {
             >Sign up</Text>
           </TouchableOpacity>
         </View>
+
+
       </ImageBackground>
     </View>
   );
 }
 
 export default StartingScreen;
-

@@ -19,12 +19,12 @@ const RegisterScreenTwo = ({ navigation }) => {
                 source={bg}
             >
             <View
-                style={styles.container}
+                style={styles.container, {flexShrink: 1}}
                 >
-                    <Text
-                        style={styles.header}
-                    >Help us get to know you</Text>
-                </View>
+                <Text
+                    style={styles.header}
+                >Help us get to know you</Text>
+            </View>
             <View style={styles.textField}>
                 <TextInput
                     style={styles.input}
@@ -75,17 +75,17 @@ const RegisterScreenTwo = ({ navigation }) => {
                     onChangeText={val => this.onChangeText('learn', val)}
                 />
             </View>
-            <View>
-                <TouchableOpacity
-                    style={styles.button}
-                    activeOpacity={0.7}
-                    onPress={() => navigation.navigate('Profile')}
-                >
-                    <Text
-                        style={styles.prompt}
-                    >Let's get started!</Text>
-                </TouchableOpacity>
-            </View >
+            <View
+              style={styles.container}
+              justifyContent="flex-start"
+              flex="1">
+              <TouchableOpacity
+                style={styles.button}
+                activeOpacity={0.7}
+                onPress={() => navigation.navigate('Tutorial')}>
+                <Text style={styles.prompt}>Let's get started!</Text>
+              </TouchableOpacity>
+            </View>
             <View
                     style={styles.container}
                 >
