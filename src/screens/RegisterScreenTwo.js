@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TextInput, TouchableOpacity, Text, ImageBackground, Image } from 'react-native';
+import {ScrollView, View, StyleSheet, TextInput, TouchableOpacity, Text, ImageBackground, Image } from 'react-native';
 import bg from '../assets/bg.png';
 import logo from '../assets/text_logo.png'
 
@@ -19,82 +19,68 @@ const RegisterScreenTwo = ({ navigation }) => {
                 source={bg}
             >
             <View
-                style={styles.container, {flexShrink: 1}}
+                style={styles.headerContainer}
                 >
                 <Text
                     style={styles.header}
                 >Help us get to know you</Text>
             </View>
-            <View style={styles.textField}>
+
+            <ScrollView styles={styles.formContainer}>
                 <TextInput
-                    style={styles.input}
+                    style={styles.textField}
                     placeholder='Age'
-                    color="white"
                     autoCapitalize="none"
                     placeholderTextColor='grey'
                     onChangeText={val => this.onChangeText('age', val)}
                 />
-            </View>
-            <View style={styles.textField}>
                 <TextInput
-                    style={styles.input}
-                    color="white"
+                    style={styles.textField}
                     placeholder='Favorite sport?'
                     autoCapitalize="none"
                     placeholderTextColor="grey"
                     onChangeText={val => this.onChangeText('favSport', val)}
                 />
-            </View>
-            <View style={styles.textField}>
                 <TextInput
-                    style={styles.input}
-                    color="white"
+                    style={styles.textField}
                     placeholder='Favorite sports team?'
                     autoCapitalize="none"
                     placeholderTextColor="grey"
                     onChangeText={val => this.onChangeText('favTeam', val)}
                 />
-            </View>
-            <View style={styles.textField}>
                 <TextInput
-                    style={styles.input}
-                    color="white"
+                    style={styles.textField}
                     placeholder='Highest level of sport play?'
                     autoCapitalize="none"
                     placeholderTextColor="grey"
                     onChangeText={val => this.onChangeText('levelOfPlay', val)}
                 />
-            </View>
-            <View style={styles.textField}>
                 <TextInput
-                    style={styles.input}
-                    color="white"
+                    style={styles.textField}
                     placeholder='What sport would you like to know/learn about?'
                     autoCapitalize="none"
                     placeholderTextColor="grey"
                     onChangeText={val => this.onChangeText('learn', val)}
                 />
-            </View>
-            <View
-              style={styles.container}
-              justifyContent="flex-start"
-              flex="1">
-              <TouchableOpacity
-                style={styles.button}
-                activeOpacity={0.7}
-                onPress={() => navigation.navigate('Tutorial')}>
-                <Text style={styles.prompt}>Let's get started!</Text>
-              </TouchableOpacity>
-            </View>
-            <View
-                    style={styles.container}
-                >
+
+                <View style={styles.button}>
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => navigation.navigate('Profile')}>
+                    <Text style={styles.prompt}>Let's get started!</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.logoContainer}>
                     <Image
                         style={styles.logo}
                         source={logo}
                     />
-
                 </View>
+
+            </ScrollView>
+
+           
             </ImageBackground>
         </View >
     )
@@ -103,21 +89,31 @@ const RegisterScreenTwo = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         justifyContent: 'center',
-        flex: 1
     },
+
+    formContainer: {
+        marginTop: 50,
+        backgroundColor: 'red',
+        width: '90%'
+    },
+
     textField: {
-        width: 350,
+        width: '90%',
         height: 45,
-        backgroundColor: '#222629',
-        margin: 10,
-        padding: 8,
-        fontSize: 30,
+        fontSize: 20,
         fontWeight: '500',
-        borderColor: '#222629',
-        borderBottomColor: 'white',
         borderWidth: 0.2,
+        marginTop: 40,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        color: 'white',
+        borderBottomColor: '#747474',
+        borderBottomWidth: 0.4,
+
     },
+
     fontColor: {
         color: 'wheat'
     },
@@ -126,7 +122,9 @@ const styles = StyleSheet.create({
         borderRadius: 7,
         borderWidth: 1,
         width: "80%",
-        alignSelf: "center"
+        alignSelf: "center",
+        marginBottom: 50,
+        marginTop: 60
     },
     bg: {
         flex: 1,
@@ -140,11 +138,22 @@ const styles = StyleSheet.create({
         color: "white",
         paddingVertical: 15    
     },
+
+    logoContainer: {
+        height: 100
+    },
+
     logo:{
         alignSelf: "center",
         width: "100%",
         height: "100%"
     },
+
+    headerContainer: {
+        marginTop: 30,
+        width: '100%'
+    },
+
     header:{
         color: "white",
         fontSize: 45,

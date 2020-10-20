@@ -10,21 +10,26 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flex: 1    
     },
-    textField: {
-        width: 350,
-        height: 55,
-        backgroundColor: '#222629',
-        margin: 10,
-        padding: 8,
-        fontSize: 18,
-        fontWeight: '500',
-        borderColor: '#222629',
-        borderBottomColor: 'white',
-        borderWidth: 0.2,
+
+    headerContainer: {
+        marginTop: 150,
+        width: '90%',
+        marginBottom: 50,
+        marginLeft: 'auto',
+        marginRight: 'auto'
     },
-    fontColor: {
-        color: 'white'
+
+    header: {
+        color: "white",
+        fontSize: 40,
     },
+
+    formContainer: {
+        width: '90%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
+
     background: {
         flex: 1,
         resizeMode: "stretch",
@@ -32,67 +37,65 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%"
     },
-    button:{
+
+    button: {
         backgroundColor: "#53900F",
         width: "80%",
         alignSelf: "center",
         borderRadius: 5,
-        paddingVertical: 15
+        paddingVertical: 15,
+        marginTop: 40
     },
+
     input: {
-        backgroundColor: "#222629",
-        width: "80%",
+        width: "100%",
         alignSelf: "center",
         paddingVertical: 20,
         marginVertical: 5,
-        paddingStart: 10
+        paddingStart: 10,
+        borderBottomColor: '#747474',
+        borderBottomWidth: 0.4,
     },
+
     prompt: {
         alignSelf: "center",
-        color: "white"    
+        color: "white",
+        fontSize: 15
     },
+
     logo:{
         alignSelf: "center",
         width: "100%",
         height: "100%"
     },
+
     here:{
         color: "#FF652F",
         alignSelf: "center"
     },
+
     hereButton:{
         alignSelf:"center"
     },
-    header: {
-        color: "white",
-        fontSize: 40,
-        paddingStart: 35
-    }
+
+
 
 });
 const LoginScreen = ({ navigation }) => {
     {
         return (
-            <View 
-                style={styles.container}
-            >
+            <View style={styles.container}>
                 <ImageBackground
                     source={bg}
                     style={styles.background}
                 >
-                <View
-                    style={styles.container}
-                    justifyContent="flex-end"
-                    flex="2"
-                >
-                <Text
-                    style={styles.header}
-                >Login</Text>
+                <View style={styles.headerContainer} >
+                    <Text
+                        style={styles.header}
+                    >Login</Text>
                 </View>
                 <View 
-                    style={styles.container}
-                    justifyContent="flex-end"
-                    flex="2"
+                    style={styles.formContainer}
                 >
                     <TextInput
                         style={styles.input}
@@ -109,12 +112,6 @@ const LoginScreen = ({ navigation }) => {
                         placeholderTextColor="grey"
                         onChangeText={val => this.onChangeText('email', val)}
                     />
-                </View>
-                <View
-                    style={styles.container}
-                    justifyContent="flex-end"
-                    flex="1"
-                    >
                     <TouchableOpacity
                         style={styles.button}
                         activeOpacity={0.7}
@@ -122,10 +119,8 @@ const LoginScreen = ({ navigation }) => {
                     >
                         <Text
                         style={styles.prompt}
-                        fontSize="20"
                         >Login</Text>
                     </TouchableOpacity>
-
                 </View>
                 <View
                     style={styles.container}                

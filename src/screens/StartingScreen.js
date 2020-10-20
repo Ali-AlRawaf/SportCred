@@ -2,14 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import logo from '../assets/text_logo.png';
-import bg from '../assets/bg.png'
+import bg from '../assets/landing.png'
 
 const styles = StyleSheet.create({
   screenContainer: {
     display: 'flex',
     height: '100%',
     width: '100%'
-    
   },
 
   logoContainer: {
