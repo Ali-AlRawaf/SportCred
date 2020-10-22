@@ -2,8 +2,7 @@ import React from 'react';
 import { View, ScrollView,  Button, StyleSheet, TextInput, Text, Image, ImageBackground } from 'react-native';
 import bg from '../assets/bg.png'
 import profileImage from '../assets/profile_img.jpg';
-import Carousel from '../component/Carousel'
-
+import ProfileStats from '../component/ProfileStats'
 
 const data = 
     [{
@@ -50,8 +49,8 @@ export default class ProfileScreen extends React.Component {
                     </Text>
                 </View>
 
-                <View styles={styles.carousel}>
-                    <Carousel data={data}/>
+                <View styles={styles.stats}>
+                    <ProfileStats data={data}/>
                 </View>
 
                 <View style={styles.editForm}>
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
       paddingTop: 20,
     },
 
-    carousel: {
+    stats: {
         paddingTop: 200,
     },
 
