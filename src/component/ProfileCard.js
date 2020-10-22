@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StyleSheet, Text, Image, Dimensions } from 'react-native'
 const { width, height } = Dimensions.get('window')
 
-const CarouselItem = ({ item }) => {
+const ProfileCard = ({ item }) => {
     return (
         <View style={styles.cardView}>
             <View style={styles.textView}>
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     },
 
     itemTitle: {
-      color: 'white',
+      color: '#000',
       textAlign: 'center',
       marginTop: 15,
       marginBottom: 20,
@@ -45,11 +45,11 @@ const styles = StyleSheet.create({
     },
 
     itemDescription: {
-      color: 'white',
+      color: '#000',
       textAlign: 'center',
       fontSize: 22,
       elevation: 5
     }
 })
 
-export default CarouselItem
+export default ProfileCard;

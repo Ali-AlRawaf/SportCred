@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, Dimensions, FlatList, Animated } from 'react-native'
-import CarouselItem from './CarouselElement'
+import ProfileCard from './ProfileCard'
 
 
 const { width, heigth } = Dimensions.get('window')
 
-const Carousel = ({ data }) => {
+const ProfileStats = ({ data }) => {
     const scrollX = new Animated.Value(0)
     let position = Animated.divide(scrollX, width)
 
-    if (data && data.length) {
+    if (data && data.length > 0) {
       return (
           <View>
               <FlatList data={data}
@@ -18,12 +18,13 @@ const Carousel = ({ data }) => {
                   pagingEnabled
                   scrollEnabled
                   snapToAlignment="center"
-                  scrollEventThrottle={16}
+                  scrollEventThrottle={15}
                   decelerationRate={"fast"}
                   showsHorizontalScrollIndicator={false}
                   renderItem={({ item }) => {
-                      return <CarouselItem item={item} />
+                      return <ProfileCard item={item} />
                   }}
+
                   onScroll={Animated.event(
                       [{ nativeEvent: { contentOffset: { x: scrollX } } }]
                   )}
@@ -49,11 +50,14 @@ const Carousel = ({ data }) => {
       )
     }
 
-    return null
+    return null;
 }
 
 const styles = StyleSheet.create({
-    dotView: { flexDirection: 'row', justifyContent: 'center'}
+    dotView: { 
+      flexDirection: 'row',
+      justifyContent: 'center'
+    }
 })
 
-export default Carousel
+export default ProfileStats;

@@ -18,13 +18,14 @@ export const submitSurvey = async (body) => {
   const response = await fetch(request);
   if (response.status === 200){
     console.log('survey successfully created')
+    result.status = response.status;
   }else{
     const msg = await response.text();
     result.status = response.status;
     result.error = msg;
   }
 
-  console.log(result)
+  return result;
 
 }
 
