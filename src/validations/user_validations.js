@@ -8,7 +8,7 @@ const registrationValidation = (data) => {
     status: Joi.string().max(200),
     bio: Joi.string().max(255),
     password: Joi.string().min(6).required(),
-
+    confirmPassword: Joi.string().required().valid(Joi.ref('password'))
   })
 
   return schema.validate(data)

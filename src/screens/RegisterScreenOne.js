@@ -20,6 +20,15 @@ const RegisterScreenOne = ({ navigation }) => {
         });
     };
 
+    const validateRegister = async () => {
+        const result = await register(userInfo)
+        if(result.status === 200){
+            navigation.navigate('RegisterTwo')
+        } else {
+            alert(result.status + ": register failed")
+        }
+    }
+
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -69,7 +78,7 @@ const RegisterScreenOne = ({ navigation }) => {
                     <TouchableOpacity
                         style={styles.button}
                         activeOpacity={0.7}
-                        onPress={() => navigation.navigate('RegisterTwo')}
+                        onPress={() => validateRegister()}
                     >
                         <Image
                             style={styles.arrow}
