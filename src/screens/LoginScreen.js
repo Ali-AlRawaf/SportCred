@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Button, StyleSheet, TextInput, Text, ImageBackground, TouchableOpacity, Image } from 'react-native';
+import {login} from '../controller/user';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import bg from '../assets/bg.png';
@@ -93,6 +94,15 @@ const LoginScreen = ({ navigation }) => {
             [key]: val
         });
     };
+
+    const validateLogin = async () => {
+        const result = await login(userInfo)
+        if(result.status === 200)
+            navigation.navigate('Profile')
+        else
+            alert(result.status + ": login failed")
+    }
+
     {
         return (
             <View style={styles.container}>
@@ -126,7 +136,7 @@ const LoginScreen = ({ navigation }) => {
                         <TouchableOpacity
                             style={styles.button}
                             activeOpacity={0.7}
-                            onPress={() => navigation.navigate('Profile')}
+                            onPress={() => validateLogin()}
                         >
                             <Text
                                 style={styles.prompt}

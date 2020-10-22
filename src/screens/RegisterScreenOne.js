@@ -22,11 +22,10 @@ const RegisterScreenOne = ({ navigation }) => {
 
     const validateRegister = async () => {
         const result = await register(userInfo)
-        if(result.status === 200){
+        if(result.status === 200)
             navigation.navigate('RegisterTwo')
-        } else {
+        else
             alert(result.status + ": register failed")
-        }
     }
 
     return (
