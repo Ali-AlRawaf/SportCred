@@ -120,7 +120,7 @@ const LoginScreen = ({ navigation }) => {
                     >
                         <TextInput
                             style={styles.input}
-                            placeholder='Email'
+                            placeholder='Username'
                             autoCapitalize="none"
                             placeholderTextColor='grey'
                             onChangeText={text => updateField('username', text)}
