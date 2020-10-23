@@ -6,7 +6,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "dev": "concurrently \"node server.js\" \"expo start\""
+    "dev": "concurrently \"node server.js\" \"expo start\"",
+    "test": "mocha -r esm --recursive --exit"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
@@ -20,6 +21,8 @@
     "expo-status-bar": "~1.0.2",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.9",
+    "node-fetch": "^2.6.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
@@ -32,7 +35,15 @@
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0"
+    "@babel/core": "~7.9.0",
+    "chai": "^4.2.0",
+    "esm": "^3.2.25",
+    "mocha": "^8.2.0",
+    "mockgoose": "^8.0.4",
+    "mongodb-memory-server": "^6.9.2",
+    "node-request": "0.0.3",
+    "request": "^2.88.2",
+    "supertest": "^5.0.0"
   },
   "private": true,
   "proxy": "http://localhost:5000/"

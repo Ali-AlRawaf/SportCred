@@ -1,21 +1,23 @@
 const User = require('../models/user')
+const fetch = require("node-fetch");
 
 export const register = async (new_user) => {
 
   const url = "http://localhost:5000/user/register"
 
-  const request = new Request(url, {
+  const request = {
     method: "post",
     body: JSON.stringify(new_user),
     headers: {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",
     }
-  })
+  }
 
   const result = {}
 
-  const response = await fetch(request);
+  const response = await fetch(url, request);
+
   if (response.status === 200){
     result.status = 200
     const msg = await response.json()
@@ -33,18 +35,18 @@ export const register = async (new_user) => {
 export const login = async (user) => {
   const url = "http://localhost:5000/user/login"
 
-  const request = new Request(url, {
+  const request = {
     method: "post",
     body: JSON.stringify(user),
     headers: {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",
     }
-  })
+  }
 
   const result = {}
 
-  const response = await fetch(request);
+  const response = await fetch(url, request);
   if (response.status === 200){
     result.status = 200
   }else{
