@@ -7,7 +7,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "dev": "concurrently \"node server.js\" \"expo start\"",
-    "test": "mocha -r esm --recursive --exit --timeout 5000"
+    "test": "mocha -r esm --recursive --exit"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
