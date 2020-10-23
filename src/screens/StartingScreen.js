@@ -1,30 +1,46 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import Logo from '../assets/logo.svg';
-import bg from '../assets/bg.png'
+import logo from '../assets/text_logo.png';
+import bg from '../assets/landing.png'
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center'
+  screenContainer: {
+    display: 'flex',
+    height: '100%',
+    width: '100%'
   },
+
+  logoContainer: {
+    flex: 1,
+  },
+
+  navContainer: {
+    flex: 1,
+  },
+
   button: {
     backgroundColor: "#222629",
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: "white",
+    borderRadius: 20,
+    borderWidth: 0.3,
+    borderColor: "#747474",
     width: "80%",
-    alignSelf: "center"
+    alignSelf: "center",
+    marginBottom: 30
   },
+
   text: {
     color: "white",
     fontSize: 24,
     paddingVertical: 10,
     textAlign: "center"
   },
+
   logo: {
-    alignSelf: "center"
+    alignSelf: "center",
+    marginTop: 50,
+    width:"100%",
+    height:"100%",
   },
   background: {
     flex: 1,
@@ -38,24 +54,23 @@ const styles = StyleSheet.create({
 
 const StartingScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.screenContainer}>
       <ImageBackground
         source={bg}
         style={styles.background}
       >
         <View
-          style={styles.container}
-          flex="2"
+          style={styles.logoContainer}
         >
-          {/* <Logo
-            width="100%"
-            height="100%"
-          /> */}
+          <Image
+            style={styles.logo}
+            source={logo}
+          />
         </View>
+
         <View
-          style={styles.container}
+          style={styles.navContainer}
           justifyContent="center"
-          flex="1"
         >
           <TouchableOpacity
             style={styles.button}
@@ -66,12 +81,6 @@ const StartingScreen = ({ navigation }) => {
               style={styles.text}
             >Login</Text>
           </TouchableOpacity>
-        </View>
-        <View
-          style={styles.container}
-          justifyContent="flex-start"
-          flex="1"
-        >
           <TouchableOpacity
             style={styles.button}
             activeOpacity={0.7}
@@ -81,11 +90,13 @@ const StartingScreen = ({ navigation }) => {
               style={styles.text}
             >Sign up</Text>
           </TouchableOpacity>
+
         </View>
+
+
       </ImageBackground>
     </View>
   );
 }
 
 export default StartingScreen;
-

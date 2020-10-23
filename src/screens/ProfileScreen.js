@@ -1,5 +1,20 @@
 import React from 'react';
-import { View, Button, StyleSheet, TextInput, Text, Image } from 'react-native';
+import { View, ScrollView,  Button, StyleSheet, TextInput, Text, Image, ImageBackground } from 'react-native';
+import bg from '../assets/bg.png'
+import profileImage from '../assets/profile_img.jpg';
+import ProfileStats from '../component/ProfileStats'
+
+const data = 
+    [{
+        id: 1, title: "ACS", description: "220"
+    },
+    {
+        id: 2, title: "Bio", description: "This is my user bio"
+    },
+    {
+        id: 3, title: "Trivia", description: "25 games"
+    },
+    ]
 
 
 export default class ProfileScreen extends React.Component {
@@ -9,65 +24,123 @@ export default class ProfileScreen extends React.Component {
         age: '',
         password: '',
     }
-    profileText = "Firstname:\n\nLastname:\n\nUsername:\n\nemail:\n\nage:"
+
+
     onChangeText = (key, val) => {
         this.setState({ [key]: val })
     }
     render() {
         return (
-            <View style={styles.container}>
-                <Text style={styles.headline}>
-                    Welcome to Your SportsCred Profile
-                </Text>
-                <Image
-                    style={styles.logo}
-                    source={{
-                        uri: 'https://d1b10bmlvqabco.cloudfront.net/paste/kf05ebzn2ak3tv/abda1cb94d7e929d15fd4136fe247b988cd40576b35379452c568829c23b16a0/image.png',
-                    }}
-                />
-                <View style={styles.textField}>
-                    <Text style={styles.textField}>
-                        {this.profileText}
+            <ImageBackground
+              source={bg}
+              style={styles.background}
+            >
+            <ScrollView style={styles.container}>
+                <View style={styles.profileHeader}>
+                    <Image
+                      style={styles.profileImage}
+                      source={profileImage}
+                    />
+                    <Text style={styles.headerName}>
+                        Ryan Brown 
+                    </Text>
+                    <Text style={styles.headerStatus}>
+                        Status: DE-FENCE!!
                     </Text>
                 </View>
-            </View >
+
+                <View styles={styles.stats}>
+                    <ProfileStats data={data}/>
+                </View>
+
+                <View style={styles.editForm}>
+                    <TextInput
+                        style={styles.formInput}
+                        placeholder='Ryan'
+                        autoCapitalize="none"
+                        placeholderTextColor='grey'
+                        onChangeText={val => this.onChangeText('username', val)}
+                    />
+                    <TextInput
+                        style={styles.formInput}
+                        placeholder='ryan.brown@email.com'
+                        autoCapitalize="none"
+                        placeholderTextColor='grey'
+                        onChangeText={val => this.onChangeText('username', val)}
+                    />
+                    <TextInput
+                        style={styles.formInput}
+                        placeholder='Bio'
+                        autoCapitalize="none"
+                        placeholderTextColor='grey'
+                        onChangeText={val => this.onChangeText('username', val)}
+                    />
+                </View>
+            </ScrollView>
+            </ImageBackground>
         )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        textAlign: 'center',
+      flex: 1,
+      paddingTop: 20,
+    },
+
+    stats: {
+        paddingTop: 200,
+    },
+
+    profileHeader: {
+        display: 'flex',
+        justifyContent: 'center',
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        flex: 1,
-        backgroundColor: '#222629',
+        marginTop: 50
     },
-    textField: {
-        width: 450,
-        height: 500,
+
+    profileImage: {
+        height: 60,
+        width: 60,
+        borderRadius: 30,
+        marginBottom: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 0.8 },
+        shadowOpacity: 0.8,
+        shadowRadius: 3,
+        elevation: 5
+    },
+
+    headerName: {
         color: 'white',
-        backgroundColor: '#222629',
-        margin: 10,
-        padding: 10,
+        fontSize: 30,
+        marginBottom: 15
+    },
+
+    headerStatus: {
+        color: 'white',
+        marginBottom: 29
+    },
+    
+    background: {
+      flex: 1,
+      resizeMode: "stretch",
+      width: "100%",
+      height: "100%"
+    },
+
+    editForm: {
+        marginBottom: 100
+    },
+
+    formInput: {
+        height: 30,
         fontSize: 20,
-        fontWeight: "bold",
-    },
-    fontColor: {
-        color: 'wheat'
-    },
-    headline: {
-        textAlign: 'center',
-        paddingTop: 10,
-        fontWeight: 'bold',
-        fontSize: 20,
-        marginTop: 20,
-        width: 500,
-        backgroundColor: 'yellow',
-    },
-    logo: {
-        margin: "auto",
-        width: 250,
-        height: 200
+        margin: 20,
+        borderBottomColor: '#747474',
+        borderBottomWidth: 0.4,
     }
+
+
+
 });

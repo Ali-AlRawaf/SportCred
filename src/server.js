@@ -41,13 +41,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const testAPI = require('./routes/testAPI')
-const authRoutes = require('./routes/auth');
-//const { function } = require('@hapi/joi');
+
+const authRoutes = require('./routes/auth')
+const survey = require('./routes/survey')
 
 app.use(cors({origin: '*'}));
 
 app.use('/testAPI', testAPI);
 app.use('/user', authRoutes);
+app.use('/survey', survey);
 
 app.listen(port);//, () => console.log(`Listening on port ${port}`));
 module.exports = ({ connect, app });
