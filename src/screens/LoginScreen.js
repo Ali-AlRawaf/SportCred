@@ -100,7 +100,7 @@ const LoginScreen = ({ navigation }) => {
         if(result.status === 200)
             navigation.navigate('Profile')
         else
-            alert(result.status + ": login failed")
+            alert(result.status + ": " + result.error)
     }
 
     {

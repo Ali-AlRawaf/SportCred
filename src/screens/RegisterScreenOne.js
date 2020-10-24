@@ -25,7 +25,7 @@ const RegisterScreenOne = ({ navigation }) => {
         if(result.status === 200)
             navigation.navigate('RegisterTwo')
         else
-            alert(result.status + ": register failed")
+            alert(result.status + ": " + result.error)
     }
 
     return (
