@@ -4,10 +4,10 @@ __The following is available on JIRA along with the CoS for each of the user sto
 
 ### Accounts:
 
-- As a new user I would like to signup for an account so that I can access the app
-- As an existing user I would like to login to the app so that I can have access to the app as well as logout from it
+- As a new user I would like to signup for an account so that I can access the app (DONE)
+- As an existing user I would like to login to the app so that I can have access to the app as well as logout from it (DONE)
 - As an existing user I would like to reset my password/email if I ever forget it or want to change it for any other reason
-- As a user, I would like to view my profile on the app to view relevant information about my account such as my status, description, profile picture and ACS score
+- As a user, I would like to view my profile on the app to view relevant information about my account such as my status, description, profile picture and ACS score (DONE)
 - As a user, I would like to update my profile on the app regarding information such as my email, password, description, profile picture etc
 - As a user, I would like to view the profiles of other users which would contain contain their status, ACS score and description
 
@@ -35,7 +35,7 @@ __The following is available on JIRA along with the CoS for each of the user sto
 
 ### App tutorial:
 
- - As a new user, I want a brief tutorial on the features of the application including ACS score, debates, analysis etc which I can refer to at any time I desire
+ - As a new user, I want a brief tutorial on the features of the application including ACS score, debates, analysis etc which I can refer to at any time I desire (DONE)
 
 ### Open court:
 
