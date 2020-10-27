@@ -1,6 +1,11 @@
 const User = require('../models/user')
 const fetch = require("node-fetch");
 
+export const PAYLOAD_TYPES = {
+  REGISTER_USER: "REGISTER_USER",
+  LOGIN_USER: "LOGIN_USER",
+};
+
 export const register = async (new_user) => {
 
   const url = "http://localhost:5000/user/register"
