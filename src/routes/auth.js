@@ -100,7 +100,7 @@ router.post('/resend-activation', async (req, res) => {
     from: 'no-reply@sportcred.com', 
     to: user.email, 
     subject: 'Account Verification Link', 
-    text: 'Hello '+ req.body.username +',\n\n' + 'Please verify your account by clicking the link: ' + 
+    text: 'Hello '+ user.username +',\n\n' + 'Please verify your account by clicking the link: ' + 
           '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user.email + '\/' + token.token + '\n\nThank You!\n' 
   };
 
@@ -108,7 +108,7 @@ router.post('/resend-activation', async (req, res) => {
     if (err) return res.status(500).send('Technical Issue!, Please click on resend to verify your Email.');
 
     return res.status(200).send({
-      user: user._id,
+      token: token.token,
       text: 'A verification email has been sent to ' + user.email +
             '. It will expire after one day. If you do not get the verification email, click on resend.'
     });
@@ -122,7 +122,7 @@ router.get('/confirm/:email/:token', async (req, res) => {
   const user = await User.findOne({_id: token._userId, email: req.params.email})
   if (!user) return res.status(400).send('We were unable to find a user for this verification. Please SignUp!');
 
-  if(user.activated) return res.status(200).send({text: 'Account is activated. Please Login'});
+  if(user.activated) return res.status(200).send({user: user._id, text: 'Account is activated. Please Login'});
 
   user.activated = true;
   await user.save(function (err) {

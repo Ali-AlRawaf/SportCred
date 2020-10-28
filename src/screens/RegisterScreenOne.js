@@ -23,6 +23,8 @@ const RegisterScreenOne = ({ navigation }) => {
     const validateRegister = async () => {
         const result = await register(userInfo)
         if(result.status === 200)
+            //we need to pass user id here for survey validation, and email/token for account activation
+            //here -> activate(email, token, userId) -> RegisterTwo(userId)
             navigation.navigate('RegisterTwo')
         else
             alert(result.status + ": " + result.error)
