@@ -9,13 +9,14 @@ export default (state = {}, action) => {
     case PAYLOAD_TYPES.REGISTER_USER:
       return {
         ...state,
-        currentUser: action.payload.user
+        currentUser: action.payload
       }
 
     case PAYLOAD_TYPES.LOGIN_USER:
+      console.log(action)
       return {
         ...state,
-        currentUser: action.payload.user
+        currentUser: action.payload
       }
 
     default:

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from "react-redux";
 import { View, ScrollView,  Button, StyleSheet, TextInput, Text, Image, ImageBackground } from 'react-native';
 import bg from '../assets/bg.png'
 import profileImage from '../assets/profile_img.jpg';
@@ -17,18 +18,32 @@ const data =
     ]
 
 
-export default class ProfileScreen extends React.Component {
-    state = {
-        username: '',
-        email: '',
-        age: '',
-        password: '',
-    }
 
+class ProfileScreen extends React.Component {
+
+    constructor(props){
+        super(props);
+
+        this.state = {
+            username: '',
+            email: '',
+            age: '',
+            password: '',
+        }
+
+        this.componentDidMount = this.componentDidMount.bind(this)
+        this.onChangeText = this.onChangeText.bind(this)
+    }
+    
+    componentDidMount = () => {
+        console.log('here')
+        console.log(this.props)
+    }
 
     onChangeText = (key, val) => {
         this.setState({ [key]: val })
     }
+    
     render() {
         return (
             <ImageBackground
@@ -141,6 +156,12 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.4,
     }
 
-
-
 });
+
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.auth.currentUser,
+  };
+};
+
+export default connect(mapStateToProps, {  })(ProfileScreen);
