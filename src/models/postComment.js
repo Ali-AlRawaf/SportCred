@@ -7,7 +7,7 @@ const postCommentSchema = new mongoose.Schema({
       },
 
     text: {
-      String,
+      type: String,
       required: true,
       min: 5,
       max: 1000

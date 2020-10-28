@@ -7,21 +7,22 @@ const postSchema = new mongoose.Schema({
       },
 
     title: {
-        String,
+        type: String,
         required: true,
         min: 5,
         max: 250
     },
 
     description: { 
-        String,
+        type: String,
         required: true,
         min: 5,
         max: 1000
     },
 
     createdAt: {
-        type: Date, default: Date.now
+        type: Date, 
+        default: Date.now
     },
     
     comments: [
