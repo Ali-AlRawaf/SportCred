@@ -51,9 +51,13 @@ router.post('/login', async (req, res) => {
   const valid_password = await bcrypt.compare(req.body.password, user.password);
   if (!valid_password) return res.status(400).send('username or password is incorrect');
 
-  // Create a remember me token
-  const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
-  res.header('auth-token', token).send(token)
+  // FOR NOW, JUST SEND THE USER ID. HOWEVER, CHANGE THIS TO THE BELOW TO SEND TOKEN
+  res.send({user: user.id});
+
+  // TODO: CHANGE THIS BACK TO USING TOKENS
+  // // Create a remember me token
+  // const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
+  // res.header('auth-token', token).send(token)
 
 });
 
