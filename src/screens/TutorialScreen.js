@@ -32,7 +32,7 @@ export default class TutorialScreen extends React.Component {
       return <TouchableOpacity
         style={styles.buttonContainer}
         activeOpacity={0.7}
-        onPress={() => this.props.navigation.navigate('Profile')}>
+        onPress={() => this.props.navigation.navigate('Container')}>
         <Text style={styles.buttonText}>
           I'm ready!
           </Text>
