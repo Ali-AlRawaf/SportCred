@@ -146,9 +146,14 @@ router.post('/login', async (req, res) => {
 
   if(!user.activated) return res.status(400).send('Your Email has not been verified. Please verify.');
 
-  // Create a remember me token
-  const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
-  res.header('auth-token', token).send(token)
+  // FOR NOW, JUST SEND THE USER ID. HOWEVER, CHANGE THIS TO THE BELOW TO SEND TOKEN
+  res.send({user: user.id});
+
+  // TODO: CHANGE THIS BACK TO USING TOKENS
+  // // Create a remember me token
+  // const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
+  // res.header('auth-token', token).send(token)
+
 });
 
 

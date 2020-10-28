@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Button, StyleSheet, TextInput, Text, ImageBackground, TouchableOpacity, Image } from 'react-native';
+import { connect } from "react-redux";
+import { View, Button, StyleSheet, TextInput, Text, ImageBackground, TouchableOpacity, Image, Alert } from 'react-native';
 import {login} from '../controller/user';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -56,6 +57,7 @@ const styles = StyleSheet.create({
         paddingStart: 10,
         borderBottomColor: '#747474',
         borderBottomWidth: 0.4,
+        color: '#fff'
     },
 
     prompt: {
@@ -82,28 +84,40 @@ const styles = StyleSheet.create({
 
 
 });
-const LoginScreen = ({ navigation }) => {
-    const [userInfo, setState] = useState({
-        username: '',
-        password: ''
-    });
 
-    const updateField = (key, val) => {
-        setState({
-            ...userInfo,
+class LoginScreen extends React.Component {
+
+    constructor(props){
+        super(props)
+        this.state = {
+            username: '',
+            password: ''
+        }
+
+        this.updateField = this.updateField.bind(this)
+        this.validateLogin = this.validateLogin.bind(this)
+    }
+    
+
+    updateField = (key, val) => {
+        this.setState({
             [key]: val
         });
     };
 
-    const validateLogin = async () => {
-        const result = await login(userInfo)
-        if(result.status === 200)
-            navigation.navigate('Profile')
-        else
-            alert(result.status + ": " + result.error)
+    validateLogin = async () => {
+        const result = await this.props.login(this.state);
+        console.log(result)
+        if(result.status === 200){
+            Alert.alert('Login successful');
+            this.props.navigation.navigate('Profile');
+        }else{
+            const error_msg = result.error
+            alert(result.status + ": " + error_msg)
+        }      
     }
 
-    {
+    render() {
         return (
             <View style={styles.container}>
                 <ImageBackground
@@ -123,7 +137,7 @@ const LoginScreen = ({ navigation }) => {
                             placeholder='Username'
                             autoCapitalize="none"
                             placeholderTextColor='grey'
-                            onChangeText={text => updateField('username', text)}
+                            onChangeText={text => this.updateField('username', text)}
                         />
                         <TextInput
                             style={styles.input}
@@ -131,12 +145,12 @@ const LoginScreen = ({ navigation }) => {
                             secureTextEntry={true}
                             autoCapitalize="none"
                             placeholderTextColor="grey"
-                            onChangeText={text => updateField('password', text)}
+                            onChangeText={text => this.updateField('password', text)}
                         />
                         <TouchableOpacity
                             style={styles.button}
                             activeOpacity={0.7}
-                            onPress={() => validateLogin()}
+                            onPress={() => this.validateLogin()}
                         >
                             <Text
                                 style={styles.prompt}
@@ -154,7 +168,7 @@ const LoginScreen = ({ navigation }) => {
                             style={styles.hereButton}
                             activeOpacity={0.7}
                             tex
-                            onPress={() => navigation.navigate('Register')}
+                            onPress={() => this.props.navigation.navigate('Register')}
                         >
                             <Text
                                 style={styles.here}
@@ -172,9 +186,17 @@ const LoginScreen = ({ navigation }) => {
                     </View>
                 </ImageBackground>
 
-            </View >
+            </View>
 
         )
     }
 }
-export default LoginScreen;
+
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.auth.currentUser,
+  };
+};
+
+// export default LoginScreen;
+export default connect(mapStateToProps, { login })(LoginScreen);
