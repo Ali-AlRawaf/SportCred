@@ -7,6 +7,7 @@ const nodemailer = require("nodemailer");
 const User = require('../models/user');
 const activationToken = require('../models/token');
 const {registrationValidation, loginValidation} = require('../validations/user_validations');
+const { resendActivation } = require('../controller/user');
 
 router.post('/register', async (req, res) => {
 
@@ -63,19 +64,15 @@ router.post('/register', async (req, res) => {
   transporter.sendMail(mailOptions, function (err) {
     if (err) return res.status(500).send('Technical Issue!, Please click on resend to verify your Email.');
 
-    return res.status(200).send({
-      token: token.token,
-      text: 'A verification email has been sent to ' + user.email +
-            '. It will expire after one day. If you do not get the verification email, click on resend.'
-    });
+    return res.status(200).send({ user: user._id });
   });
 });
 
 router.post('/resend-activation', async (req, res) => {
-  const user = await User.findOne({email: req.body.email});
-  if (!user) return res.status(400).send('username does not exist');
+  const user = await User.findOne({_id: req.body.userId});
+  if (!user) return res.status(400).send('User not found');
 
-  if (user.isVerified) return res.status(200).send('This account has been already verified. Please log in.');
+  if (user.activated) return res.status(201);
 
   var token = new activationToken({
     _userId: user._id, 
@@ -107,27 +104,23 @@ router.post('/resend-activation', async (req, res) => {
   transporter.sendMail(mailOptions, function (err) {
     if (err) return res.status(500).send('Technical Issue!, Please click on resend to verify your Email.');
 
-    return res.status(200).send({
-      token: token.token,
-      text: 'A verification email has been sent to ' + user.email +
-            '. It will expire after one day. If you do not get the verification email, click on resend.'
-    });
+    return res.status(200);
   });
 });
 
 router.get('/confirm/:email/:token', async (req, res) => {
   const token = await Token.findOne({ token: req.params.token })
-  if (!token) return res.status(400).send('Your verification link may have expired. Please click on resend for verify your Email.');
+  if (!token) return res.status(400).send('This verification link may have expired. Please click on resend to verify your Email.');
   
   const user = await User.findOne({_id: token._userId, email: req.params.email})
-  if (!user) return res.status(400).send('We were unable to find a user for this verification. Please SignUp!');
+  if (!user) return res.status(400).send('We were unable to find a user for this verification. Please register!');
 
-  if(user.activated) return res.status(200).send({user: user._id, text: 'Account is activated. Please Login'});
+  if(user.activated) return res.status(200).send('Account is already activated. Please login!');
 
   user.activated = true;
   await user.save(function (err) {
     if (err) return res.status(500).send(err.message);
-    else return res.status(200).send({user: user._id, text: 'Your account has been successfully verified'});
+    else return res.status(200).send('Your account has been successfully verified');
   });
 });
 
@@ -147,7 +140,7 @@ router.post('/login', async (req, res) => {
   if(!user.activated) return res.status(400).send('Your Email has not been verified. Please verify.');
 
   // FOR NOW, JUST SEND THE USER ID. HOWEVER, CHANGE THIS TO THE BELOW TO SEND TOKEN
-  res.send({user: user.id});
+  res.status(200).send({user: user.id});
 
   // TODO: CHANGE THIS BACK TO USING TOKENS
   // // Create a remember me token
@@ -155,6 +148,12 @@ router.post('/login', async (req, res) => {
   // res.header('auth-token', token).send(token)
 
 });
+
+router.get('/get-user', async (req, res) => {
+  const user = await User.findOne({_id: req.body.userId});
+  if (!user) return res.status(400).send('user query failed');
+  res.status(200).send(user);
+})
 
 
 module.exports = router;

@@ -1,6 +1,5 @@
 const User = require('../models/user')
 const fetch = require("node-fetch");
-import { getMaxListeners } from '../models/user';
 
 export const PAYLOAD_TYPES = {
   REGISTER_USER: "REGISTER_USER",
@@ -25,15 +24,14 @@ export const register = (new_user) => {
     const result = {}
 
     const response = await fetch(url, request);
+    result.status = response.status;
 
     if (response.status === 200){
-      result.status = 200
       const msg = await response.json()
       result.user = msg.user;
       dispatch({ type: PAYLOAD_TYPES.REGISTER_USER, payload: msg.user });
     }else{
       const msg = await response.text();
-      result.status = response.status;
       result.error = msg;
     }
 
@@ -41,13 +39,13 @@ export const register = (new_user) => {
   }
 }
 
-export const resendActivation = async (email) => {
+export const resendActivation = async (userId) => {
 
   const url = "http://localhost:5000/user/resend-activation"
 
   const request = {
     method: "post",
-    body: JSON.stringify({email: email}),
+    body: JSON.stringify({userId: userId}),
     headers: {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",
@@ -59,43 +57,10 @@ export const resendActivation = async (email) => {
   const response = await fetch(url, request);
   result.status = response.status;
 
-  if (response.status === 200){
-    const msg = await response.json();
-    result.token = msg.token;
-    result.text = msg.text;
-  }else{
-    const msg = await response.text();
-    result.error = msg;
+  if(response.status > 299){
+    const err = await response.text();
+    result.error = err;
   }
-
-  return result;
-}
-
-export const checkActivation = async (email, token) => {
-  const url = "http://localhost:5000/user/confirm/" + email + "/" + token;
-
-  const request = {
-    method: "get",
-    headers: {
-      Accept: "application/json, text/plain, */*",
-      "Content-Type": "application/json",
-    }
-  }
-
-  const result = {}
-
-  const response = await fetch(url, request);
-  result.status = response.status;
-
-  if(response.status === 200){
-    const msg = await response.json();
-    result.user = msg.user;
-    result.text = msg.text;
-  } else {
-    const msg = await response.text();
-    result.error = msg;
-  }
-
   return result;
 }
 
@@ -114,21 +79,48 @@ export const login = (user) => {
     }
 
     const result = {}
+    result.status = response.status;
 
     const response = await fetch(url, request);
     if (response.status === 200){
-      result.status = 200
       const msg = await response.json()
       result.user = msg.user;
       dispatch({ type: PAYLOAD_TYPES.LOGIN_USER, payload: msg.user });
 
     }else{
       const msg = await response.text();
-      result.status = response.status;
       result.error = msg;
     }  
 
     return result;
 
   }
+}
+
+export const getUser = async (userId) => {
+  const url = "http://localhost:5000/user/get-user"
+
+  const request = {
+    method: "get",
+    body: JSON.stringify({userId: userId}),
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json",
+    }
+  }
+
+  const result = {}
+
+  const response = await fetch(url, request);
+  result.status = response.status;
+
+  if (response.status === 200){
+    const msg = await response.json();
+    result.user = msg;
+  }else{
+    const msg = await response.text();
+    result.error = msg;
+  }
+
+  return result;
 }
