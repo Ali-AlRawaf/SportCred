@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { View, Image, StyleSheet, TextInput, TouchableOpacity, Text, ImageBackground, Alert } from 'react-native';
 import bg from '../assets/landing.png'
-import { checkActivation, resendActivation, getUser } from '../controller/user'
-import user from '../models/user';
+import logo from '../assets/text_logo.png';
+import { resendActivation, getUser } from '../controller/user'
 
-export default class ActivateAccount extends React.Component {
+class ActivateAccount extends React.Component {
     constructor (props) {
         super(props);
-        user = getUser(this.props.currentUser)
 
         this.state = { 
             //activated: false,
-            email: user.email,
+            email: 'EMAIL'
+
         }
 
         this.resend = this.resend.bind(this);
@@ -20,24 +20,24 @@ export default class ActivateAccount extends React.Component {
     }
 
     resend = async () => {
-        result = resendActivation(this.props.currentUser);
-        if(result.status === 201){
-            Alert.alert('Your account has been activated, please continue.')
-        } else if(status != 200){
-            Alert.alert(result.status + ': ' + result.error)
-        }
+        const result = await resendActivation(this.props.currentUser);
+
+        if(result.status === 200) alert(result.text);
+        else alert(result.status + ': ' + result.text);
     }
 
     check = async () => {
-        result = await getUser(this.props.currentUser);
+        const result = await getUser(this.props.currentUser);
         if(result.status === 200){
-            if(result.user.activated) this.props.navigation.navigate('RegisterTwo')
+            if(result.user.activated) this.props.navigation.navigate('RegisterTwo');
+            else alert('your email has not been activated yet. please check your inbox or resend');
         } else {
-            Alert.alert(result.status + ': ' + result.error)
+            alert(result.status + ': ' + result.error)
         }
     }
 
     render(){
+      return(
         <View style={styles.screenContainer}>
             <ImageBackground
                 source={bg}
@@ -47,32 +47,50 @@ export default class ActivateAccount extends React.Component {
                     style={styles.navContainer}
                     justifyContent="center"
                 >
-                    <Text>
-                        A verification email has been sent to {this.state.email}! It will expire after one day. 
-                        If you do not get the verification email, click on resend.
-                    </Text>
+                    <View style={styles.text}>
+                      <Text style={styles.text}>
+                        A verification email has been sent to {this.state.email}
+                      </Text>
+                    </View>
+                    <View
+                        style={styles.container}
+                        flexDirection="row"
+                    >
+                        <Text
+                            style={styles.prompt}
+                        >Didn't recieve an email?</Text>
+                        <TouchableOpacity
+                            style={styles.hereButton}
+                            activeOpacity={0.7}
+                            onPress={() => this.resend()}
+                        >
+                            <Text
+                                style={styles.here}
+                            > Resend</Text>
+                        </TouchableOpacity>
+                    </View>
                     <TouchableOpacity
                         style={styles.button}
                         activeOpacity={0.7}
-                        onPress={() => resend()}
+                        onPress={() => this.check()}
                     >
                         <Text
-                            style={styles.text}
-                        >Resend</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        activeOpacity={0.7}
-                        onPress={() => check()}
-                    >
-                        <Text
-                            style={styles.text}
+                            style={styles.buttonText}
                         >Continue</Text>
                     </TouchableOpacity>
 
                 </View>
+                <View
+                  style={styles.logoContainer}
+                >
+                  <Image
+                    style={styles.logo}
+                    source={logo}
+                  />
+                </View>
             </ImageBackground>
         </View>
+      )
     }
 }
 
@@ -81,6 +99,11 @@ const styles = StyleSheet.create({
       display: 'flex',
       height: '100%',
       width: '100%'
+    },
+
+    container: {
+      justifyContent: 'center',
+      flex: 1
     },
   
     logoContainer: {
@@ -92,20 +115,43 @@ const styles = StyleSheet.create({
     },
   
     button: {
-      backgroundColor: "#222629",
+      backgroundColor: "#53900F",
       borderRadius: 20,
       borderWidth: 0.3,
-      borderColor: "#747474",
-      width: "80%",
+      width: "40%",
       alignSelf: "center",
       marginBottom: 30
+    },
+
+    buttonText: {
+      color: "white",
+      fontSize: 18,
+      marginVertical: 10,
+      textAlign: "center"
+    },
+
+    hereButton: {
+      alignSelf: "center"
+    },
+
+    here: {
+      color: "#FF652F",
+      alignSelf: "center",
+      marginBottom: 40
     },
   
     text: {
       color: "white",
-      fontSize: 24,
-      paddingVertical: 10,
+      fontSize: 18,
+      marginTop: 30,
+      marginBottom: 20,
+      marginHorizontal: 20,
       textAlign: "center"
+    },
+
+    prompt: {
+      alignSelf: "center",
+      color: "white"
     },
   
     logo: {
