@@ -7,7 +7,6 @@ const nodemailer = require("nodemailer");
 const User = require('../models/user');
 const activationToken = require('../models/token');
 const {registrationValidation, loginValidation} = require('../validations/user_validations');
-const { resendActivation } = require('../controller/user');
 
 router.post('/register', async (req, res) => {
 
@@ -72,7 +71,7 @@ router.post('/resend-activation', async (req, res) => {
   const user = await User.findOne({_id: req.body.userId});
   if (!user) return res.status(400).send('User not found');
 
-  if (user.activated) return res.status(201);
+  if (user.activated) return res.status(200).send('Your account has already been activated, please continue.');
 
   var token = new activationToken({
     _userId: user._id, 
@@ -82,7 +81,7 @@ router.post('/resend-activation', async (req, res) => {
   try{
     await token.save();
   }catch(err){
-    res.status(400).send(err);
+    return res.status(400).send(err);
   }
 
   var transporter = nodemailer.createTransport({ 
@@ -103,13 +102,13 @@ router.post('/resend-activation', async (req, res) => {
 
   transporter.sendMail(mailOptions, function (err) {
     if (err) return res.status(500).send('Technical Issue!, Please click on resend to verify your Email.');
-
-    return res.status(200);
   });
+
+  return res.status(200).send('Activation email sent!');
 });
 
 router.get('/confirm/:email/:token', async (req, res) => {
-  const token = await Token.findOne({ token: req.params.token })
+  const token = await activationToken.findOne({ token: req.params.token })
   if (!token) return res.status(400).send('This verification link may have expired. Please click on resend to verify your Email.');
   
   const user = await User.findOne({_id: token._userId, email: req.params.email})
@@ -118,10 +117,12 @@ router.get('/confirm/:email/:token', async (req, res) => {
   if(user.activated) return res.status(200).send('Account is already activated. Please login!');
 
   user.activated = true;
-  await user.save(function (err) {
-    if (err) return res.status(500).send(err.message);
-    else return res.status(200).send('Your account has been successfully verified');
-  });
+  try{
+    await user.save();
+    return res.status(200).send('Your account has been successfully verified');
+  } catch(err) {
+    return res.status(500).send(err);
+  }
 });
 
 router.post('/login', async (req, res) => {
@@ -149,10 +150,10 @@ router.post('/login', async (req, res) => {
 
 });
 
-router.get('/get-user', async (req, res) => {
-  const user = await User.findOne({_id: req.body.userId});
+router.get('/get-user/:id', async (req, res) => {
+  const user = await User.findOne({_id: req.params.id});
   if (!user) return res.status(400).send('user query failed');
-  res.status(200).send(user);
+  return res.status(200).send(user);
 })
 
 

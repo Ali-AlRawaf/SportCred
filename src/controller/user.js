@@ -55,12 +55,11 @@ export const resendActivation = async (userId) => {
   const result = {}
 
   const response = await fetch(url, request);
-  result.status = response.status;
 
-  if(response.status > 299){
-    const err = await response.text();
-    result.error = err;
-  }
+  result.status = response.status;
+  const text = await response.text();
+  result.text = text;
+  
   return result;
 }
 
@@ -79,9 +78,10 @@ export const login = (user) => {
     }
 
     const result = {}
-    result.status = response.status;
 
     const response = await fetch(url, request);
+    result.status = response.status;
+
     if (response.status === 200){
       const msg = await response.json()
       result.user = msg.user;
@@ -98,11 +98,10 @@ export const login = (user) => {
 }
 
 export const getUser = async (userId) => {
-  const url = "http://localhost:5000/user/get-user"
+  const url = "http://localhost:5000/user/get-user/" + userId
 
   const request = {
     method: "get",
-    body: JSON.stringify({userId: userId}),
     headers: {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",
