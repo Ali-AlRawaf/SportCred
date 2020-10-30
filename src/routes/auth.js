@@ -138,10 +138,43 @@ router.post('/login', async (req, res) => {
   const valid_password = await bcrypt.compare(req.body.password, user.password);
   if (!valid_password) return res.status(400).send('username or password is incorrect');
 
-  if(!user.activated) return res.status(400).send('Your Email has not been verified. Please verify.');
+  if(!user.activated){ //return res.status(400).send('Your Email has not been verified. Please verify.');
+    var token = new activationToken({
+      _userId: user._id, 
+      token: crypto.randomBytes(16).toString('hex') 
+    });
+
+    try{
+      await token.save();
+    }catch(err){
+      return res.status(400).send(err);
+    }
+
+    var transporter = nodemailer.createTransport({ 
+      service: 'Gmail', 
+      auth: { 
+        user: process.env.SPORTCRED_EMAIL, 
+        pass: process.env.SPORTCRED_PASS
+      } 
+    });
+
+    var mailOptions = { 
+      from: 'no-reply@sportcred.com', 
+      to: user.email, 
+      subject: 'Account Verification Link', 
+      text: 'Hello '+ user.username +',\n\n' + 'Please verify your account by clicking the link: ' + 
+            '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user.email + '\/' + token.token + '\n\nThank You!\n' 
+    };
+
+    transporter.sendMail(mailOptions, function (err) {
+      if (err) return res.status(500).send('Technical Issue!, Please click on resend to verify your Email.');
+    });
+
+    return res.status(201).send({user: user.id});
+  }
 
   // FOR NOW, JUST SEND THE USER ID. HOWEVER, CHANGE THIS TO THE BELOW TO SEND TOKEN
-  res.status(200).send({user: user.id});
+  return res.status(200).send({user: user.id});
 
   // TODO: CHANGE THIS BACK TO USING TOKENS
   // // Create a remember me token

@@ -59,7 +59,7 @@ export const resendActivation = async (userId) => {
   result.status = response.status;
   const text = await response.text();
   result.text = text;
-  
+
   return result;
 }
 
@@ -82,11 +82,10 @@ export const login = (user) => {
     const response = await fetch(url, request);
     result.status = response.status;
 
-    if (response.status === 200){
+    if (response.status === 200 || response.status === 201){
       const msg = await response.json()
       result.user = msg.user;
       dispatch({ type: PAYLOAD_TYPES.LOGIN_USER, payload: msg.user });
-
     }else{
       const msg = await response.text();
       result.error = msg;
