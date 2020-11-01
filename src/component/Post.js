@@ -1,12 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import StephenASmith from '../assets/StephenASmith.png';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const Post = (props) => {
+    const navigation = useNavigation();
     const [textShown, setTextShown] = useState(false);
     const [lengthMore, setLengthMore] = useState(false);
     const toggleNumberOfLines = () => {
         setTextShown(!textShown);
+        console.log(props)
     }
 
     const onTextLayout = useCallback(e => {
@@ -38,7 +41,9 @@ const Post = (props) => {
                         >{textShown ? 'Read Less' : 'Read More'}</Text>
                             : null
                     }
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button}
+                        onPress={() => navigation.navigate('Comment')}
+                    >
                         <Text style={styles.buttonText}>
                             Comment
                         </Text>
