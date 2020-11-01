@@ -56,7 +56,7 @@ router.post('/register', async (req, res) => {
     from: 'no-reply@sportcred.com', 
     to: user.email, 
     subject: 'Account Verification Link', 
-    text: 'Hello '+ req.body.username +',\n\n' + 'Please verify your account by clicking the link: ' + 
+    text: 'Hello '+ req.body.username +',\n\n' + 'This link will expire 24 hours from now, please verify your account by clicking the link: ' + 
           '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user.email + '\/' + token.token + '\n\nThank You!\n' 
   };
 
@@ -96,7 +96,7 @@ router.post('/resend-activation', async (req, res) => {
     from: 'no-reply@sportcred.com', 
     to: user.email, 
     subject: 'Account Verification Link', 
-    text: 'Hello '+ user.username +',\n\n' + 'Please verify your account by clicking the link: ' + 
+    text: 'Hello '+ user.username +',\n\n' + 'This link will expire 24 hours from now, please verify your account by clicking the link: ' + 
           '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user.email + '\/' + token.token + '\n\nThank You!\n' 
   };
 
@@ -111,18 +111,12 @@ router.get('/confirm/:email/:token', async (req, res) => {
   const token = await activationToken.findOne({ token: req.params.token })
   if (!token) return res.status(400).send('This verification link may have expired. Please click on resend to verify your Email.');
   
-  const user = await User.findOne({_id: token._userId, email: req.params.email})
-  if (!user) return res.status(400).send('We were unable to find a user for this verification. Please register!');
+  const user = await User.findOneAndUpdate({_id: token._userId, email: req.params.email}, {activated: true})
+  if (!user) return res.status(400).send('User not found. Please register.');
 
   if(user.activated) return res.status(200).send('Account is already activated. Please login!');
 
-  user.activated = true;
-  try{
-    await user.save();
-    return res.status(200).send('Your account has been successfully verified');
-  } catch(err) {
-    return res.status(500).send(err);
-  }
+  return res.status(200).send('Your account has been successfully verified');
 });
 
 router.post('/login', async (req, res) => {
