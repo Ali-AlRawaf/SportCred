@@ -9,7 +9,8 @@ import LoginScreen from './screens/LoginScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreenOne from './screens/RegisterScreenOne';
 import RegisterScreenTwo from './screens/RegisterScreenTwo';
-import TutorialScreen from './screens/TutorialScreen'
+import TutorialScreen from './screens/TutorialScreen';
+import Search from './screens/Search';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ function App() {
         <Stack.Screen name="RegisterTwo" component={RegisterScreenTwo} options={{ headerShown: false }} />
         <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Tutorial" component={TutorialScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
       </Stack.Navigator> 
     </NavigationContainer>
   );

@@ -1,11 +1,9 @@
 import React from 'react'
-import { View, StyleSheet, Text, Image, Dimensions, FlatList } from 'react-native'
+import { View, Dimensions, FlatList } from 'react-native'
 import UserItem from './UserItem'
 const { width, height } = Dimensions.get('window')
 
 const UserList = ({ data }) => {
-    const scrollX = new Animated.Value(0)
-    let position = Animated.divide(scrollX, width)
 
     return (
         <View>
@@ -18,12 +16,8 @@ const UserList = ({ data }) => {
                 decelerationRate={"fast"}
                 showsHorizontalScrollIndicator={false}
                 renderItem={({ item }) => {
-                    return <UserItem item={item} />
+                    return <UserItem user={item} />
                 }}
-
-                onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset: { x: scrollX } } }]
-                )}
             />
         </View>
     )
