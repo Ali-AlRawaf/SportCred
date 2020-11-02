@@ -9,46 +9,46 @@ const {surveyQuestionValidation} = require('../validations/survey_validations');
 router.post('/new', async (req, res) => {
 
   // Find the user
-  const user = await User.findOne({_id: req.body.user}).catch(error => console.log('invalid user id'));
+  const user = await User.findOne({_id: req.body.user});
   if (!user) return res.status(400).send('Could not find user');
 
   // Validate the questions and their answers
-  const questions = []
+  questions = req.body.survey.questions
+  answers = req.body.survey.answers
+  answerKeys = Object.keys(answers)
 
-  for(let i = 0; i < req.body.questions.length; i++){
-    q = req.body.questions[i];
-    const {error} = surveyQuestionValidation({question: q.question, answer: q.answer});
+  const surveyQuestions = []
+
+  for(let i = 0; i < questions.length; i++){
+    q = questions[i];
+    a = answers[answerKeys[i]];
+    console.log('question : ' + q + '\n' + 'answer: ' + a)
+    const {error} = surveyQuestionValidation({question: q, answer: a});
     if (error){
       return res.status(400).send((error.details[0].message));
     }else{
-      questions.push(new SurveyQuestion({
-        question: q.question,
-        answer: q.answer
+      surveyQuestions.push(new SurveyQuestion({
+        question: q,
+        answer: a
       }))
     }
   }
 
-  // Create the survey
-  result = {}
-
   try{
-    for (let i = 0; i < questions.length; i++){
-      await questions[i].save();
+    for (let i = 0; i < surveyQuestions.length; i++){
+      await surveyQuestions[i].save();
     }
 
     const survey = new Survey({
       user: user,
-      questions: questions
+      questions: surveyQuestions
     })
 
     await survey.save();
-    res.status(200).send('Survey saved');
+    return res.status(200).send('Survey saved');
   }catch(err){
-    res.status.send('error creating survey');
+    return res.status(400).send('error creating survey');
   }
-
-  return result
-
 });
 
 

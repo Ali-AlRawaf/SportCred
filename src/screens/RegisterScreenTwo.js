@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { ScrollView, View, StyleSheet, TextInput, TouchableOpacity, Text, ImageBackground, Image } from 'react-native';
 import bg from '../assets/bg.png';
 import logo from '../assets/text_logo.png'
+import { submitSurvey } from '../controller/survey';
 
 class RegisterScreenTwo extends React.Component {
 
@@ -17,6 +18,7 @@ class RegisterScreenTwo extends React.Component {
         }
 
         this.updateField = this.updateField.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
     updateField = (key, val) => {
@@ -27,6 +29,26 @@ class RegisterScreenTwo extends React.Component {
 
     componentDidMount = () => {
         console.log(this.props)
+    }
+
+    submit = async () => {
+        const survey = {
+            questions: [
+                'Age',
+                'Favorite sport?',
+                'Favorite sports team?',
+                'Highest level of sport play?',
+                'What sport would you like to know/learn about?'
+            ],
+            answers: this.state
+        }
+        const body = {
+            user: this.props.currentUser,
+            survey: survey
+        }
+        const result = await submitSurvey(body);
+        if(result.status === 200) this.props.navigation.navigate('Tutorial');
+        else alert(result.status + ": " + result.error);
     }
 
     render(){
@@ -84,7 +106,7 @@ class RegisterScreenTwo extends React.Component {
                         <View style={styles.button}>
                             <TouchableOpacity
                                 activeOpacity={0.7}
-                                onPress={() => this.props.navigation.navigate('Tutorial')}>
+                                onPress={() => this.submit()}>
                                 <Text style={styles.prompt}>Let's get started!</Text>
                             </TouchableOpacity>
                         </View>
