@@ -11,7 +11,7 @@ export const addFollower = async (body) => {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",
     }
-  })
+  });
 
   const result = {}
 
@@ -19,7 +19,7 @@ export const addFollower = async (body) => {
   if (response.status === 200){
     console.log('follower successfully added')
     result.status = response.status;
-  }else{
+  } else {
     const msg = await response.text();
     result.status = response.status;
     result.error = msg;
@@ -29,20 +29,31 @@ export const addFollower = async (body) => {
 
 }
 
-export const getFollowers = async (body) => {
+export const getFollowers = async (req) => {
 
-  const response = await fetch('/radar/getFollowers', {
-    method: 'get',
+  const url = "http://localhost:5000/radar/getFollowers"
+
+  const request = new Request(url, {
+    method: "post",
+    body: JSON.stringify(req),
     headers: {
-      "Content-type": "application/json; charset=UTF-8"
-    },
-    body: JSON.stringify(body)
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json",
+    }
   });
-  const body = await response.json();
 
-  if (response.status !== 200) {
-    throw Error(body.message)
+  const result = {}
+
+  const response = await fetch(request);
+  if (response.status === 200){
+    const json = await response.json();
+    result.status = response.status;
+    result.followers = json.followers;
+  } else {
+    const msg = await response.text();
+    result.status = response.status;
+    result.error = msg;
   }
-  return body;
-};
+
+  return result;
 }

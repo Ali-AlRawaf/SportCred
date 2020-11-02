@@ -34,7 +34,7 @@ router.post('/addFollower', async (req, res) => {
   }
 });
 
-router.get('/getFollowers', async (req, res) => {
+router.post('/getFollowers', async (req, res) => {
 
   const user = await User.findOne({_id: req.body.user}).catch(error => console.log('invalid user id'));
   if (!user) return res.status(400).send('Could not find user');
@@ -57,7 +57,7 @@ router.get('/getFollowers', async (req, res) => {
     });
   }
 
-  res.send({followerObjects});
+  res.status(200).send({'followers': followerObjects});
 
 });
 
