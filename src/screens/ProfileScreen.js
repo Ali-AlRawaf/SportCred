@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { View, ScrollView,  Button, StyleSheet, TextInput, Text, Image, ImageBackground } from 'react-native';
+import { View, ScrollView,  Button, StyleSheet, TextInput, Text, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import bg from '../assets/bg.png'
 import profileImage from '../assets/profile_img.jpg';
 import ProfileStats from '../component/ProfileStats'
+import radar from '../assets/radar.png'
+import arrow from '../assets/arrow_forward.png'
 
 const data = 
     [{
@@ -16,8 +18,6 @@ const data =
         id: 3, title: "Trivia", description: "25 games"
     },
     ]
-
-
 
 class ProfileScreen extends React.Component {
 
@@ -36,7 +36,6 @@ class ProfileScreen extends React.Component {
     }
     
     componentDidMount = () => {
-        console.log('here')
         console.log(this.props)
     }
 
@@ -50,6 +49,28 @@ class ProfileScreen extends React.Component {
               source={bg}
               style={styles.background}
             >
+            <View style={styles.header}>
+                <TouchableOpacity
+                    style={styles.backButton}
+                    activeOpacity={0.7}
+                    onPress={() => this.props.navigation.goBack(null)}
+                >
+                  <Image
+                      style={styles.arrow}
+                      source={arrow}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.radarButton}
+                    activeOpacity={0.7}
+                    onPress={() => this.props.navigation.navigate('RadarList')}
+                >
+                  <Image
+                      style={styles.radarImg}
+                      source={radar}
+                  />
+                </TouchableOpacity>
+            </View>
             <ScrollView style={styles.container}>
                 <View style={styles.profileHeader}>
                     <Image
@@ -98,9 +119,13 @@ class ProfileScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+
     container: {
       flex: 1,
-      paddingTop: 20,
     },
 
     stats: {
@@ -154,7 +179,31 @@ const styles = StyleSheet.create({
         margin: 20,
         borderBottomColor: '#747474',
         borderBottomWidth: 0.4,
-    }
+    },
+
+    radarButton: {
+      marginTop: 20,
+      marginRight: 20,
+      alignSelf: 'flex-end'
+    },
+
+    radarImg: {
+        height: 40,
+        width: 40
+    },
+
+    backButton: {
+      marginTop: 30,
+      marginLeft: 20,
+    },
+
+    arrow: {
+      height: 25,
+      width: 25,
+      transform: [{
+        rotate: '-180deg'
+      }],
+    },
 
 });
 
@@ -164,4 +213,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {  })(ProfileScreen);
+export default connect(mapStateToProps, { })(ProfileScreen);

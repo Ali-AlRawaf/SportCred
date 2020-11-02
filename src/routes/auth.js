@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken')
-const User = require('../models/user')
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const nodemailer = require("nodemailer");
+const User = require('../models/user');
+const Token = require('../models/token');
 const {registrationValidation, loginValidation} = require('../validations/user_validations');
 
 router.post('/register', async (req, res) => {
@@ -29,13 +32,93 @@ router.post('/register', async (req, res) => {
     password: hashed_password,
   });
 
+  const token = new Token({
+    _userId: user._id,
+    token: crypto.randomBytes(16).toString('hex'),
+    expiry: Date.now() + 86400000
+  });
+
   try{
-    const saved_user = await user.save();
-    res.send({user: user.id});
+    await user.save();
+    await token.save();
   }catch(err){
     res.status(400).send(err);
   }
 
+  var transporter = nodemailer.createTransport({ 
+    service: 'Gmail', 
+    auth: { 
+      user: process.env.SPORTCRED_EMAIL, 
+      pass: process.env.SPORTCRED_PASS 
+    } 
+  });
+
+  var mailOptions = { 
+    from: 'no-reply@sportcred.com', 
+    to: user.email, 
+    subject: 'Account Verification Link', 
+    text: 'Hello '+ req.body.username +',\n\n' + 'This link will expire 24 hours from now, please verify your account by clicking the link: ' + 
+          '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user.email + '\/' + token.token + '\n\nThank You!\n' 
+  };
+
+  transporter.sendMail(mailOptions, function (err) {
+    if (err) return res.status(500).send('Technical Issue!, Please click on resend to verify your Email.');
+
+    return res.status(200).send({ user: user._id });
+  });
+});
+
+router.post('/resend-activation', async (req, res) => {
+  const user = await User.findOne({_id: req.body.userId});
+  if (!user) return res.status(400).send('User not found');
+
+  if (user.activated) return res.status(200).send('Your account has already been activated, please continue.');
+
+  var token = new Token({
+    _userId: user._id, 
+    token: crypto.randomBytes(16).toString('hex'),
+    expiry: Date.now() + 86400000
+  });
+
+  try{
+    await token.save();
+  }catch(err){
+    return res.status(400).send(err);
+  }
+
+  var transporter = nodemailer.createTransport({ 
+    service: 'Gmail', 
+    auth: { 
+      user: process.env.SPORTCRED_EMAIL, 
+      pass: process.env.SPORTCRED_PASS
+    } 
+  });
+
+  var mailOptions = { 
+    from: 'no-reply@sportcred.com', 
+    to: user.email, 
+    subject: 'Account Verification Link', 
+    text: 'Hello '+ user.username +',\n\n' + 'This link will expire 24 hours from now, please verify your account by clicking the link: ' + 
+          '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user.email + '\/' + token.token + '\n\nThank You!\n' 
+  };
+
+  transporter.sendMail(mailOptions, function (err) {
+    if (err) return res.status(500).send('Technical Issue!, Please click on resend to verify your Email.');
+  });
+
+  return res.status(200).send('Activation email sent!');
+});
+
+router.get('/confirm/:email/:token', async (req, res) => {
+  const token = await Token.findOne({ token: req.params.token })
+  if (!token) return res.status(400).send('This verification link is invalid or expired. Please click on resend to verify your Email.');
+  
+  const user = await User.findOneAndUpdate({_id: token._userId, email: req.params.email}, {activated: true})
+  if (!user) return res.status(400).send('User not found. Please register.');
+
+  if(user.activated) return res.status(200).send('Account is already activated. Please login!');
+
+  return res.status(200).send('Your account has been successfully verified');
 });
 
 router.post('/login', async (req, res) => {
@@ -45,14 +128,50 @@ router.post('/login', async (req, res) => {
 
   // Find the user in the database
   const user = await User.findOne({username: req.body.username});
-  if (!user) return res.status(400).send('username or password is incorrect');
+  if (!user) return res.status(400).send('username does not exist');
 
   // Check password
   const valid_password = await bcrypt.compare(req.body.password, user.password);
   if (!valid_password) return res.status(400).send('username or password is incorrect');
 
+  if(!user.activated){ //return res.status(400).send('Your Email has not been verified. Please verify.');
+    var token = new Token({
+      _userId: user._id, 
+      token: crypto.randomBytes(16).toString('hex'),
+      expiry: Date.now() + 86400000
+    });
+
+    try{
+      await token.save();
+    }catch(err){
+      return res.status(400).send(err);
+    }
+
+    var transporter = nodemailer.createTransport({ 
+      service: 'Gmail', 
+      auth: { 
+        user: process.env.SPORTCRED_EMAIL, 
+        pass: process.env.SPORTCRED_PASS
+      } 
+    });
+
+    var mailOptions = { 
+      from: 'no-reply@sportcred.com', 
+      to: user.email, 
+      subject: 'Account Verification Link', 
+      text: 'Hello '+ user.username +',\n\n' + 'Please verify your account by clicking the link: ' + 
+            '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user.email + '\/' + token.token + '\n\nThank You!\n' 
+    };
+
+    transporter.sendMail(mailOptions, function (err) {
+      if (err) return res.status(500).send('Technical Issue!, Please click on resend to verify your Email.');
+    });
+
+    return res.status(201).send({user: user.id});
+  }
+
   // FOR NOW, JUST SEND THE USER ID. HOWEVER, CHANGE THIS TO THE BELOW TO SEND TOKEN
-  res.send({user: user.id});
+  return res.status(200).send({user: user.id});
 
   // TODO: CHANGE THIS BACK TO USING TOKENS
   // // Create a remember me token
@@ -60,6 +179,12 @@ router.post('/login', async (req, res) => {
   // res.header('auth-token', token).send(token)
 
 });
+
+router.get('/get-user/:id', async (req, res) => {
+  const user = await User.findOne({_id: req.params.id});
+  if (!user) return res.status(400).send('user query failed');
+  return res.status(200).send(user);
+})
 
 
 module.exports = router;

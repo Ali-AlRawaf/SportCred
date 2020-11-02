@@ -111,10 +111,13 @@ class LoginScreen extends React.Component {
         if(result.status === 200){
             Alert.alert('Login successful');
             this.props.navigation.navigate('Profile');
+        } else if(result.status === 201) {
+            alert('Activation required');
+            this.props.navigation.navigate('Activate');
         }else{
             const error_msg = result.error
             alert(result.status + ": " + error_msg)
-        }      
+        }     
     }
 
     render() {
@@ -198,5 +201,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-// export default LoginScreen;
 export default connect(mapStateToProps, { login })(LoginScreen);
