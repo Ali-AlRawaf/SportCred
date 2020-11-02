@@ -1,12 +1,14 @@
 import React from 'react';
+import { connect } from "react-redux";
 import { View, StyleSheet, ImageBackground, TouchableOpacity, Image } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import bg from '../assets/bg.png'
 import UserList from '../component/UserList'
 import { searchUsers } from '../controller/search'
 import arrow from '../assets/arrow_forward.png'
+import { getUser } from '../controller/user'
 
-export default class Search extends React.Component {
+class Search extends React.Component {
     
 
     constructor(props){
@@ -19,11 +21,19 @@ export default class Search extends React.Component {
     }
 
     searchUsername = async (key, text) => {
-        const result = await searchUsers({ [key]: text })
+        const user = await getUser(this.props.currentUser);
+        if(!(user.status === 200)){
+            alert(result.status + ': ' + result.error)
+
+        }
+
+        const result = await searchUsers({ [key]: text, "currUser": user.user.username })
         if (result.status === 200) {
+
             this.setState({
                 data: result.result
             });
+            
         }
         else {
             this.setState({
@@ -119,3 +129,9 @@ const styles = StyleSheet.create({
         tintColor: "white"
     }
 })
+const mapStateToProps = (state) => {
+    return {
+      currentUser: state.auth.currentUser,
+    };
+  };
+export default connect(mapStateToProps, {  })(Search);
