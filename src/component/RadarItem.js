@@ -9,12 +9,12 @@ const RadarItem = ({item}) => {
       <View style={styles.profileImgContainer}>
         <Image
             style={styles.profileImg}
-            source={profileImage}
+            source={item.profileImg}
           />
       </View>
       <View style={styles.profileInfo}>
-        <Text style={styles.profileUsername}>RyanBrown</Text>
-        <Text style={styles.profileScore}>200</Text>
+        <Text style={styles.profileUsername}>{item.username}</Text>
+        <Text style={styles.profileScore}>{item.acs_score}</Text>
       </View>
     </View>
   );
@@ -22,9 +22,11 @@ const RadarItem = ({item}) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '45%',
+    flex: 1,
+    width: null,
     borderRadius: 10,
     backgroundColor: '#272727',
+    margin: 5,
     marginTop: 20,
     paddingTop: 10,
     paddingBottom: 20,
@@ -64,7 +66,6 @@ const styles = StyleSheet.create({
     width: '95%',
     marginRight: 'auto',
     marginLeft: 'auto'
-    // backgroundColor: 'blue',
   },
 
   profileUsername: {
