@@ -4,7 +4,7 @@ import { View, Image, StyleSheet, TextInput, TouchableOpacity, Text, ImageBackgr
 import bg from '../assets/landing.png'
 import logo from '../assets/text_logo.png';
 import { resendActivation, getUser } from '../controller/user'
-import user from '../models/user';
+import arrow from '../assets/arrow_forward.png'
 
 class ActivateAccount extends React.Component {
     constructor (props) {
@@ -58,6 +58,16 @@ class ActivateAccount extends React.Component {
                     style={styles.navContainer}
                     justifyContent="center"
                 >
+                    <TouchableOpacity
+                        style={styles.backButton}
+                        activeOpacity={0.7}
+                        onPress={() => this.props.navigation.goBack(null)}
+                    >
+                      <Image
+                          style={styles.arrow}
+                          source={arrow}
+                      />
+                    </TouchableOpacity>
                     <View style={styles.text}>
                       <Text style={styles.text}>
                         A verification email has been sent to {this.state.email}
@@ -69,7 +79,7 @@ class ActivateAccount extends React.Component {
                     >
                         <Text
                             style={styles.prompt}
-                        >Didn't recieve an email?</Text>
+                        >Didn't recieve an email? Check your spam or</Text>
                         <TouchableOpacity
                             style={styles.hereButton}
                             activeOpacity={0.7}
@@ -154,7 +164,7 @@ const styles = StyleSheet.create({
     text: {
       color: "white",
       fontSize: 18,
-      marginTop: 30,
+      marginTop: 10,
       marginBottom: 20,
       marginHorizontal: 20,
       textAlign: "center"
@@ -177,6 +187,16 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       width: "100%",
       height: "100%"
+    },
+    arrow: {
+      tintColor: "white",
+      height: 40,
+      width: 40,
+      marginTop: 25,
+      marginLeft: 15,
+      transform: [{
+        rotate: '-180deg'
+      }],
     }
   });
 

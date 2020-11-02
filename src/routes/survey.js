@@ -22,7 +22,7 @@ router.post('/new', async (req, res) => {
   for(let i = 0; i < questions.length; i++){
     q = questions[i];
     a = answers[answerKeys[i]];
-    console.log('question : ' + q + '\n' + 'answer: ' + a)
+    //console.log('question : ' + q + '\n' + 'answer: ' + a)
     const {error} = surveyQuestionValidation({question: q, answer: a});
     if (error){
       return res.status(400).send((error.details[0].message));
