@@ -31,6 +31,11 @@ const userSchema = new mongoose.Schema({
     min: 6
   },
 
+  activated: {
+    type: Boolean,
+    default: false,
+  }
+
 })
 
 module.exports = mongoose.model('User', userSchema)

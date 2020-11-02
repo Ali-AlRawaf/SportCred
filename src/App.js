@@ -8,6 +8,7 @@ import StartingScreen from './screens/StartingScreen';
 import LoginScreen from './screens/LoginScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreenOne from './screens/RegisterScreenOne';
+import ActivateAccount from './screens/ActivateAccount';
 import RegisterScreenTwo from './screens/RegisterScreenTwo';
 import TutorialScreen from './screens/TutorialScreen';
 import RadarList from './screens/RadarListScreen';
@@ -28,6 +29,7 @@ function App() {
           <Stack.Screen name="Start" component={StartingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={RegisterScreenOne} options={{ headerShown: false }} />
+          <Stack.Screen name="Activate" component = {ActivateAccount} options={{ headerShown: false }} />
           <Stack.Screen name="RegisterTwo" component={RegisterScreenTwo} options={{ headerShown: false }} />
           <Stack.Screen name="RadarList" component={RadarList} options={{ headerShown: false }} />
           <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />

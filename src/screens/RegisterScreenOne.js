@@ -30,9 +30,9 @@ class RegisterScreenOne extends React.Component {
     validateRegister = async () => {
         const result = await this.props.register(this.state)
         if(result.status === 200)
-            this.props.navigation.navigate('RegisterTwo')
+            this.props.navigation.navigate('Activate')
         else
-            alert(result.status + ": register failed")
+            alert(result.status + ": " + result.error)
     }
 
     render(){
