@@ -10,12 +10,16 @@ import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreenOne from './screens/RegisterScreenOne';
 import ActivateAccount from './screens/ActivateAccount';
 import RegisterScreenTwo from './screens/RegisterScreenTwo';
-import TutorialScreen from './screens/TutorialScreen'
+import TutorialScreen from './screens/TutorialScreen';
+import RadarList from './screens/RadarListScreen';
+import TabNavigator from './navigation/TabNavigator';
 
 import { Provider } from "react-redux";
 import store from "./config/store"
 
 const Stack = createStackNavigator();
+
+
 
 function App() {
   return (
@@ -27,8 +31,10 @@ function App() {
           <Stack.Screen name="Register" component={RegisterScreenOne} options={{ headerShown: false }} />
           <Stack.Screen name="Activate" component = {ActivateAccount} options={{ headerShown: false }} />
           <Stack.Screen name="RegisterTwo" component={RegisterScreenTwo} options={{ headerShown: false }} />
+          <Stack.Screen name="RadarList" component={RadarList} options={{ headerShown: false }} />
           <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Tutorial" component={TutorialScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Container" component={TabNavigator} options={{ headerShown: false }} />
         </Stack.Navigator> 
       </NavigationContainer>
     </Provider>

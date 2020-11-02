@@ -44,12 +44,14 @@ const testAPI = require('./routes/testAPI')
 
 const authRoutes = require('./routes/auth')
 const survey = require('./routes/survey')
+const search = require('./routes/search')
 
 app.use(cors({origin: '*'}));
 
 app.use('/testAPI', testAPI);
 app.use('/user', authRoutes);
 app.use('/survey', survey);
+app.use('/search', search);
 
 app.listen(port);//, () => console.log(`Listening on port ${port}`));
 module.exports = ({ connect, app });
