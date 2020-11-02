@@ -26,6 +26,9 @@ export default class Search extends React.Component {
             });
         }
         else {
+            this.setState({
+                data: ''
+            })
             alert(result.status + ": no users found")
         }
     }
