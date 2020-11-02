@@ -28,3 +28,21 @@ export const addFollower = async (body) => {
   return result;
 
 }
+
+export const getFollowers = async (body) => {
+
+  const response = await fetch('/radar/getFollowers', {
+    method: 'get',
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    },
+    body: JSON.stringify(body)
+  });
+  const body = await response.json();
+
+  if (response.status !== 200) {
+    throw Error(body.message)
+  }
+  return body;
+};
+}

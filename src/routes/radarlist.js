@@ -34,5 +34,33 @@ router.post('/addFollower', async (req, res) => {
   }
 });
 
+router.get('/getFollowers', async (req, res) => {
+
+  const user = await User.findOne({_id: req.body.user}).catch(error => console.log('invalid user id'));
+  if (!user) return res.status(400).send('Could not find user');
+
+  var radarList = await Radar.findOne({user: req.body.user}).catch(error => console.log('invalid user id'));
+  if (!radarList) {
+    radarList = new Radar({
+      user: user._id,
+      followers: []
+    })
+  }
+
+  var followerObjects = [];
+  for (const fol in radarList.followers) {
+    const followerObject = await User.findOne({_id: radarList.followers[fol]}).catch(error => console.log('invalid user id'));
+    followerObjects.push({
+      "id": parseInt(fol),
+      "username": followerObject.username,
+      "acs_score": '300'
+    });
+  }
+
+  res.send({followerObjects});
+
+});
+
+
 
 module.exports = router;
