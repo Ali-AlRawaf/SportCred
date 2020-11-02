@@ -13,6 +13,7 @@ import RegisterScreenTwo from './screens/RegisterScreenTwo';
 import TutorialScreen from './screens/TutorialScreen';
 import RadarList from './screens/RadarListScreen';
 import TabNavigator from './navigation/TabNavigator';
+import PostComment from './screens/PostComment';
 
 import { Provider } from "react-redux";
 import store from "./config/store"
@@ -35,7 +36,8 @@ function App() {
           <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Tutorial" component={TutorialScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Container" component={TabNavigator} options={{ headerShown: false }} />
-        </Stack.Navigator> 
+          <Stack.Screen name="Comment" component={PostComment} options={{ headerShown: false }} />
+        </Stack.Navigator>
       </NavigationContainer>
     </Provider>
   );

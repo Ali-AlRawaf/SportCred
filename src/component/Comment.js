@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'react';
-import StephenASmith from '../assets/StephenASmith.png';
+import profile_img from '../assets/profile_img.jpg';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const Post = (props) => {
+const Comment = (props) => {
     const navigation = useNavigation();
     const [textShown, setTextShown] = useState(false);
     const [lengthMore, setLengthMore] = useState(false);
@@ -19,15 +19,20 @@ const Post = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.card}>
-                <Image style={styles.imgBox} source={props.profilePic} />
+                <Image style={styles.imgBox} source={profile_img} />
                 <View style={styles.textBox}>
                     <Text style={styles.headerText}>
-                        {props.name}
+                        Tyler Herro
                     </Text>
                     <Text style={styles.bodyText}
                         onTextLayout={onTextLayout}
                         numberOfLines={textShown ? undefined : 4}>
-                        {props.post}
+                        I agree lol! I agree lol! I agree lol!
+                        I agree lol!I agree lol!I agree lol!I agree lol!
+                        I agree lol!I agree lol!I agree lol!I agree lol!
+                        I agree lol!I agree lol!I agree lol!I agree lol!
+                        I agree lol!I agree lol!I agree lol!I agree lol!
+                        I agree lol!I agree lol!I agree lol!I agree lol!
                     </Text>
                     {
                         lengthMore ? <Text
@@ -36,17 +41,6 @@ const Post = (props) => {
                         >{textShown ? 'Read Less' : 'Read More'}</Text>
                             : null
                     }
-                    <TouchableOpacity style={styles.button}
-                        onPress={() => navigation.navigate('Comment', {
-                            name: props.name,
-                            profilePic: props.profilePic,
-                            post: props.post
-                        })}
-                    >
-                        <Text style={styles.buttonText}>
-                            Comment
-                        </Text>
-                    </TouchableOpacity>
                 </View>
             </View>
         </View>
@@ -54,22 +48,20 @@ const Post = (props) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        margin: 7
-    },
     toggle: {
         color: "#3D929A",
         marginLeft: 10,
     },
     card: {
         backgroundColor: '#242526',
-        width: 340,
         minHeight: 120,
         shadowColor: '#673939',
         shadowOpacity: .1,
         borderRadius: 1,
         shadowRadius: 13,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        paddingLeft: 20
+
     },
     imgBox: {
         width: 40,
@@ -79,11 +71,16 @@ const styles = StyleSheet.create({
         borderRadius: 25
     },
     textBox: {
-        paddingTop: 20,
+        marginTop: 10,
+        paddingTop: 10,
+        marginLeft: 20,
         alignContent: 'space-between',
-        width: 280,
+        width: 270,
+        minHeight: 100,
         justifyContent: 'flex-start',
-        paddingLeft: 12
+        paddingLeft: 12,
+        backgroundColor: '#383838',
+        borderRadius: 10,
     },
     headerText: {
         fontSize: 15,
@@ -120,4 +117,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Post;
+export default Comment;
