@@ -114,7 +114,7 @@ class LoginScreen extends React.Component {
         }else{
             const error_msg = result.error
             alert(result.status + ": " + error_msg)
-        }      
+        }     
     }
 
     render() {
@@ -198,5 +198,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-// export default LoginScreen;
 export default connect(mapStateToProps, { login })(LoginScreen);
