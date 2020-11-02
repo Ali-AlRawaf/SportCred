@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 const User = require('../models/user');
-const activationToken = require('../models/token');
+const Token = require('../models/token');
 const {registrationValidation, loginValidation} = require('../validations/user_validations');
 
 router.post('/register', async (req, res) => {
@@ -32,9 +32,10 @@ router.post('/register', async (req, res) => {
     password: hashed_password,
   });
 
-  const token = new activationToken({
+  const token = new Token({
     _userId: user._id,
-    token: crypto.randomBytes(16).toString('hex')
+    token: crypto.randomBytes(16).toString('hex'),
+    expiry: Date.now() + 86400000
   });
 
   try{
@@ -73,9 +74,10 @@ router.post('/resend-activation', async (req, res) => {
 
   if (user.activated) return res.status(200).send('Your account has already been activated, please continue.');
 
-  var token = new activationToken({
+  var token = new Token({
     _userId: user._id, 
-    token: crypto.randomBytes(16).toString('hex') 
+    token: crypto.randomBytes(16).toString('hex'),
+    expiry: Date.now() + 86400000
   });
 
   try{
@@ -108,8 +110,8 @@ router.post('/resend-activation', async (req, res) => {
 });
 
 router.get('/confirm/:email/:token', async (req, res) => {
-  const token = await activationToken.findOne({ token: req.params.token })
-  if (!token) return res.status(400).send('This verification link may have expired. Please click on resend to verify your Email.');
+  const token = await Token.findOne({ token: req.params.token })
+  if (!token) return res.status(400).send('This verification link is invalid or expired. Please click on resend to verify your Email.');
   
   const user = await User.findOneAndUpdate({_id: token._userId, email: req.params.email}, {activated: true})
   if (!user) return res.status(400).send('User not found. Please register.');
@@ -133,9 +135,10 @@ router.post('/login', async (req, res) => {
   if (!valid_password) return res.status(400).send('username or password is incorrect');
 
   if(!user.activated){ //return res.status(400).send('Your Email has not been verified. Please verify.');
-    var token = new activationToken({
+    var token = new Token({
       _userId: user._id, 
-      token: crypto.randomBytes(16).toString('hex') 
+      token: crypto.randomBytes(16).toString('hex'),
+      expiry: Date.now() + 86400000
     });
 
     try{

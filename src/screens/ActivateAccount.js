@@ -4,6 +4,7 @@ import { View, Image, StyleSheet, TextInput, TouchableOpacity, Text, ImageBackgr
 import bg from '../assets/landing.png'
 import logo from '../assets/text_logo.png';
 import { resendActivation, getUser } from '../controller/user'
+import user from '../models/user';
 
 class ActivateAccount extends React.Component {
     constructor (props) {
@@ -17,6 +18,16 @@ class ActivateAccount extends React.Component {
 
         this.resend = this.resend.bind(this);
         this.check = this.check.bind(this);
+    }
+
+    componentDidMount(){
+      getUser(this.props.currentUser)
+      .then((result) => {
+        this.setState({email: result.user.email})
+      })
+      .catch((err) =>{
+        console.log(err)
+      })
     }
 
     resend = async () => {
