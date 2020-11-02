@@ -19,20 +19,15 @@ const Post = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.card}>
-                <Image style={styles.imgBox} source={StephenASmith} />
+                <Image style={styles.imgBox} source={props.profilePic} />
                 <View style={styles.textBox}>
                     <Text style={styles.headerText}>
-                        Stephen A Smith
+                        {props.name}
                     </Text>
                     <Text style={styles.bodyText}
                         onTextLayout={onTextLayout}
                         numberOfLines={textShown ? undefined : 4}>
-                        I AM DISSAPOINTED AND DISGUSTED WITH PAUL GEORGE'S PLAYOFF PERFORMANCE!
-                        I AM DISSAPOINTED AND DISGUSTED WITH PAUL GEORGE'S PLAYOFF PERFORMANCE!
-                        I AM DISSAPOINTED AND DISGUSTED WITH PAUL GEORGE'S PLAYOFF PERFORMANCE!
-                        I AM DISSAPOINTED AND DISGUSTED WITH PAUL GEORGE'S PLAYOFF PERFORMANCE!
-                        I AM DISSAPOINTED AND DISGUSTED WITH PAUL GEORGE'S PLAYOFF PERFORMANCE!
-                        I AM DISSAPOINTED AND DISGUSTED WITH PAUL GEORGE'S PLAYOFF PERFORMANCE!
+                        {props.post}
                     </Text>
                     {
                         lengthMore ? <Text
@@ -42,7 +37,11 @@ const Post = (props) => {
                             : null
                     }
                     <TouchableOpacity style={styles.button}
-                        onPress={() => navigation.navigate('Comment')}
+                        onPress={() => navigation.navigate('Comment', {
+                            name: props.name,
+                            profilePic: props.profilePic,
+                            post: props.post
+                        })}
                     >
                         <Text style={styles.buttonText}>
                             Comment
@@ -55,6 +54,9 @@ const Post = (props) => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        margin: 7
+    },
     toggle: {
         color: "#3D929A",
         marginLeft: 10,

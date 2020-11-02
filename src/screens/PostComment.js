@@ -2,9 +2,11 @@ import React from 'react';
 import StephenASmith from '../assets/StephenASmith.png';
 import { View, Dimensions, KeyboardAvoidingView, Button, StyleSheet, TouchableOpacity, Text, Image, ImageBackground } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import Comment from '../component/Comment'
 
 
 class PostComment extends React.Component {
+
 
     constructor(props) {
         super(props)
@@ -18,14 +20,16 @@ class PostComment extends React.Component {
         });
     };
 
-    // renderBottomComponent() {
-    //     if (this.state.comment) {
-    //         return (
-    //             <Comment />
-    //         )
-    //     }
-    // }
-
+    renderBottomComponent() {
+        if (this.state.comment) {
+            return (
+                <Comment />
+            )
+        }
+    }
+    buttonPress = () => {
+        this.setState({ comment: true })
+    }
 
     render() {
         return (
@@ -36,20 +40,15 @@ class PostComment extends React.Component {
                 <View style={styles.container}>
                     <View style={styles.card}>
                         <View style={styles.userInfo}>
-                            <Image style={styles.imgBox} source={StephenASmith} />
+                            <Image style={styles.imgBox} source={this.props.route.params.profilePic} />
                             <Text style={styles.headerText}>
-                                Stephen A Smith
-                    </Text>
+                                {this.props.route.params.name}
+                            </Text>
                         </View>
                         <Text style={styles.bodyText}
                         >
-                            I AM DISSAPOINTED AND DISGUSTED WITH PAUL GEORGE'S PLAYOFF PERFORMANCE!
-                            I AM DISSAPOINTED AND DISGUSTED WITH PAUL GEORGE'S PLAYOFF PERFORMANCE!
-                            I AM DISSAPOINTED AND DISGUSTED WITH PAUL GEORGE'S PLAYOFF PERFORMANCE!
-                            I AM DISSAPOINTED AND DISGUSTED WITH PAUL GEORGE'S PLAYOFF PERFORMANCE!
-                            I AM DISSAPOINTED AND DISGUSTED WITH PAUL GEORGE'S PLAYOFF PERFORMANCE!
-                            I AM DISSAPOINTED AND DISGUSTED WITH PAUL GEORGE'S PLAYOFF PERFORMANCE!
-                    </Text>
+                            {this.props.route.params.post}
+                        </Text>
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity style={styles.button}
                             // UPVOTE ON TOUCH LOGIC HERE
@@ -67,6 +66,7 @@ class PostComment extends React.Component {
                             </TouchableOpacity>
                         </View>
                     </View>
+                    {this.renderBottomComponent()}
                     <View style={styles.inputContainer}>
                         <TextInput
                             style={styles.input}
@@ -77,6 +77,7 @@ class PostComment extends React.Component {
                         </TextInput>
                         <TouchableOpacity
                             style={styles.postButton}
+                            onPress={() => this.buttonPress()}
                         >
                             <Text style={styles.buttonText}>
                                 C
