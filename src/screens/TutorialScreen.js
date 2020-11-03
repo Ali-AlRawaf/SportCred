@@ -37,8 +37,8 @@ export default class TutorialScreen extends React.Component {
         activeOpacity={0.7}
         onPress={() => this.props.navigation.navigate('Container')}>
         <Image
-            style={styles.arrowFront}
-            source={arrow}
+          style={styles.arrowFront}
+          source={arrow}
         />
       </TouchableOpacity>
     } else {
@@ -47,8 +47,8 @@ export default class TutorialScreen extends React.Component {
         activeOpacity={0.7}
         onPress={this.nextPage}>
         <Image
-            style={styles.arrowFront}
-            source={arrow}
+          style={styles.arrowFront}
+          source={arrow}
         />
       </TouchableOpacity>
     }
@@ -61,8 +61,8 @@ export default class TutorialScreen extends React.Component {
         activeOpacity={0.7}
         onPress={this.previousPage}>
         <Image
-            style={styles.arrowBack}
-            source={arrow}
+          style={styles.arrowBack}
+          source={arrow}
         />
       </TouchableOpacity>
     }
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     backgroundColor: '#ff652f',
-    borderRadius: '50%',
+    borderRadius: 50,
     paddingVertical: 10,
     paddingHorizontal: 12,
     margin: 20,
@@ -190,6 +190,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 12,
     margin: 20,
-    borderRadius: '50%'
+    borderRadius: 50,
   }
 });

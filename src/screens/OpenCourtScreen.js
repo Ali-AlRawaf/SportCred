@@ -6,7 +6,7 @@ import logo_png from '../assets/logo_png.png';
 import StephenASmith from '../assets/StephenASmith.png';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 const userPosts = [
     {

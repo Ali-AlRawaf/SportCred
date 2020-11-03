@@ -4,6 +4,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const Comment = (props) => {
+    console.log(props)
     const navigation = useNavigation();
     const [textShown, setTextShown] = useState(false);
     const [lengthMore, setLengthMore] = useState(false);
@@ -19,20 +20,15 @@ const Comment = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.card}>
-                <Image style={styles.imgBox} source={profile_img} />
+                <Image style={styles.imgBox} source={props.profilePic} />
                 <View style={styles.textBox}>
                     <Text style={styles.headerText}>
-                        Tyler Herro
+                        {props.userName}
                     </Text>
                     <Text style={styles.bodyText}
                         onTextLayout={onTextLayout}
                         numberOfLines={textShown ? undefined : 4}>
-                        I agree lol! I agree lol! I agree lol!
-                        I agree lol!I agree lol!I agree lol!I agree lol!
-                        I agree lol!I agree lol!I agree lol!I agree lol!
-                        I agree lol!I agree lol!I agree lol!I agree lol!
-                        I agree lol!I agree lol!I agree lol!I agree lol!
-                        I agree lol!I agree lol!I agree lol!I agree lol!
+                        {props.comment}
                     </Text>
                     {
                         lengthMore ? <Text

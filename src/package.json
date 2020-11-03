@@ -10,6 +10,7 @@
     "test": "mocha -r esm --recursive --exit --timeout 5000"
   },
   "dependencies": {
+    "@expo/vector-icons": "^10.2.1",
     "@hapi/joi": "^17.1.1",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
@@ -32,7 +33,6 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
     "react-native-elements": "^3.0.0-alpha.1",
-    "react-native": "^",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.4",
