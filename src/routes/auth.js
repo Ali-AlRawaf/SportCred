@@ -7,6 +7,7 @@ const nodemailer = require("nodemailer");
 const User = require('../models/user');
 const Token = require('../models/token');
 const {registrationValidation, loginValidation} = require('../validations/user_validations');
+const token = require('../models/token');
 
 router.post('/register', async (req, res) => {
 
@@ -32,9 +33,11 @@ router.post('/register', async (req, res) => {
     password: hashed_password,
   });
 
+  const origToken = crypto.randomBytes(16).toString('hex')
+  const hashedToken = await bcrypt.hash(origToken, 10)
   const token = new Token({
     _userId: user._id,
-    token: crypto.randomBytes(16).toString('hex'),
+    token: hashedToken,
     expiry: Date.now() + 86400000
   });
 
@@ -57,8 +60,8 @@ router.post('/register', async (req, res) => {
     from: 'no-reply@sportcred.com', 
     to: user.email, 
     subject: 'Account Verification Link', 
-    text: 'Hello '+ req.body.username +',\n\n' + 'This link will expire 24 hours from now, please verify your account by clicking the link: ' + 
-          '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user.email + '\/' + token.token + '\n\nThank You!\n' 
+    text: 'Hello '+ user.username +',\n\n' + 'This link will expire 24 hours from now, please verify your account by clicking the link: ' + 
+          '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user._id + '\/' + origToken + '\n\nThank You!\n' 
   };
 
   transporter.sendMail(mailOptions, function (err) {
@@ -73,10 +76,12 @@ router.post('/resend-activation', async (req, res) => {
   if (!user) return res.status(400).send('User not found');
 
   if (user.activated) return res.status(200).send('Your account has already been activated, please continue.');
-
+  
+  const origToken = crypto.randomBytes(16).toString('hex')
+  const hashedToken = await bcrypt.hash(origToken, 10)
   var token = new Token({
     _userId: user._id, 
-    token: crypto.randomBytes(16).toString('hex'),
+    token: hashedToken,
     expiry: Date.now() + 86400000
   });
 
@@ -99,7 +104,7 @@ router.post('/resend-activation', async (req, res) => {
     to: user.email, 
     subject: 'Account Verification Link', 
     text: 'Hello '+ user.username +',\n\n' + 'This link will expire 24 hours from now, please verify your account by clicking the link: ' + 
-          '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user.email + '\/' + token.token + '\n\nThank You!\n' 
+          '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user._id + '\/' + origToken + '\n\nThank You!\n' 
   };
 
   transporter.sendMail(mailOptions, function (err) {
@@ -109,12 +114,15 @@ router.post('/resend-activation', async (req, res) => {
   return res.status(200).send('Activation email sent!');
 });
 
-router.get('/confirm/:email/:token', async (req, res) => {
-  const token = await Token.findOne({ token: req.params.token })
-  if (!token) return res.status(400).send('This verification link is invalid or expired. Please click on resend to verify your Email.');
-  
-  const user = await User.findOneAndUpdate({_id: token._userId, email: req.params.email}, {activated: true})
-  if (!user) return res.status(400).send('User not found. Please register.');
+router.get('/confirm/:id/:token', async (req, res) => {
+  const latestToken = await Token.find({_userId: req.params.id}).sort({_id: -1}).limit(1);
+  if(latestToken.length == 0) return res.status(400).send('This verification link is invalid. Please click on resend to verify your Email.');
+
+  const tokenIsValid = await bcrypt.compare(req.params.token, latestToken[0].token);
+  if (!tokenIsValid) return res.status(400).send('Invalid token.');
+
+  const user = await User.findOneAndUpdate({_id: latestToken[0]._userId}, {activated: true})
+  if (!user) return res.status(400).send('An error occurred, user not found.');
 
   if(user.activated) return res.status(200).send('Account is already activated. Please login!');
 
@@ -135,9 +143,11 @@ router.post('/login', async (req, res) => {
   if (!valid_password) return res.status(400).send('username or password is incorrect');
 
   if(!user.activated){ //return res.status(400).send('Your Email has not been verified. Please verify.');
+    const origToken = crypto.randomBytes(16).toString('hex')
+    const hashedToken = await bcrypt.hash(origToken, 10)  
     var token = new Token({
       _userId: user._id, 
-      token: crypto.randomBytes(16).toString('hex'),
+      token: hashedToken,
       expiry: Date.now() + 86400000
     });
 
@@ -159,8 +169,8 @@ router.post('/login', async (req, res) => {
       from: 'no-reply@sportcred.com', 
       to: user.email, 
       subject: 'Account Verification Link', 
-      text: 'Hello '+ user.username +',\n\n' + 'Please verify your account by clicking the link: ' + 
-            '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user.email + '\/' + token.token + '\n\nThank You!\n' 
+      text: 'Hello '+ user.username +',\n\n' + 'This link will expire 24 hours from now, please verify your account by clicking the link: ' + 
+            '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user._id + '\/' + origToken + '\n\nThank You!\n'
     };
 
     transporter.sendMail(mailOptions, function (err) {
