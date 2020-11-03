@@ -34,15 +34,15 @@ function App() {
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ForgotPassword" component = {ForgotPassword} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={RegisterScreenOne} options={{ headerShown: false }} />
-          <Stack.Screen name="Activate" component = {ActivateAccount} options={{ headerShown: false }} />
+          <Stack.Screen name="Activate" component={ActivateAccount} options={{ headerShown: false }} />
           <Stack.Screen name="RegisterTwo" component={RegisterScreenTwo} options={{ headerShown: false }} />
           <Stack.Screen name="RadarList" component={RadarList} options={{ headerShown: false }} />
           <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Tutorial" component={TutorialScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Container" component={TabNavigator} options={{ headerShown: false }} />
+          <Stack.Screen name="Container" component={TabNavigator} options={{ headerShown: true }} />
           <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
-          <Stack.Screen name="Comment" component={PostComment} options={{ headerShown: false }} />
-        </Stack.Navigator> 
+          <Stack.Screen name="Comment" component={PostComment} options={{ headerShown: true, headerTitle: "Comments" }} />
+        </Stack.Navigator>
       </NavigationContainer>
     </Provider>
   );

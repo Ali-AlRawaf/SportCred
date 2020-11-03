@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { View, Button, StyleSheet, TextInput, Text, ImageBackground, TouchableOpacity, Image, Alert } from 'react-native';
-import {login} from '../controller/user';
+import { login } from '../controller/user';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import bg from '../assets/bg.png';
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
 
 class LoginScreen extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             username: '',
@@ -99,7 +99,7 @@ class LoginScreen extends React.Component {
         this.updateField = this.updateField.bind(this)
         this.validateLogin = this.validateLogin.bind(this)
     }
-    
+
 
     updateField = (key, val) => {
         this.setState({
@@ -110,16 +110,16 @@ class LoginScreen extends React.Component {
     validateLogin = async () => {
         const result = await this.props.login(this.state);
         console.log(result)
-        if(result.status === 200){
+        if (result.status === 200) {
             Alert.alert('Login successful');
-            this.props.navigation.navigate('Profile');
-        } else if(result.status === 201) {
+            this.props.navigation.navigate('Container');
+        } else if (result.status === 201) {
             alert('Activation required');
             this.props.navigation.navigate('Activate');
-        }else{
+        } else {
             const error_msg = result.error
             alert(result.status + ": " + error_msg)
-        }     
+        }
     }
 
     render() {
@@ -211,9 +211,9 @@ class LoginScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    currentUser: state.auth.currentUser,
-  };
+    return {
+        currentUser: state.auth.currentUser,
+    };
 };
 
 export default connect(mapStateToProps, { login })(LoginScreen);
