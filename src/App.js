@@ -37,7 +37,7 @@ function App() {
           <Stack.Screen name="RadarList" component={RadarList} options={{ headerShown: false }} />
           <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Tutorial" component={TutorialScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Container" component={TabNavigator} options={{ headerShown: true }} />
+          <Stack.Screen name="Container" component={TabNavigator} options={{ headerShown: false }} />
           <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
           <Stack.Screen name="Comment" component={PostComment} options={{ headerShown: true, headerTitle: "Comments" }} />
         </Stack.Navigator>

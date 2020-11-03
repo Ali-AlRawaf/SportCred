@@ -20,16 +20,6 @@ const userPosts = [
         post: 'Jimmy Butler will have a ring within the next 4 years! Calling it from now'
     },
     {
-        name: "Yousuf Madi",
-        profilePic: profile_img,
-        post: 'Jimmy Butler will have a ring within the next 4 years! Calling it from now'
-    },
-    {
-        name: "Yousuf Madi",
-        profilePic: profile_img,
-        post: 'Jimmy Butler will have a ring within the next 4 years! Calling it from now'
-    },
-    {
         name: "Stephen A Smith",
         profilePic: StephenASmith,
         post: "I AM DISSAPOINTED IN PAUL GEORGE'S PLAYOFF PERFORMANCE!" +
@@ -70,7 +60,8 @@ const styles = StyleSheet.create({
         marginTop: 40
     },
     screen: {
-        backgroundColor: '#333436'
+        backgroundColor: '#333436',
+        height: 900
     }
 })
 
