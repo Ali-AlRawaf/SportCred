@@ -1,70 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { View, ScrollView, StyleSheet, Text, Image, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
 import bg from '../assets/bg.png'
 import RadarItem from '../component/RadarItem'
 import profileImage from '../assets/profile_img.jpg';
 import arrow from '../assets/arrow_forward.png'
-
-const data = [
-  {
-    id: 1,
-    profileImg: profileImage,
-    username: 'Ryan brown',
-    acs_score: '200'
-  },
-  {
-    id: 2,
-    profileImg: profileImage,
-    username: 'Sam Apple',
-    acs_score: '660'
-  },
-  {
-    id: 3,
-    profileImg: profileImage,
-    username: 'Example User',
-    acs_score: '400'
-  },
-  {
-    id: 4,
-    profileImg: profileImage,
-    username: 'John Pickle',
-    acs_score: '550'
-  },
-  {
-    id: 5,
-    profileImg: profileImage,
-    username: 'Soloman Het',
-    acs_score: '910'
-  },
-  {
-    id: 6,
-    profileImg: profileImage,
-    username: 'Soloman Het',
-    acs_score: '910'
-  },
-  {
-    id: 7,
-    profileImg: profileImage,
-    username: 'Soloman Het',
-    acs_score: '910'
-  },
-  {
-    id: 8,
-    profileImg: profileImage,
-    username: 'Soloman Het',
-    acs_score: '910'
-  },
-]
+import { getFollowers } from '../controller/radarlist'
 
 class RadarListScreen extends React.Component {
 
   constructor(props){
     super(props);
+    this.state = {
+      data: []
+    };
+    this.getRadarList = this.getRadarList.bind(this);
+  }
+
+
+  componentDidMount = () => {
+      this.getRadarList();
+  }
+
+  getRadarList = async() => {
+    const data = await getFollowers({'user': '5fa03dbd26f5b1307cd8c610'});
+    for (let i in data.followers) {
+      data.followers[i].profileImg = profileImage;
+    }
+    this.setState({
+      data: data.followers
+    })
   }
 
   render(){
-
     return(
       <ImageBackground
           source={bg}
@@ -80,7 +48,7 @@ class RadarListScreen extends React.Component {
         />
       </TouchableOpacity>
       <ScrollView contentContainerStyle={styles.container}>
-        <FlatList data={data}
+        <FlatList data={this.state.data}
             keyExtractor={(item, index) => 'key' + index}
             vertical
             pagingEnabled

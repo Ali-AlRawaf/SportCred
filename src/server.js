@@ -29,7 +29,7 @@ function connect() {
       () => console.log('connected to db')
     );
   }
-  
+
 }
 
 connect();
@@ -47,6 +47,7 @@ const survey = require('./routes/survey')
 const post = require("./routes/post")
 const postComment = require("./routes/postComment")
 const search = require('./routes/search')
+const radar = require('./routes/radarlist')
 
 app.use(cors({origin: '*'}));
 
@@ -56,6 +57,7 @@ app.use('/survey', survey);
 app.use('/post', post);
 app.use('/post/:id/postComment', postComment);
 app.use('/search', search);
+app.use('/radar', radar)
 
 app.listen(port);//, () => console.log(`Listening on port ${port}`));
 module.exports = ({ connect, app });
