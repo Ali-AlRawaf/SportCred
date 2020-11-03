@@ -1,9 +1,11 @@
-import React from 'react';
+import React , { useState } from 'react';
 import { connect } from "react-redux";
-import { View, ScrollView,  Button, StyleSheet, TextInput, Text, Image, ImageBackground } from 'react-native';
+import { View, ScrollView,StyleSheet, Text, Image, ImageBackground } from 'react-native';
 import bg from '../assets/bg.png'
 import profileImage from '../assets/profile_img.jpg';
 import ProfileStats from '../component/ProfileStats'
+import { FontAwesome5 } from '@expo/vector-icons';
+import {getUser} from '../controller/user';
 
 const data = 
     [{
@@ -23,24 +25,27 @@ class ProfileScreen extends React.Component {
 
     constructor(props){
         super(props);
-
         this.state = {
-            username: '',
-            email: '',
-            age: '',
-            password: '',
+            username: 'NAME',
+            email: 'EMAIL',
         }
 
-        this.componentDidMount = this.componentDidMount.bind(this)
-        this.onChangeText = this.onChangeText.bind(this)
     }
     
     componentDidMount = () => {
-        console.log('here')
-        console.log(this.props)
+        getUser(this.props.currentUser)
+        .then((result) => {
+        this.setState({
+        username: result.user.username,
+        email: result.user.email,
+})
+      })
+      .catch((err) =>{
+        console.log(err)
+      })
     }
 
-    onChangeText = (key, val) => {
+    UpdateField = (key, val) => {
         this.setState({ [key]: val })
     }
     
@@ -51,13 +56,18 @@ class ProfileScreen extends React.Component {
               style={styles.background}
             >
             <ScrollView style={styles.container}>
+                <View style={styles.editLogoContainer}>
+                    <FontAwesome5 name="user-edit" size={32} color="white"
+                    onPress={() => this.props.navigation.navigate('Edit')}
+                    />
+                </View>
                 <View style={styles.profileHeader}>
                     <Image
                       style={styles.profileImage}
                       source={profileImage}
                     />
                     <Text style={styles.headerName}>
-                        Ryan Brown 
+                        {this.state.username}
                     </Text>
                     <Text style={styles.headerStatus}>
                         Status: DE-FENCE!!
@@ -66,30 +76,6 @@ class ProfileScreen extends React.Component {
 
                 <View styles={styles.stats}>
                     <ProfileStats data={data}/>
-                </View>
-
-                <View style={styles.editForm}>
-                    <TextInput
-                        style={styles.formInput}
-                        placeholder='Ryan'
-                        autoCapitalize="none"
-                        placeholderTextColor='grey'
-                        onChangeText={val => this.onChangeText('username', val)}
-                    />
-                    <TextInput
-                        style={styles.formInput}
-                        placeholder='ryan.brown@email.com'
-                        autoCapitalize="none"
-                        placeholderTextColor='grey'
-                        onChangeText={val => this.onChangeText('username', val)}
-                    />
-                    <TextInput
-                        style={styles.formInput}
-                        placeholder='Bio'
-                        autoCapitalize="none"
-                        placeholderTextColor='grey'
-                        onChangeText={val => this.onChangeText('username', val)}
-                    />
                 </View>
             </ScrollView>
             </ImageBackground>
@@ -111,7 +97,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 50
     },
 
     profileImage: {
@@ -143,17 +128,13 @@ const styles = StyleSheet.create({
       width: "100%",
       height: "100%"
     },
-
-    editForm: {
-        marginBottom: 100
-    },
-
-    formInput: {
-        height: 30,
-        fontSize: 20,
-        margin: 20,
-        borderBottomColor: '#747474',
-        borderBottomWidth: 0.4,
+    editLogoContainer: {
+        Position:"absolute",
+        width: "100%",
+        height: "15%",
+        justifyContent: "center",
+        alignItems: "flex-end",
+        padding: 20,
     }
 
 });

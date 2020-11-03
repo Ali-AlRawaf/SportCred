@@ -60,6 +60,11 @@ router.post('/login', async (req, res) => {
   // res.header('auth-token', token).send(token)
 
 });
+router.get('/get-user/:id', async (req, res) => {
+  const user = await User.findOne({_id: req.params.id});
+  if (!user) return res.status(400).send('user query failed');
+  return res.status(200).send(user);
+})
 
 
 module.exports = router;

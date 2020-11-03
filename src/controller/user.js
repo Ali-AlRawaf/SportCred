@@ -76,4 +76,31 @@ export const login = (user) => {
   }
 
 
+
+}
+export const getUser = async (userId) => {
+  const url = "http://localhost:5000/user/get-user/" + userId
+
+  const request = {
+    method: "get",
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json",
+    }
+  }
+
+  const result = {}
+
+  const response = await fetch(url, request);
+  result.status = response.status;
+
+  if (response.status === 200){
+    const msg = await response.json();
+    result.user = msg;
+  }else{
+    const msg = await response.text();
+    result.error = msg;
+  }
+
+  return result;
 }

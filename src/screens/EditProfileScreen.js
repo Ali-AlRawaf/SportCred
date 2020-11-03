@@ -5,12 +5,11 @@ import EditInput from '../component/editInput';
 
 const EditProfile = (props) => {
     const [userData, setUserData] = useState({
-        username: "test",
-        email: "test@test.com",
-        description: "test Desription",
-        password: "test Password",
-        status: "test Status",
-        bio: "test bio",
+        username: "",
+        description: "",
+        password: "",
+        status: "",
+        bio: "",
     })
 
     const editData = async () => {
@@ -49,43 +48,20 @@ const EditProfile = (props) => {
             </View>
             <EditInput title="Name" value={userData.username} onChangeText={text => setUserData({
                 username: text,
-                email: "test@test.com",
-                description: "test Desription",
-                password: "test Password",
-                status: "test Status",
-                bio: "test bio",
-            })} />
-            <EditInput title="Email" value={userData.email} onChangeText={text => setUserData({
-                username: "test",
-                email: text,
-                description: "test Desription",
-                password: "test Password",
-                status: "test Status",
-                bio: "test bio",
             })} />
             <EditInput title="Description" value={userData.description} onChangeText={text => setUserData({
-                username: "test",
-                email: "test@test.com",
                 description: text,
-                password: "test Password",
-                status: "test Status",
-                bio: "test bio",
+                
             })} />
             <EditInput title="Status" value={userData.status} onChangeText={text => setUserData({
-                username: "test",
-                email: "test@test.com",
-                description: "test Desription",
-                password: "test Password",
+                
                 status: text,
-                bio: "test bio",
+                
             })} />
             <EditInput title="Password" value={userData.status} isPassword onChangeText={text => setUserData({
-                username: "test",
-                email: "test@test.com",
-                description: "test Desription",
+               
                 password: text,
-                status: "test Status",
-                bio: "test bio",
+                
             })} />
             <View style={styles.buttonContainer}>
                 <Button title="Update Profile" onPress={editData} color="green" />
