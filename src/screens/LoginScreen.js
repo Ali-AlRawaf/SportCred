@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         borderRadius: 5,
         paddingVertical: 15,
-        marginTop: 40
+        marginTop: 40,
+        marginBottom: 20
     },
 
     input: {
@@ -78,7 +79,8 @@ const styles = StyleSheet.create({
     },
 
     hereButton: {
-        alignSelf: "center"
+        alignSelf: "center",
+        marginBottom: 15
     },
 
 
@@ -166,7 +168,20 @@ class LoginScreen extends React.Component {
                     >
                         <Text
                             style={styles.prompt}
-                        >Don't have an account? Sign up</Text>
+                        >Forgot password?</Text>
+                        <TouchableOpacity
+                            style={styles.hereButton}
+                            activeOpacity={0.7}
+                            tex
+                            onPress={() => this.props.navigation.navigate('ForgotPassword')}
+                        >
+                            <Text
+                                style={styles.here}
+                            >Reset</Text>
+                        </TouchableOpacity>
+                        <Text
+                            style={styles.prompt}
+                        >Don't have an account?</Text>
                         <TouchableOpacity
                             style={styles.hereButton}
                             activeOpacity={0.7}
@@ -175,7 +190,7 @@ class LoginScreen extends React.Component {
                         >
                             <Text
                                 style={styles.here}
-                            > here</Text>
+                            >Sign Up</Text>
                         </TouchableOpacity>
                     </View>
                     <View

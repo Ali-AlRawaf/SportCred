@@ -232,7 +232,7 @@ router.post('/forgot-password', async (req, res) => {
     if (err) return res.status(500).send('Technical Issue!, Please click on resend to verify your Email.');
   });
 
-  return res.status(201).send({user: user.id});
+  return res.status(200).send('Password Reset email has been sent to ' + req.body.email);
 })
 
 router.get('/reset-password/:id/:token', async (req, res) => {

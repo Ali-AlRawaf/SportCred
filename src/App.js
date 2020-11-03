@@ -19,6 +19,7 @@ import PostComment from './screens/PostComment';
 
 import { Provider } from "react-redux";
 import store from "./config/store"
+import ForgotPassword from './screens/ForgotPassword';
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,7 @@ function App() {
         <Stack.Navigator>
           <Stack.Screen name="Start" component={StartingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="ForgotPassword" component = {ForgotPassword} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={RegisterScreenOne} options={{ headerShown: false }} />
           <Stack.Screen name="Activate" component = {ActivateAccount} options={{ headerShown: false }} />
           <Stack.Screen name="RegisterTwo" component={RegisterScreenTwo} options={{ headerShown: false }} />
