@@ -76,6 +76,8 @@ router.post('/resend-activation', async (req, res) => {
   if (!user) return res.status(400).send('User not found');
 
   if (user.activated) return res.status(200).send('Your account has already been activated, please continue.');
+
+  await Token.findOneAndDelete({_userId: user.id});
   
   const origToken = crypto.randomBytes(16).toString('hex')
   const hashedToken = await bcrypt.hash(origToken, 10)
@@ -115,13 +117,13 @@ router.post('/resend-activation', async (req, res) => {
 });
 
 router.get('/confirm/:id/:token', async (req, res) => {
-  const latestToken = await Token.find({_userId: req.params.id}).sort({_id: -1}).limit(1);
-  if(latestToken.length == 0) return res.status(400).send('This verification link is invalid. Please click on resend to verify your Email.');
+  const token = await Token.findOne({_userId: req.params.id});
+  if(!token) return res.status(400).send('This verification link is invalid. Please click on resend to verify your Email.');
 
-  const tokenIsValid = await bcrypt.compare(req.params.token, latestToken[0].token);
+  const tokenIsValid = await bcrypt.compare(req.params.token, token.token);
   if (!tokenIsValid) return res.status(400).send('Invalid token.');
 
-  const user = await User.findOneAndUpdate({_id: latestToken[0]._userId}, {activated: true})
+  const user = await User.findOneAndUpdate({_id: token._userId}, {activated: true})
   if (!user) return res.status(400).send('An error occurred, user not found.');
 
   if(user.activated) return res.status(200).send('Account is already activated. Please login!');
@@ -143,6 +145,8 @@ router.post('/login', async (req, res) => {
   if (!valid_password) return res.status(400).send('username or password is incorrect');
 
   if(!user.activated){ //return res.status(400).send('Your Email has not been verified. Please verify.');
+    await Token.findOneAndDelete({_userId: user.id});
+
     const origToken = crypto.randomBytes(16).toString('hex')
     const hashedToken = await bcrypt.hash(origToken, 10)  
     var token = new Token({
