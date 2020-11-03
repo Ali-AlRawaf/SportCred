@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from "react-redux";
+import { getUser } from '../controller/user'
 import StephenASmith from '../assets/StephenASmith.png';
 import { View, Dimensions, KeyboardAvoidingView, Button, StyleSheet, TouchableOpacity, Text, Image, ImageBackground } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
@@ -7,86 +9,103 @@ import Comment from '../component/Comment'
 
 class PostComment extends React.Component {
 
-
     constructor(props) {
         super(props)
         this.state = {
-            comment: false
+            submit: false,
+            comment: "",
+            userName: 'NAME',
+            profilePic: StephenASmith
         }
     }
+
+    componentDidMount() {
+        getUser(this.props.currentUser)
+            .then((result) => {
+                this.setState({ userName: result.user.username })
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
     updateField = (key, val) => {
         this.setState({
             [key]: val
         });
     };
 
+
+
     renderBottomComponent() {
-        if (this.state.comment) {
+        if (this.state.submit) {
             return (
-                <Comment />
+                <Comment userName={this.state.userName} comment={this.state.comment} profilePic={this.state.profilePic} />
             )
         }
     }
+
+
     buttonPress = () => {
-        this.setState({ comment: true })
+        this.setState({ submit: true })
     }
 
     render() {
         return (
-            <KeyboardAvoidingView
-                behavior={Platform.OS == "ios" ? "padding" : "height"}
-                style={styles.container}
-            >
-                <View style={styles.container}>
-                    <View style={styles.card}>
-                        <View style={styles.userInfo}>
-                            <Image style={styles.imgBox} source={this.props.route.params.profilePic} />
-                            <Text style={styles.headerText}>
-                                {this.props.route.params.name}
-                            </Text>
-                        </View>
-                        <Text style={styles.bodyText}
-                        >
-                            {this.props.route.params.post}
+            // <KeyboardAvoidingView
+            //     behavior={Platform.OS == "ios" ? "padding" : "height"}
+            //     style={styles.container}
+            // >
+            <View style={styles.container}>
+                <View style={styles.card}>
+                    <View style={styles.userInfo}>
+                        <Image style={styles.imgBox} source={this.props.route.params.profilePic} />
+                        <Text style={styles.headerText}>
+                            {this.props.route.params.name}
                         </Text>
-                        <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button}
-                            // UPVOTE ON TOUCH LOGIC HERE
-                            >
-                                <Text style={styles.buttonText}>
-                                    ↑
-                        </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.button}
-                            // DOWNVOTE ON TOUCH LOGIC HERE
-                            >
-                                <Text style={styles.buttonText}>
-                                    ↓
-                        </Text>
-                            </TouchableOpacity>
-                        </View>
                     </View>
-                    {this.renderBottomComponent()}
-                    <View style={styles.inputContainer}>
-                        <TextInput
-                            style={styles.input}
-                            multiline={true}
-                            placeholder='Comment...'
-                            onChangeText={text => this.updateField('comment', text)}
-                        >
-                        </TextInput>
-                        <TouchableOpacity
-                            style={styles.postButton}
-                            onPress={() => this.buttonPress()}
+                    <Text style={styles.bodyText}
+                    >
+                        {this.props.route.params.post}
+                    </Text>
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.button}
+                        // UPVOTE ON TOUCH LOGIC HERE
                         >
                             <Text style={styles.buttonText}>
-                                C
-                            </Text>
+                                ↑
+                        </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button}
+                        // DOWNVOTE ON TOUCH LOGIC HERE
+                        >
+                            <Text style={styles.buttonText}>
+                                ↓
+                        </Text>
                         </TouchableOpacity>
                     </View>
-
                 </View>
-            </KeyboardAvoidingView>
+                {this.renderBottomComponent()}
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        style={styles.input}
+                        multiline={true}
+                        placeholder='Comment...'
+                        onChangeText={text => this.updateField('comment', text)}
+                    >
+                    </TextInput>
+                    <TouchableOpacity
+                        style={styles.postButton}
+                        onPress={() => this.buttonPress()}
+                    >
+                        <Text style={styles.buttonText}>
+                            C
+                            </Text>
+                    </TouchableOpacity>
+                </View>
+
+            </View>
+            // </KeyboardAvoidingView>
         )
     }
 }
@@ -190,4 +209,9 @@ const styles = StyleSheet.create({
 
 });
 
-export default PostComment;
+const mapStateToProps = (state) => {
+    return {
+        currentUser: state.auth.currentUser,
+    };
+};
+export default connect(mapStateToProps, {})(PostComment);

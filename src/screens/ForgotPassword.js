@@ -3,48 +3,24 @@ import { connect } from "react-redux";
 import { View, Image, StyleSheet, TextInput, TouchableOpacity, Text, ImageBackground, Alert } from 'react-native';
 import bg from '../assets/landing.png'
 import logo from '../assets/text_logo.png';
-import { resendActivation, getUser } from '../controller/user'
+import { resetPassword } from '../controller/user'
 import arrow from '../assets/arrow_forward.png'
 
-class ActivateAccount extends React.Component {
+class ForgotPassword extends React.Component {
     constructor (props) {
         super(props);
 
         this.state = { 
-            //activated: false,
-            email: 'EMAIL'
-
+            email: ''
         }
 
-        this.resend = this.resend.bind(this);
-        this.check = this.check.bind(this);
+        this.send = this.send.bind(this);
     }
 
-    componentDidMount(){
-      getUser(this.props.currentUser)
-      .then((result) => {
-        this.setState({email: result.user.email})
-      })
-      .catch((err) =>{
-        console.log(err)
-      })
-    }
-
-    resend = async () => {
-        const result = await resendActivation(this.props.currentUser);
-
+    send = async () => {
+        const result = await resetPassword(this.state);
         if(result.status === 200) alert(result.text);
         else alert(result.status + ': ' + result.text);
-    }
-
-    check = async () => {
-        const result = await getUser(this.props.currentUser);
-        if(result.status === 200){
-            if(result.user.activated) this.props.navigation.navigate('RegisterTwo');
-            else alert('your email has not been activated yet. please check your inbox or resend');
-        } else {
-            alert(result.status + ': ' + result.error)
-        }
     }
 
     render(){
@@ -68,38 +44,22 @@ class ActivateAccount extends React.Component {
                           source={arrow}
                       />
                     </TouchableOpacity>
-                    <View style={styles.text}>
-                      <Text style={styles.text}>
-                        A verification email has been sent to {this.state.email}
-                      </Text>
-                    </View>
-                    <View
-                        style={styles.container}
-                        flexDirection="row"
-                    >
-                        <Text
-                            style={styles.prompt}
-                        >Didn't recieve an email? Check your spam or</Text>
-                        <TouchableOpacity
-                            style={styles.hereButton}
-                            activeOpacity={0.7}
-                            onPress={() => this.resend()}
-                        >
-                            <Text
-                                style={styles.here}
-                            > Resend</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Email'
+                        autoCapitalize="none"
+                        placeholderTextColor='grey'
+                        onChangeText={text => this.setState({email: text})}
+                    />
                     <TouchableOpacity
                         style={styles.button}
                         activeOpacity={0.7}
-                        onPress={() => this.check()}
+                        onPress={() => this.send()}
                     >
                         <Text
                             style={styles.buttonText}
-                        >Continue</Text>
+                        >Reset Password</Text>
                     </TouchableOpacity>
-
                 </View>
                 <View
                   style={styles.logoContainer}
@@ -141,7 +101,11 @@ const styles = StyleSheet.create({
       borderWidth: 0.3,
       width: "40%",
       alignSelf: "center",
-      marginBottom: 30
+    },
+
+    backButton: {
+      marginVertical: 30,
+      marginLeft: 20,
     },
 
     buttonText: {
@@ -170,6 +134,17 @@ const styles = StyleSheet.create({
       textAlign: "center"
     },
 
+    input: {
+      width: "90%",
+      alignSelf: "center",
+      paddingVertical: 20,
+      paddingStart: 10,
+      borderBottomColor: '#747474',
+      borderBottomWidth: 0.4,
+      color: '#fff',
+      marginBottom: 50
+    },
+
     prompt: {
       alignSelf: "center",
       color: "white"
@@ -192,8 +167,6 @@ const styles = StyleSheet.create({
       tintColor: "white",
       height: 40,
       width: 40,
-      marginTop: 25,
-      marginLeft: 15,
       transform: [{
         rotate: '-180deg'
       }],
@@ -206,4 +179,4 @@ const mapStateToProps = (state) => {
     };
   };
   
-export default connect(mapStateToProps, {  })(ActivateAccount);
+export default connect(mapStateToProps, {  })(ForgotPassword);

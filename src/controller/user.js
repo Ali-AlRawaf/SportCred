@@ -96,6 +96,30 @@ export const login = (user) => {
   }
 }
 
+export const resetPassword = async (email) => {
+
+  const url = "http://localhost:5000/user/forgot-password"
+
+  const request = {
+    method: "post",
+    body: JSON.stringify(email),
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json",
+    }
+  }
+
+  const result = {}
+
+  const response = await fetch(url, request);
+
+  result.status = response.status;
+  const text = await response.text();
+  result.text = text;
+
+  return result;
+}
+
 export const getUser = async (userId) => {
   const url = "http://localhost:5000/user/get-user/" + userId
 

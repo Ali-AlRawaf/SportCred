@@ -99,7 +99,7 @@ class RegisterScreenOne extends React.Component {
                     >
                         <Text
                             style={styles.prompt}
-                        >Already have an account? Login</Text>
+                        >Already have an account?</Text>
                         <TouchableOpacity
                             style={styles.hereButton}
                             activeOpacity={0.7}
@@ -107,7 +107,7 @@ class RegisterScreenOne extends React.Component {
                         >
                             <Text
                                 style={styles.here}
-                            > here</Text>
+                            >Login</Text>
                         </TouchableOpacity>
                     </View>
                     <View
@@ -201,7 +201,8 @@ const styles = StyleSheet.create({
 
     prompt: {
         alignSelf: "center",
-        color: "white"
+        color: "white",
+        fontSize: 15
     },
 
     arrow: {
