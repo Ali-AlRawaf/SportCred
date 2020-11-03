@@ -1,9 +1,18 @@
 import React from 'react'
-import { View, Dimensions, FlatList } from 'react-native'
+import { View, Dimensions, FlatList, StyleSheet, Text } from 'react-native'
 import UserItem from './UserItem'
 const { width, height } = Dimensions.get('window')
 
 const UserList = ({ data }) => {
+
+
+    const ItemSeparator = () =>{
+        return(
+            <View
+                style={styles.Separator}
+            />
+        )
+    }
 
     return (
         <View>
@@ -14,7 +23,9 @@ const UserList = ({ data }) => {
                 scrollEnabled
                 scrollEventThrottle={15}
                 decelerationRate={"fast"}
+                ItemSeparatorComponent={ItemSeparator}
                 showsHorizontalScrollIndicator={false}
+                ListEmptyComponent={() => {return (<View/>)}}
                 renderItem={({ item }) => {
                     return <UserItem user={item} />
                 }}
@@ -22,5 +33,15 @@ const UserList = ({ data }) => {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    Separator: {         
+        height: 1,
+        width: "80%",
+        backgroundColor: "#CED0CE",
+        marginLeft: "14%"
+    }
+})
+
 
 export default UserList;
