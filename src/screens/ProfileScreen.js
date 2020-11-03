@@ -6,6 +6,8 @@ import profileImage from '../assets/profile_img.jpg';
 import ProfileStats from '../component/ProfileStats'
 import radar from '../assets/radar.png'
 import arrow from '../assets/arrow_forward.png'
+import { FontAwesome5 } from '@expo/vector-icons';
+import {getUser} from '../controller/user';
 
 const data = 
     [{
@@ -25,21 +27,24 @@ class ProfileScreen extends React.Component {
         super(props);
 
         this.state = {
-            username: '',
-            email: '',
-            age: '',
-            password: '',
+            username: 'NAME',
+            email: 'EMAIL',
         }
-
-        this.componentDidMount = this.componentDidMount.bind(this)
-        this.onChangeText = this.onChangeText.bind(this)
     }
     
     componentDidMount = () => {
-        console.log(this.props)
+        getUser(this.props.currentUser)
+        .then((result) => {
+        this.setState({
+        username: result.user.username,
+        email: result.user.email,
+})
+      })
+      .catch((err) =>{
+        console.log(err)
+      })
     }
-
-    onChangeText = (key, val) => {
+    UpdateField = (key, val) => {
         this.setState({ [key]: val })
     }
     
@@ -78,7 +83,7 @@ class ProfileScreen extends React.Component {
                       source={profileImage}
                     />
                     <Text style={styles.headerName}>
-                        Ryan Brown 
+                        {this.state.username} 
                     </Text>
                     <Text style={styles.headerStatus}>
                         Status: DE-FENCE!!
@@ -87,30 +92,6 @@ class ProfileScreen extends React.Component {
 
                 <View styles={styles.stats}>
                     <ProfileStats data={data}/>
-                </View>
-
-                <View style={styles.editForm}>
-                    <TextInput
-                        style={styles.formInput}
-                        placeholder='Ryan'
-                        autoCapitalize="none"
-                        placeholderTextColor='grey'
-                        onChangeText={val => this.onChangeText('username', val)}
-                    />
-                    <TextInput
-                        style={styles.formInput}
-                        placeholder='ryan.brown@email.com'
-                        autoCapitalize="none"
-                        placeholderTextColor='grey'
-                        onChangeText={val => this.onChangeText('username', val)}
-                    />
-                    <TextInput
-                        style={styles.formInput}
-                        placeholder='Bio'
-                        autoCapitalize="none"
-                        placeholderTextColor='grey'
-                        onChangeText={val => this.onChangeText('username', val)}
-                    />
                 </View>
             </ScrollView>
             </ImageBackground>
