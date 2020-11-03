@@ -283,5 +283,34 @@ router.get('/get-user/:id', async (req, res) => {
   return res.status(200).send(user);
 })
 
+const verify = require('./verifyToken')
+router.post('/editprof', verify, async (req, res) => {
+
+  const { error } = EditProfileValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+  let UpdateData = _.pick(req.body, ['username', 'email', 'status', 'bio', 'password'])
+
+  // Find the user in the database
+  try {
+
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt(10);
+      const hashed_password = await bcrypt.hash(req.body.password, salt);
+      UpdateData.password = hashed_password
+    }
+
+    const user = await User.findOne({ _id: user._id });
+    if (!user) return res.status(400).send('username or password is incorrect');
+    await User.findOneAndUpdate({ _id: user._id }, UpdateData)
+    res.send({ action: true });
+
+  } catch (error) {
+    console.log(error);
+    res.send({ action: false, response: "u have some err in edit profile section check log for more information" });
+  }
+
+});
+
+
 
 module.exports = router;

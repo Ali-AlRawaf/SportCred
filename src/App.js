@@ -12,6 +12,8 @@ import ActivateAccount from './screens/ActivateAccount';
 import RegisterScreenTwo from './screens/RegisterScreenTwo';
 import TutorialScreen from './screens/TutorialScreen';
 import Search from './screens/Search';
+import EditProfile from "./screens/EditProfileScreen";
+
 
 import RadarList from './screens/RadarListScreen';
 import TabNavigator from './navigation/TabNavigator';
@@ -42,6 +44,7 @@ function App() {
           <Stack.Screen name="Container" component={TabNavigator} options={{ headerShown: true }} />
           <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
           <Stack.Screen name="Comment" component={PostComment} options={{ headerShown: true, headerTitle: "Comments" }} />
+          <Stack.Screen name="Edit" component={EditProfile} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
