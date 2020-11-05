@@ -7,7 +7,7 @@ const nodemailer = require("nodemailer");
 const User = require('../models/user');
 const activationToken = require('../models/activationToken');
 const resetToken = require('../models/resetToken');
-const {registrationValidation, loginValidation} = require('../validations/user_validations');
+const {registrationValidation, loginValidation, EditProfileValidation} = require('../validations/user_validations');
 
 router.post('/register', async (req, res) => {
 
@@ -47,20 +47,20 @@ router.post('/register', async (req, res) => {
     res.status(400).send(err);
   }
 
-  var transporter = nodemailer.createTransport({ 
-    service: 'Gmail', 
-    auth: { 
-      user: process.env.SPORTCRED_EMAIL, 
-      pass: process.env.SPORTCRED_PASS 
-    } 
+  var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: process.env.SPORTCRED_EMAIL,
+      pass: process.env.SPORTCRED_PASS
+    }
   });
 
-  var mailOptions = { 
-    from: 'no-reply@sportcred.com', 
-    to: user.email, 
-    subject: 'Account Verification Link', 
-    text: 'Hello '+ user.username +',\n\n' + 'This link will expire 24 hours from now, please verify your account by clicking the link: ' + 
-          '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user._id + '\/' + origToken + '\n\nThank You!\n' 
+  var mailOptions = {
+    from: 'no-reply@sportcred.com',
+    to: user.email,
+    subject: 'Account Verification Link',
+    text: 'Hello '+ user.username +',\n\n' + 'This link will expire 24 hours from now, please verify your account by clicking the link: ' +
+          '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user._id + '\/' + origToken + '\n\nThank You!\n'
   };
 
   transporter.sendMail(mailOptions, function (err) {
@@ -77,11 +77,11 @@ router.post('/resend-activation', async (req, res) => {
   if (user.activated) return res.status(200).send('Your account has already been activated, please continue.');
 
   await activationToken.findOneAndDelete({_userId: user.id});
-  
+
   const origToken = crypto.randomBytes(16).toString('hex')
   const hashedToken = await bcrypt.hash(origToken, 10)
   var token = new activationToken({
-    _userId: user._id, 
+    _userId: user._id,
     token: hashedToken
   });
 
@@ -91,20 +91,20 @@ router.post('/resend-activation', async (req, res) => {
     return res.status(400).send(err);
   }
 
-  var transporter = nodemailer.createTransport({ 
-    service: 'Gmail', 
-    auth: { 
-      user: process.env.SPORTCRED_EMAIL, 
+  var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: process.env.SPORTCRED_EMAIL,
       pass: process.env.SPORTCRED_PASS
-    } 
+    }
   });
 
-  var mailOptions = { 
-    from: 'no-reply@sportcred.com', 
-    to: user.email, 
-    subject: 'Account Verification Link', 
-    text: 'Hello '+ user.username +',\n\n' + 'This link will expire 24 hours from now, please verify your account by clicking the link: ' + 
-          '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user._id + '\/' + origToken + '\n\nThank You!\n' 
+  var mailOptions = {
+    from: 'no-reply@sportcred.com',
+    to: user.email,
+    subject: 'Account Verification Link',
+    text: 'Hello '+ user.username +',\n\n' + 'This link will expire 24 hours from now, please verify your account by clicking the link: ' +
+          '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user._id + '\/' + origToken + '\n\nThank You!\n'
   };
 
   transporter.sendMail(mailOptions, function (err) {
@@ -146,9 +146,9 @@ router.post('/login', async (req, res) => {
     await activationToken.findOneAndDelete({_userId: user.id});
 
     const origToken = crypto.randomBytes(16).toString('hex')
-    const hashedToken = await bcrypt.hash(origToken, 10)  
+    const hashedToken = await bcrypt.hash(origToken, 10)
     var token = new activationToken({
-      _userId: user._id, 
+      _userId: user._id,
       token: hashedToken
     });
 
@@ -158,19 +158,19 @@ router.post('/login', async (req, res) => {
       return res.status(400).send(err);
     }
 
-    var transporter = nodemailer.createTransport({ 
-      service: 'Gmail', 
-      auth: { 
-        user: process.env.SPORTCRED_EMAIL, 
+    var transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: process.env.SPORTCRED_EMAIL,
         pass: process.env.SPORTCRED_PASS
-      } 
+      }
     });
 
-    var mailOptions = { 
-      from: 'no-reply@sportcred.com', 
-      to: user.email, 
-      subject: 'Account Verification Link', 
-      text: 'Hello '+ user.username +',\n\n' + 'This link will expire 24 hours from now, please verify your account by clicking the link: ' + 
+    var mailOptions = {
+      from: 'no-reply@sportcred.com',
+      to: user.email,
+      subject: 'Account Verification Link',
+      text: 'Hello '+ user.username +',\n\n' + 'This link will expire 24 hours from now, please verify your account by clicking the link: ' +
             '\nhttp:\/\/localhost:5000\/user\/confirm\/' + user._id + '\/' + origToken + '\n\nThank You!\n'
     };
 
@@ -198,9 +198,9 @@ router.post('/forgot-password', async (req, res) => {
   await resetToken.findOneAndDelete({_userId: user.id});
 
   const origToken = crypto.randomBytes(16).toString('hex')
-  const hashedToken = await bcrypt.hash(origToken, 10) 
+  const hashedToken = await bcrypt.hash(origToken, 10)
   var token = new resetToken({
-    _userId: user._id, 
+    _userId: user._id,
     token: hashedToken
   });
 
@@ -210,22 +210,22 @@ router.post('/forgot-password', async (req, res) => {
     return res.status(400).send(err);
   }
 
-  var transporter = nodemailer.createTransport({ 
-    service: 'Gmail', 
-    auth: { 
-      user: process.env.SPORTCRED_EMAIL, 
+  var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: process.env.SPORTCRED_EMAIL,
       pass: process.env.SPORTCRED_PASS
-    } 
+    }
   });
 
-  var mailOptions = { 
-    from: 'no-reply@sportcred.com', 
-    to: user.email, 
-    subject: 'Reset Password', 
-    text: 'Hello '+ user.username +',\n\n' + 'Someone (hopefully you) requested to reset your SportCred password. ' + 
-          'If you did not request this, please ignore this email, no action is required.\n\nPlease verify your account to allow ' + 
-          'password reset by clicking the link: ' + 
-          '\nhttp:\/\/localhost:5000\/user\/reset-password\/' + user._id + '\/' + origToken + '\n\nThank You!\n' 
+  var mailOptions = {
+    from: 'no-reply@sportcred.com',
+    to: user.email,
+    subject: 'Reset Password',
+    text: 'Hello '+ user.username +',\n\n' + 'Someone (hopefully you) requested to reset your SportCred password. ' +
+          'If you did not request this, please ignore this email, no action is required.\n\nPlease verify your account to allow ' +
+          'password reset by clicking the link: ' +
+          '\nhttp:\/\/localhost:5000\/user\/reset-password\/' + user._id + '\/' + origToken + '\n\nThank You!\n'
   };
 
   transporter.sendMail(mailOptions, function (err) {
@@ -283,12 +283,7 @@ router.get('/get-user/:id', async (req, res) => {
   return res.status(200).send(user);
 })
 
-const verify = require('./verifyToken')
 router.post('/edit-prof', async (req, res) => {
-
-  const { error } = EditProfileValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-  let UpdateData = _.pick(req.body, ['username', 'email', 'status', 'bio', 'password'])
 
   // Find the user in the database
   try {
@@ -296,17 +291,18 @@ router.post('/edit-prof', async (req, res) => {
     if (req.body.password) {
       const salt = await bcrypt.genSalt(10);
       const hashed_password = await bcrypt.hash(req.body.password, salt);
-      UpdateData.password = hashed_password
+      await User.update({_id : req.body.id}, {$set: { "password" : hashed_password}});
     }
 
-    const user = await User.findOne({ _id: user._id });
+    const user = await User.findOne({ _id: req.body.id });
     if (!user) return res.status(400).send('username or password is incorrect');
-    await User.findOneAndUpdate({ _id: user._id }, UpdateData)
+    await User.update({_id : req.body.id}, {$set: { "username" : req.body.username, "bio": req.body.bio}});
+
     res.send({ action: true });
 
   } catch (error) {
     console.log(error);
-    res.send({ action: false, response: "u have some err in edit profile section check log for more information" });
+    res.send({ action: false, response: "you have some error in edit profile section check log for more information" });
   }
 
 });

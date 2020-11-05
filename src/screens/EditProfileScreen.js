@@ -10,15 +10,15 @@ class EditProfile extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            username: '',
-            email: '',
-            description: '',
-            password: '',
-            status: '',
-            bio: '',
+            id:this.props.currentUser,
+            username: 'name',
+            email:'email',
+            description: 'description',
+            password: 'password',
+            status: 'status',
      }
      this.updateField = this.updateField.bind(this);
-     this.editProfile = this.editProfile.bind(this);
+     this.validateEditProfile = this.validateEditProfile.bind(this);
     }
 
     updateField = (key, val) => {
@@ -32,6 +32,9 @@ class EditProfile extends React.Component {
         this.setState({
         username: result.user.username,
         email: result.user.email,
+        description:result.user.description,
+        password: result.user.password,
+        status: result.user.status,
         })
       })
       .catch((err) =>{
@@ -39,17 +42,18 @@ class EditProfile extends React.Component {
       })
     }
 
-     
-    editProfile = async () => {
-        const result = await editData(this.props.currentUser)
+
+    validateEditProfile = async () => {
+        const result = await editData(this.state);
         if(result.status === 200)
             this.props.navigation.navigate('Profile')
         else
-            alert(result.status + ": " + result.error)
-    }
+          alert(result.status + ": " + result.error)
+
+            }
 
 
-    
+
 render() {
     return (
         <View style={styles.screen}>
@@ -61,33 +65,54 @@ render() {
             <View style={styles.editLogoContainer}>
                 <FontAwesome5 name="user-edit" size={32} color="white" />
             </View>
-            <EditInput 
-            title="Name" 
-            value={this.state.username} 
-            onChangeText={text => this.setState({username: text})} 
+            <EditInput
+            title="Name"
+            value = {this.state.username}
+            onChangeText={text => this.setState({
+                username: text,
+                email: this.state.email,
+                description:this.state.description,
+                status:this.state.status,
+                password: this.state.password,
+            })}
             />
-            <EditInput 
-            title="Email" 
-             value={this.props.currentUser.email} 
-            onChangeText={text => this.setState({email: text})} 
+            <EditInput
+            title="Description"
+            value = {this.state.description}
+            onChangeText={text => this.setState({
+                username: this.state.username,
+                email: this.state.email,
+                description: text,
+                status:this.state.status,
+                password: this.state.password,
+            })}
             />
-            <EditInput 
-            title="Description" 
-            value={this.props.currentUser.description} 
-            onChangeText={text => this.setState({description: text})}
+            <EditInput title="Status"
+            value = {this.state.status}
+            onChangeText={text => this.setState({
+                username: this.state.username,
+                email: this.state.email,
+                description:this.state.description,
+                status: text,
+                password:this.state.password,
+            })}
             />
-            <EditInput title="Status" 
-            onChangeText={text => this.setState({status: text})} 
-            />
-            <EditInput 
-            title="Password" 
-            isPassword onChangeText={text => this.setState({password: text})} 
+            <EditInput
+            title="Password"
+            value = {this.state.password}
+            isPassword onChangeText={text => this.setState({
+                username: this.state.username,
+                email: this.state.email,
+                description:this.state.description,
+                status: this.state.status,
+                password:text,
+            })}
             />
             <View style={styles.buttonContainer}>
-                <Button 
+                <Button
                     title="Update Profile"
-                    color="green" 
-                    onPress={() => this.editProfile()}
+                    color="green"
+                    onPress={() => this.validateEditProfile()}
                 />
             </View>
         </View>

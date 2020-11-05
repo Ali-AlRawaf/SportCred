@@ -89,7 +89,7 @@ export const login = (user) => {
     }else{
       const msg = await response.text();
       result.error = msg;
-    }  
+    }
 
     return result;
 
@@ -147,6 +147,7 @@ export const getUser = async (userId) => {
   return result;
 }
 export const editData = async (userData) => {
+
         const response = await fetch(
             "http://localhost:5000/user/edit-prof",
             {
@@ -157,6 +158,7 @@ export const editData = async (userData) => {
                     "auth-token": "jsonwebtoken",
                 },
                 body: JSON.stringify({
+                    id: userData.id,
                     username: userData.username,
                     email: userData.email,
                     status: userData.status,
@@ -166,13 +168,17 @@ export const editData = async (userData) => {
                 }),
             }
         );
+
+
         const result = {}
         if (response.status === 200){
-          const msg = await response.json()
+          const msg = await response.json();
+          console.log(msg);
           result.user = msg.user;
-          dispatch({ type: PAYLOAD_TYPES.REGISTER_USER, payload: msg.user });
+          result.status = 200;
         }else{
           const msg = await response.text();
+          console.log(msg);
           result.error = msg;
         }
         return result;

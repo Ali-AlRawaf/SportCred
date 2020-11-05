@@ -8,7 +8,9 @@ const editInput = props => {
                 <Text style={styles.title}>{props.title}</Text>
             </View>
             <View style={styles.inputContainer}>
-                <TextInput secureTextEntry={props.isPassword} value={props.value} style={{ color: "white" }} onChangeText={(text) => props.onChangeText(text)} />
+                <TextInput secureTextEntry={props.isPassword} 
+                value={props.value} style={{ color: "white" }} 
+                onChangeText={(text) => props.onChangeText(text)} />
             </View>
         </View>
     )

@@ -29,6 +29,8 @@ class ProfileScreen extends React.Component {
         this.state = {
             username: 'NAME',
             email: 'EMAIL',
+            Status: 'DEFENCE',
+            bio: "BIO"
         }
     }
     
@@ -38,6 +40,8 @@ class ProfileScreen extends React.Component {
         this.setState({
         username: result.user.username,
         email: result.user.email,
+        status: result.user.status,
+        bio:result.user.bio,
 })
       })
       .catch((err) =>{
@@ -87,10 +91,9 @@ class ProfileScreen extends React.Component {
                     />
                     <Text style={styles.headerName}>
                         {this.state.username} 
-                        {this.state.email} 
                     </Text>
                     <Text style={styles.headerStatus}>
-                        Status: DE-FENCE!!
+                        {this.state.status}
                     </Text>
                 </View>
 
