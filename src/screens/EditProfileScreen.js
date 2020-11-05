@@ -13,9 +13,10 @@ class EditProfile extends React.Component {
             id:this.props.currentUser,
             username: 'name',
             email:'email',
-            description: 'description',
-            password: 'password',
-            status: 'status',
+            bio:'bio',
+            description: "description",
+            password: '',
+            status: "status",
      }
      this.updateField = this.updateField.bind(this);
      this.validateEditProfile = this.validateEditProfile.bind(this);
@@ -32,8 +33,8 @@ class EditProfile extends React.Component {
         this.setState({
         username: result.user.username,
         email: result.user.email,
+        bio: result.user.bio,
         description:result.user.description,
-        password: result.user.password,
         status: result.user.status,
         })
       })
@@ -42,9 +43,16 @@ class EditProfile extends React.Component {
       })
     }
 
-
     validateEditProfile = async () => {
+        if(this.state.status === null)
+            this.setState({status:"status"})
+            console.log(this.state.status);
+        if(this.state.description === null)
+            this.setState({description:"description"})
+        console.log(this.state);
         const result = await editData(this.state);
+        console.log(result);
+        console.log(this.state);
         if(result.status === 200)
             this.props.navigation.navigate('Profile')
         else
@@ -71,6 +79,7 @@ render() {
             onChangeText={text => this.setState({
                 username: text,
                 email: this.state.email,
+                bio: this.state.bio,
                 description:this.state.description,
                 status:this.state.status,
                 password: this.state.password,
@@ -82,6 +91,7 @@ render() {
             onChangeText={text => this.setState({
                 username: this.state.username,
                 email: this.state.email,
+                bio: this.state.bio,
                 description: text,
                 status:this.state.status,
                 password: this.state.password,
@@ -92,6 +102,7 @@ render() {
             onChangeText={text => this.setState({
                 username: this.state.username,
                 email: this.state.email,
+                bio: this.state.bio,
                 description:this.state.description,
                 status: text,
                 password:this.state.password,
@@ -99,10 +110,10 @@ render() {
             />
             <EditInput
             title="Password"
-            value = {this.state.password}
             isPassword onChangeText={text => this.setState({
                 username: this.state.username,
                 email: this.state.email,
+                bio: this.state.bio,
                 description:this.state.description,
                 status: this.state.status,
                 password:text,

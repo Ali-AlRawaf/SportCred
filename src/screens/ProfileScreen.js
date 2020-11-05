@@ -9,17 +9,6 @@ import arrow from '../assets/arrow_forward.png'
 import { FontAwesome5 } from '@expo/vector-icons';
 import {getUser} from '../controller/user';
 
-const data = 
-    [{
-        id: 1, title: "ACS", description: "220"
-    },
-    {
-        id: 2, title: "Bio", description: "This is my user bio"
-    },
-    {
-        id: 3, title: "Trivia", description: "25 games"
-    },
-    ]
 
 class ProfileScreen extends React.Component {
 
@@ -30,7 +19,9 @@ class ProfileScreen extends React.Component {
             username: 'NAME',
             email: 'EMAIL',
             Status: 'DEFENCE',
-            bio: "BIO"
+            bio: "BIO",
+            data : []
+
         }
     }
     
@@ -42,7 +33,18 @@ class ProfileScreen extends React.Component {
         email: result.user.email,
         status: result.user.status,
         bio:result.user.bio,
-})
+        data:[{
+                id: 1, title: "ACS", description: "220"
+            },
+            {
+                id: 2, title: "Bio", description: result.user.bio
+            },
+            {
+                id: 3, title: "Trivia", description: "25 games"
+            },
+            ],
+    }
+    )
       })
       .catch((err) =>{
         console.log(err)
@@ -93,12 +95,12 @@ class ProfileScreen extends React.Component {
                         {this.state.username} 
                     </Text>
                     <Text style={styles.headerStatus}>
-                        {this.state.status}
+                        STATUS: {this.state.status}
                     </Text>
                 </View>
 
                 <View styles={styles.stats}>
-                    <ProfileStats data={data}/>
+                    <ProfileStats data={this.state.data}/>
                 </View>
             </ScrollView>
             </ImageBackground>

@@ -158,7 +158,6 @@ export const editData = async (userData) => {
                     "auth-token": "jsonwebtoken",
                 },
                 body: JSON.stringify({
-                    id: userData.id,
                     username: userData.username,
                     email: userData.email,
                     status: userData.status,
