@@ -55,6 +55,9 @@ class ProfileScreen extends React.Component {
               style={styles.background}
             >
             <View style={styles.header}>
+                <FontAwesome5 name="user-edit" size={32} color="white"
+                    onPress={() => this.props.navigation.navigate('Edit')}
+                    />
                 <TouchableOpacity
                     style={styles.backButton}
                     activeOpacity={0.7}
@@ -84,6 +87,7 @@ class ProfileScreen extends React.Component {
                     />
                     <Text style={styles.headerName}>
                         {this.state.username} 
+                        {this.state.email} 
                     </Text>
                     <Text style={styles.headerStatus}>
                         Status: DE-FENCE!!

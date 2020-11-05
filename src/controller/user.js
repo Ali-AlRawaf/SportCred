@@ -146,3 +146,34 @@ export const getUser = async (userId) => {
 
   return result;
 }
+export const editData = async (userData) => {
+        const response = await fetch(
+            "http://localhost:5000/user/edit-prof",
+            {
+                method: "POST",
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json",
+                    "auth-token": "jsonwebtoken",
+                },
+                body: JSON.stringify({
+                    username: userData.username,
+                    email: userData.email,
+                    status: userData.status,
+                    bio: userData.bio,
+                    password: userData.password,
+                    description: userData.description,
+                }),
+            }
+        );
+        const result = {}
+        if (response.status === 200){
+          const msg = await response.json()
+          result.user = msg.user;
+          dispatch({ type: PAYLOAD_TYPES.REGISTER_USER, payload: msg.user });
+        }else{
+          const msg = await response.text();
+          result.error = msg;
+        }
+        return result;
+    }

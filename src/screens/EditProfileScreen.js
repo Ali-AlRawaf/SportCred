@@ -1,125 +1,133 @@
 import React, { useState } from 'react';
+import { connect } from "react-redux";
 import { View, StyleSheet, Button } from 'react-native';
 import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import EditInput from '../component/editInput';
+import { getUser, editData } from '../controller/user';
 
-const EditProfile = (props) => {
-    const [userData, setUserData] = useState({
-        username: "test",
-        email: "test@test.com",
-        description: "test Desription",
-        password: "test Password",
-        status: "test Status",
-        bio: "test bio",
-    })
 
-    const editData = async () => {
-        const response = await fetch(
-            `http://localhost:5000/user/editprof`,
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/json, text/plain, */*",
-                    "Content-Type": "application/json",
-                    "auth-token": "jsonwebtoken",
-                },
-                body: JSON.stringify({
-                    username: userData.username,
-                    email: userData.email,
-                    status: userData.status,
-                    bio: userData.bio,
-                    password: userData.password,
-                    description: userData.description,
-                }),
-            }
-        );
-        const resData = await response.json();
-        return resData;
+class EditProfile extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            username: '',
+            email: '',
+            description: '',
+            password: '',
+            status: '',
+            bio: '',
+     }
+     this.updateField = this.updateField.bind(this);
+     this.editProfile = this.editProfile.bind(this);
     }
 
+    updateField = (key, val) => {
+        this.setState({
+            [key]: val
+        });
+    };
+    componentDidMount = () => {
+        getUser(this.props.currentUser)
+        .then((result) => {
+        this.setState({
+        username: result.user.username,
+        email: result.user.email,
+        })
+      })
+      .catch((err) =>{
+        console.log(err)
+      })
+    }
+
+     
+    editProfile = async () => {
+        const result = await editData(this.props.currentUser)
+        if(result.status === 200)
+            this.props.navigation.navigate('Profile')
+        else
+            alert(result.status + ": " + result.error)
+    }
+
+
+    
+render() {
     return (
         <View style={styles.screen}>
             <View style={styles.cancelLogoContainer}>
                 <MaterialIcons name="cancel" size={32} color="white" onPress={() => {
-                    props.navigation.goBack()
+                    this.props.navigation.goBack()
                 }} />
             </View>
             <View style={styles.editLogoContainer}>
                 <FontAwesome5 name="user-edit" size={32} color="white" />
             </View>
-            <EditInput title="Name" value={userData.username} onChangeText={text => setUserData({
-                username: text,
-                email: "test@test.com",
-                description: "test Desription",
-                password: "test Password",
-                status: "test Status",
-                bio: "test bio",
-            })} />
-            <EditInput title="Email" value={userData.email} onChangeText={text => setUserData({
-                username: "test",
-                email: text,
-                description: "test Desription",
-                password: "test Password",
-                status: "test Status",
-                bio: "test bio",
-            })} />
-            <EditInput title="Description" value={userData.description} onChangeText={text => setUserData({
-                username: "test",
-                email: "test@test.com",
-                description: text,
-                password: "test Password",
-                status: "test Status",
-                bio: "test bio",
-            })} />
-            <EditInput title="Status" value={userData.status} onChangeText={text => setUserData({
-                username: "test",
-                email: "test@test.com",
-                description: "test Desription",
-                password: "test Password",
-                status: text,
-                bio: "test bio",
-            })} />
-            <EditInput title="Password" value={userData.status} isPassword onChangeText={text => setUserData({
-                username: "test",
-                email: "test@test.com",
-                description: "test Desription",
-                password: text,
-                status: "test Status",
-                bio: "test bio",
-            })} />
+            <EditInput 
+            title="Name" 
+            value={this.state.username} 
+            onChangeText={text => this.setState({username: text})} 
+            />
+            <EditInput 
+            title="Email" 
+             value={this.props.currentUser.email} 
+            onChangeText={text => this.setState({email: text})} 
+            />
+            <EditInput 
+            title="Description" 
+            value={this.props.currentUser.description} 
+            onChangeText={text => this.setState({description: text})}
+            />
+            <EditInput title="Status" 
+            onChangeText={text => this.setState({status: text})} 
+            />
+            <EditInput 
+            title="Password" 
+            isPassword onChangeText={text => this.setState({password: text})} 
+            />
             <View style={styles.buttonContainer}>
-                <Button title="Update Profile" onPress={editData} color="green" />
+                <Button 
+                    title="Update Profile"
+                    color="green" 
+                    onPress={() => this.editProfile()}
+                />
             </View>
         </View>
     )
+    }
 }
-
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
         alignItems: "center",
         backgroundColor: "#24231f",
-        padding: 20,
     },
     cancelLogoContainer: {
         width: "100%",
-        height: "15%",
+        height: "5%",
         justifyContent: "center",
         alignItems: "flex-end",
-        padding: 20,
+        padding: 10,
     },
     editLogoContainer: {
         width: "100%",
-        height: "15%",
+        height: "10%",
         justifyContent: "center",
         alignItems: "center",
         padding: 20,
     },
     buttonContainer: {
         width: 400,
+        alignItems: "center",
         alignSelf: "center",
-        borderRadius: 10
+        backgroundColor: "#24231f",
+        borderRadius: 10,
+        padding: 20,
     }
 })
 
-export default EditProfile;
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.auth.currentUser,
+  };
+};
+
+export default connect(mapStateToProps, {editData})(EditProfile);

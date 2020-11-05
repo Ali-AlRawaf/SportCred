@@ -284,7 +284,7 @@ router.get('/get-user/:id', async (req, res) => {
 })
 
 const verify = require('./verifyToken')
-router.post('/editprof', verify, async (req, res) => {
+router.post('/edit-prof', async (req, res) => {
 
   const { error } = EditProfileValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);

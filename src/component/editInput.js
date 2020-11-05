@@ -17,8 +17,8 @@ const editInput = props => {
 const styles = StyleSheet.create({
     inputContainer: {
         width: "90%",
-        height: 30,
-        borderRadius: 20,
+        height: "30%",
+        borderRadius: 10,
         borderColor: "white",
         borderWidth: 1,
         paddingHorizontal: 10,
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     container: {
         width: "100%",
         height: "15%",
+        backgroundColor: "#24231f",
         justifyContent: "space-between",
         padding: 10
     },
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     titleContainer: {
-        width: "10%",
+        width: "100%",
         justifyContent: "center",
         marginVertical: 15,
         marginLeft: 10
