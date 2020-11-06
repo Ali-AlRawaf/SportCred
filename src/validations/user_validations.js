@@ -24,6 +24,19 @@ const loginValidation = (data) => {
   return schema.validate(data)
 }
 
+const EditProfileValidation = (data) => {
+  const schema = Joi.object({
+    username: Joi.string().min(5).max(25),
+    email: Joi.string().min(5).max(255).email(),
+    status: Joi.string().max(200),
+    bio: Joi.string().max(255),
+    description: Joi.string().max(255),
+    password: Joi.string().min(6),
+  })
+  console.log(schema.validate(data))
+  return schema.validate(data)
+}
 
 module.exports.registrationValidation = registrationValidation;
 module.exports.loginValidation = loginValidation;
+module.exports.EditProfileValidation = EditProfileValidation;

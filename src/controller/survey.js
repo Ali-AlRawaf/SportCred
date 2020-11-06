@@ -16,17 +16,14 @@ export const submitSurvey = async (body) => {
   const result = {}
 
   const response = await fetch(request);
-  if (response.status === 200){
-    console.log('survey successfully created')
-    result.status = response.status;
-  }else{
+  result.status = response.status;
+
+  if (response.status != 200){
     const msg = await response.text();
-    result.status = response.status;
     result.error = msg;
   }
 
   return result;
-
 }
 
 export const newSurveyQuestionAnswer = (question, answer) => {
@@ -34,8 +31,4 @@ export const newSurveyQuestionAnswer = (question, answer) => {
     question: question,
     answer: answer
   };
-}
-
-export const setSurveyAnswer = (question, answer) => {
-  question.answer = answer;
 }

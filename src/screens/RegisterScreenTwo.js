@@ -1,97 +1,130 @@
 import React, { useState } from 'react';
+import { connect } from "react-redux";
 import { ScrollView, View, StyleSheet, TextInput, TouchableOpacity, Text, ImageBackground, Image } from 'react-native';
 import bg from '../assets/bg.png';
 import logo from '../assets/text_logo.png'
+import { submitSurvey } from '../controller/survey';
 
-const RegisterScreenTwo = ({ navigation }) => {
-    const [userInfo, setState] = useState({
-        age: '',
-        favSport: '',
-        favTeam: '',
-        levelOfPlay: '',
-        learn: '',
-    });
+class RegisterScreenTwo extends React.Component {
 
-    const updateField = (key, val) => {
-        setState({
-            ...userInfo,
+    constructor(props){
+        super(props);
+        this.state = {
+            age: '',
+            favSport: '',
+            favTeam: '',
+            levelOfPlay: '',
+            learn: '',
+        }
+
+        this.updateField = this.updateField.bind(this);
+        this.submit = this.submit.bind(this);
+    }
+
+    updateField = (key, val) => {
+        this.setState({
             [key]: val
         });
     };
 
-    return (
-        <View style={styles.container}>
-            <ImageBackground
-                style={styles.bg}
-                source={bg}
-            >
-                <View
-                    style={styles.headerContainer}
+    componentDidMount = () => {
+        console.log(this.props)
+    }
+
+    submit = async () => {
+        const survey = {
+            questions: [
+                'Age',
+                'Favorite sport?',
+                'Favorite sports team?',
+                'Highest level of sport play?',
+                'What sport would you like to know/learn about?'
+            ],
+            answers: this.state
+        }
+        const body = {
+            user: this.props.currentUser,
+            survey: survey
+        }
+        const result = await submitSurvey(body);
+        if(result.status === 200) this.props.navigation.navigate('Tutorial');
+        else alert(result.status + ": " + result.error);
+    }
+
+    render(){
+        return (
+            <View style={styles.container}>
+                <ImageBackground
+                    style={styles.bg}
+                    source={bg}
                 >
-                    <Text
-                        style={styles.header}
-                    >Help us get to know you</Text>
-                </View>
-
-                <ScrollView styles={styles.formContainer}>
-                    <TextInput
-                        style={styles.textField}
-                        placeholder='Age'
-                        autoCapitalize="none"
-                        placeholderTextColor='grey'
-                        onChangeText={text => updateField('age', text)}
-                    />
-                    <TextInput
-                        style={styles.textField}
-                        placeholder='Favorite sport?'
-                        autoCapitalize="none"
-                        placeholderTextColor="grey"
-                        onChangeText={text => updateField('favSport', text)}
-                    />
-                    <TextInput
-                        style={styles.textField}
-                        placeholder='Favorite sports team?'
-                        autoCapitalize="none"
-                        placeholderTextColor="grey"
-                        onChangeText={text => updateField('favTeam', text)}
-                    />
-                    <TextInput
-                        style={styles.textField}
-                        placeholder='Highest level of sport play?'
-                        autoCapitalize="none"
-                        placeholderTextColor="grey"
-                        onChangeText={text => updateField('levelOfPlay', text)}
-                    />
-                    <TextInput
-                        style={styles.textField}
-                        placeholder='What sport would you like to know/learn about?'
-                        autoCapitalize="none"
-                        placeholderTextColor="grey"
-                        onChangeText={text => updateField('learn', text)}
-                    />
-
-                    <View style={styles.button}>
-                        <TouchableOpacity
-                            activeOpacity={0.7}
-                            onPress={() => navigation.navigate('Tutorial')}>
-                            <Text style={styles.prompt}>Let's get started!</Text>
-                        </TouchableOpacity>
+                    <View
+                        style={styles.headerContainer}
+                    >
+                        <Text
+                            style={styles.header}
+                        >Help us get to know you</Text>
                     </View>
 
-                    <View style={styles.logoContainer}>
-                        <Image
-                            style={styles.logo}
-                            source={logo}
+                    <ScrollView styles={styles.formContainer}>
+                        <TextInput
+                            style={styles.textField}
+                            placeholder='Age'
+                            autoCapitalize="none"
+                            placeholderTextColor='grey'
+                            onChangeText={text => this.updateField('age', text)}
                         />
-                    </View>
+                        <TextInput
+                            style={styles.textField}
+                            placeholder='Favorite sport?'
+                            autoCapitalize="none"
+                            placeholderTextColor="grey"
+                            onChangeText={text => this.updateField('favSport', text)}
+                        />
+                        <TextInput
+                            style={styles.textField}
+                            placeholder='Favorite sports team?'
+                            autoCapitalize="none"
+                            placeholderTextColor="grey"
+                            onChangeText={text => this.updateField('favTeam', text)}
+                        />
+                        <TextInput
+                            style={styles.textField}
+                            placeholder='Highest level of sport play?'
+                            autoCapitalize="none"
+                            placeholderTextColor="grey"
+                            onChangeText={text => this.updateField('levelOfPlay', text)}
+                        />
+                        <TextInput
+                            style={styles.textField}
+                            placeholder='What sport would you like to know/learn about?'
+                            autoCapitalize="none"
+                            placeholderTextColor="grey"
+                            onChangeText={text =>this. updateField('learn', text)}
+                        />
 
-                </ScrollView>
+                        <View style={styles.button}>
+                            <TouchableOpacity
+                                activeOpacity={0.7}
+                                onPress={() => this.submit()}>
+                                <Text style={styles.prompt}>Let's get started!</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={styles.logoContainer}>
+                            <Image
+                                style={styles.logo}
+                                source={logo}
+                            />
+                        </View>
+
+                    </ScrollView>
 
 
-            </ImageBackground>
-        </View >
-    )
-
+                </ImageBackground>
+            </View>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -170,4 +203,10 @@ const styles = StyleSheet.create({
     }
 });
 
-export default RegisterScreenTwo;
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.auth.currentUser,
+  };
+};
+
+export default connect(mapStateToProps)(RegisterScreenTwo);

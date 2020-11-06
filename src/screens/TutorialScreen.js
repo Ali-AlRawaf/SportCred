@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, Button, StyleSheet, TextInput, Text, Image, TouchableOpacity } from 'react-native';
 
+import logo from '../assets/text_logo.png';
+import arrow from '../assets/arrow_forward.png'
+
 export default class TutorialScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -28,44 +31,39 @@ export default class TutorialScreen extends React.Component {
   }
 
   isOnFinal() {
-    if (this.state.currentPage == this.state.tutorialTitle.length - 1) {
+    if (this.state.currentPage === this.state.tutorialTitle.length - 1) {
       return <TouchableOpacity
-        style={styles.buttonContainer}
+        style={styles.ready}
         activeOpacity={0.7}
-        onPress={() => this.props.navigation.navigate('Profile')}>
-        <Text style={styles.buttonText}>
-          I'm ready!
-          </Text>
+        onPress={() => this.props.navigation.navigate('Container')}>
+        <Image
+          style={styles.arrowFront}
+          source={arrow}
+        />
       </TouchableOpacity>
     } else {
       return <TouchableOpacity
         style={styles.buttonContainer}
         activeOpacity={0.7}
         onPress={this.nextPage}>
-        <Text style={styles.buttonText}>
-          Next
-          </Text>
+        <Image
+          style={styles.arrowFront}
+          source={arrow}
+        />
       </TouchableOpacity>
     }
   }
 
   isOnFirst() {
-    if (this.state.currentPage == 0) {
-      return <TouchableOpacity style={styles.buttonContainer}
-        activeOpacity={0.7}
-        onPress={() => this.props.navigation.navigate('RegisterTwo')}>
-        <Text style={styles.buttonText}>
-          Previous Page
-          </Text>
-      </TouchableOpacity>
-    } else {
+    if (this.state.currentPage != 0) {
       return <TouchableOpacity
         style={styles.buttonContainer}
         activeOpacity={0.7}
         onPress={this.previousPage}>
-        <Text style={styles.buttonText}>
-          Back
-            </Text>
+        <Image
+          style={styles.arrowBack}
+          source={arrow}
+        />
       </TouchableOpacity>
     }
   }
@@ -91,9 +89,7 @@ export default class TutorialScreen extends React.Component {
       <View style={styles.container}>
         <Image
           style={styles.logo}
-          source={{
-            uri: 'https://d1b10bmlvqabco.cloudfront.net/paste/kf05ebzn2ak3tv/1a5586865c61da5e3cb38c2395ad2c22519f1c635b0651923c0b01f6cfcf6217/2E832206-5FBB-48E1-A4B1-C4709757307E.png',
-          }}
+          source={logo}
         />
         <View style={styles.textField}>
           <Text style={styles.title}>
@@ -106,41 +102,28 @@ export default class TutorialScreen extends React.Component {
             {this.state.tutorialDescription[this.state.currentPage]}
           </Text>
         </View>
-        <View
-          style={styles.navButtonContainer}
-          justifyContent="flex-start"
-          flex="1">
-
+        <View style={styles.navButtonContainer}>
           {this.isOnFirst()}
-
           {this.isOnFinal()}
-
         </View>
-      </View >
+      </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
     flex: 1,
     backgroundColor: '#222629',
+    textAlign: 'center'
   },
   title: {
-    width: 350,
-    minHeight: 200,
     color: '#E5E5E5',
     backgroundColor: '#222629',
-    marginTop: 10,
     padding: 10,
     fontSize: 32,
   },
   textField: {
-    width: 350,
-    minHeight: 100,
     color: '#E5E5E5',
     backgroundColor: '#222629',
     padding: 10,
@@ -155,24 +138,28 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     marginTop: 20,
-    width: 500,
     backgroundColor: 'yellow',
   },
   logo: {
-    height: 315,
-    margin: -50,
-    width: 365,
+    height: 100,
+    marginTop: 80,
+    width: '100%',
   },
   navButtonContainer: {
-    display: "flex",
-    // flexDirection: "row"
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
+
   buttonContainer: {
-    backgroundColor: "darkorange",
-    borderRadius: 10,
+    backgroundColor: '#ff652f',
+    borderRadius: 50,
     paddingVertical: 10,
     paddingHorizontal: 12,
-    margin: 10
+    margin: 20,
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignSelf: 'center'
   },
   buttonText: {
     fontSize: 20,
@@ -180,9 +167,29 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   backButtonContainer: {
-    // backgroundColor: "lightblue",
-    borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
+  },
+  arrowBack: {
+    height: 25,
+    width: 25,
+    transform: [{
+      rotate: '-180deg'
+    }],
+  },
+  arrowFront: {
+    justifyContent: 'center',
+    alignSelf: 'center',
+    height: 25,
+    width: 25,
+  },
+  ready: {
+    backgroundColor: '#53900F',
+    width: 50,
+    height: 50,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    margin: 20,
+    borderRadius: 50,
   }
 });
