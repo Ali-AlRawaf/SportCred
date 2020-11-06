@@ -6,10 +6,11 @@ __The following is available on JIRA along with the CoS for each of the user sto
 
 - As a new user I would like to signup for an account so that I can access the app (DONE)
 - As an existing user I would like to login to the app so that I can have access to the app as well as logout from it (DONE)
-- As an existing user I would like to reset my password/email if I ever forget it or want to change it for any other reason
+- As an existing user I would like to reset my password if I ever forget it or want to change it for any other reason (DONE)
 - As a user, I would like to view my profile on the app to view relevant information about my account such as my status, description, profile picture and ACS score (DONE)
-- As a user, I would like to update my profile on the app regarding information such as my email, password, description, profile picture etc
+- As a user, I would like to update my profile on the app regarding information such as my email, password, description, profile picture etc (DONE)
 - As a user, I would like to view the profiles of other users which would contain contain their status, ACS score and description
+- As a user, I would like to follow people's accounts so I can view the posts that they have made on my home page (DONE)
 
 ### Trivia: 
 
@@ -41,6 +42,7 @@ __The following is available on JIRA along with the CoS for each of the user sto
 
 - As a user, I want to access the OPEN COURT where I can make a new post including reposting from other social media platforms<br>
 -- View posts made by other users<br>
+-- Comment on other users' posts<br>
 -- Repost to other social media platforms<br>
 -- Agree and disagree to user posts<br>
 -- As a moderator, I want to the ability to delete user posts so that I can delete inappropriate/nonsensical ones<br>
