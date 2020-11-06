@@ -41,8 +41,8 @@ __The following is available on JIRA along with the CoS for each of the user sto
 ### Open court:
 
 - As a user, I want to access the OPEN COURT where I can make a new post including reposting from other social media platforms<br>
--- View posts made by other users<br>
--- Comment on other users' posts<br>
+-- View posts made by other users (DONE)<br>
+-- Comment on other users' posts (DONE)<br>
 -- Repost to other social media platforms<br>
 -- Agree and disagree to user posts<br>
 -- As a moderator, I want to the ability to delete user posts so that I can delete inappropriate/nonsensical ones<br>
