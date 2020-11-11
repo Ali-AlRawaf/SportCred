@@ -1,29 +1,40 @@
-import React from 'react'
-import { View, StyleSheet, Text, Image, Dimensions } from 'react-native'
+import React from 'react';
+import { connect } from "react-redux";
+
+import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
 import profileImage from '../assets/profile_img.jpg';
 
-const UserItem = ({user}) =>{
-    return(
-        <View
-            style={styles.ItemView}
-        > 
-            <Image
-                style={styles.ProfilePic}
-                source={profileImage}
-            />
-            <View
-                style={styles.TextView}
-            >
-                <Text
-                    style={styles.userName}
-                >
-                    {user.username}
-                </Text>          
-            </View>
-        </View>
-    )
-}
 
+class UserItem extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        return (
+
+            <TouchableOpacity
+                style={styles.ItemView}
+                onPress={() => this.props.handlePress(this.props.user.id)}
+            >
+                <Image
+                    style={styles.ProfilePic}
+                    source={profileImage}
+                />
+                <View
+                    style={styles.TextView}
+                >
+                    <Text
+                        style={styles.userName}
+                    >
+                        {this.props.user.username}
+                    </Text>
+                </View>
+            </TouchableOpacity>
+
+        )
+    }
+}
 
 const styles = StyleSheet.create({
     userName: {
@@ -49,10 +60,18 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         paddingLeft: 10
     },
-    TextView:{
+    TextView: {
         flexDirection: "column",
         paddingLeft: 10
     }
 })
 
-export default UserItem;
+
+const mapStateToProps = (state) => {
+    return {
+        currentUser: state.auth.currentUser,
+    };
+};
+
+export default connect(mapStateToProps, {})(UserItem);
+
