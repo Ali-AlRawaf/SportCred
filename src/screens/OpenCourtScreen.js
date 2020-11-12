@@ -9,6 +9,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ScrollView } from 'react-native-gesture-handler';
 import search_img from '../assets/search_18dp.png'
 import { useNavigation } from '@react-navigation/native';
+import NewPost from '../component/NewPost';
+import { getAllPosts } from '../controller/post';
 
 const userPosts = [
     {
@@ -39,12 +41,26 @@ const userPosts = [
 ]
 
 function OpenCourtScreen() {
+
+    var actualPosts;
+
+    // const actualPosts = getAllPosts();
+    getAllPosts().then(resp => {
+        actualPosts = resp.postsArray;
+        console.log(actualPosts);
+    }).catch(e => {
+        console.log(e)
+    })
+
+
+
     const navigation = useNavigation();
 
     const listItems = userPosts.map((d, idx) => <Post key={idx} name={d.name} profilePic={d.profilePic} post={d.post}></Post>);
 
     return (
         <View style={styles.screen}>
+            <NewPost />
             <View
                 style={styles.header}
             >
