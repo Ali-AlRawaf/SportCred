@@ -2,32 +2,25 @@ import * as React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Debate from '../component/Debate'
+import Debate from './DebateScreen'
 import { useNavigation } from '@react-navigation/native';
 
-const debate = {
-	users: [
-		{
-			id: 1,
-			username: 'user1'
-		},
-		{
-			id: 2,
-			username: 'user2'
-		},
-	],
-	topic: 'Who had a better season?',
-	options: ['Ibaka', 'VanVleet']
-}
-
-function DebatesScreen() {
+function DebatesScreen(){
 
 	const navigation = useNavigation();
 	
-    return (
-        <View style={styles.debates}>
-            <Debate users={debate.users} topic={debate.topic} navigation={navigation} options={debate.options}></Debate>
-        </View>
+
+	handleSubmit = () => {
+		
+		navigation.navigate("Debate", {id: 1 })
+	}
+	
+	return (
+    <View style={styles.debates}>
+        <TouchableOpacity onPress={() => handleSubmit()}>
+        	<Text>Debate</Text>
+        </TouchableOpacity>
+    </View>
     );
 }
 

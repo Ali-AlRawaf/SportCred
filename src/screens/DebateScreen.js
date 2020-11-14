@@ -6,6 +6,21 @@ import { useNavigation } from '@react-navigation/native';
 import arrow from '../assets/arrow_forward.png'
 import bg from '../assets/bg.png'
 
+const debate = {
+	users: [
+		{
+			id: 1,
+			username: 'user1'
+		},
+		{
+			id: 2,
+			username: 'user2'
+		},
+	],
+	topic: 'Who had a better season?',
+	options: ['Ibaka', 'VanVleet']
+}
+
 class Debate extends React.Component {
 
 	constructor(props){
@@ -13,6 +28,9 @@ class Debate extends React.Component {
 		this.state = {
 			value: 50
 		}
+
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handlerSliderChange = this.handlerSliderChange.bind(this);
 	}
 
 	handlerSliderChange = (value) => {
@@ -26,12 +44,10 @@ class Debate extends React.Component {
 		this.props.navigation.navigate("DebateStanding")
 	}
 
-
-
 	render(){
-		const users = this.props.users;
-		const topic = this.props.topic;
-		const options = this.props.options;
+		const users = debate.users;
+		const topic = debate.topic;
+		const options = debate.options;
 		return(
 			<ImageBackground
               source={bg}
@@ -39,7 +55,8 @@ class Debate extends React.Component {
             >
 			<View style={styles.container}>
 				<View style={styles.header}>
-				    <TouchableOpacity >
+				    <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
+
 				        <Image
 				            style={styles.arrow}
 				            source={arrow}
@@ -50,7 +67,7 @@ class Debate extends React.Component {
 				<View style={styles.topicContainer}>
 					<Text style={styles.topic}>{topic}</Text>
 				</View>
-				{/* <View style={styles.competitors}>
+				{/*<View style={styles.competitors}>
 					{
 						users.map((user) => {
 							return <View style={styles.debater}>
@@ -58,7 +75,7 @@ class Debate extends React.Component {
 							</View>
 						})
 					}
-				</View> */}
+				</View>*/}
 				<View style={styles.scoreContainer}>
 					<Text style={styles.score}>{this.state.value}</Text>
 				</View>
@@ -100,7 +117,7 @@ const styles = StyleSheet.create({
 		width: '95%',
 		marginLeft: 'auto',
 		marginRight: 'auto',
-		paddingTop: 30,
+		paddingTop: 100,
 	},
 	header: {
         flexDirection: 'row',
@@ -198,7 +215,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         borderRadius: 5,
         paddingVertical: 15,
-        marginBottom: 20
+        marginBottom: 150
     },
     buttonText: {
     	textAlign: 'center',
