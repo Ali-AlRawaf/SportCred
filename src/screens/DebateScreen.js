@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Debate from '../component/Debate'
+import { useNavigation } from '@react-navigation/native';
 
 const debate = {
 	users: [
@@ -20,10 +21,12 @@ const debate = {
 }
 
 function DebateScreen() {
+
+	const navigation = useNavigation();
 	
     return (
         <View style={styles.debates}>
-            <Debate users={debate.users} topic={debate.topic} options={debate.options}></Debate>
+            <Debate users={debate.users} topic={debate.topic} navigation={navigation} options={debate.options}></Debate>
         </View>
     );
 }

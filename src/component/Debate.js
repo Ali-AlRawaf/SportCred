@@ -23,6 +23,7 @@ class Debate extends React.Component {
 
 	handleSubmit = () => {
 		console.log(this.state)
+		this.props.navigation.navigate("DebateStanding")
 	}
 
 

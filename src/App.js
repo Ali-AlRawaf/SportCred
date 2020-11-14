@@ -19,6 +19,8 @@ import RadarList from './screens/RadarListScreen';
 import TabNavigator from './navigation/TabNavigator';
 import PostComment from './screens/PostComment';
 
+import DebateStanding from './screens/DebateStanding';
+
 import { Provider } from "react-redux";
 import store from "./config/store"
 import ForgotPassword from './screens/ForgotPassword';
@@ -43,6 +45,7 @@ function App() {
           <Stack.Screen name="Tutorial" component={TutorialScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Container" component={TabNavigator} options={{ headerShown: false }} />
           <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
+          <Stack.Screen name="DebateStanding" component={DebateStanding} options={{ headerShown: false }} />
           <Stack.Screen name="Comment" component={PostComment} options={{ headerShown: true, headerTitle: "Comments" }} />
           <Stack.Screen name="Edit" component={EditProfile} options={{ headerShown: false }} />
         </Stack.Navigator>
