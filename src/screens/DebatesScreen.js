@@ -20,7 +20,7 @@ const debate = {
 	options: ['Ibaka', 'VanVleet']
 }
 
-function DebateScreen() {
+function DebatesScreen() {
 
 	const navigation = useNavigation();
 	
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default DebateScreen;
+export default DebatesScreen;
