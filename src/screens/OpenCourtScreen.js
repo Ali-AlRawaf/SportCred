@@ -11,6 +11,8 @@ import search_img from '../assets/search_18dp.png'
 import { useNavigation } from '@react-navigation/native';
 import NewPost from '../component/NewPost';
 import { getAllPosts } from '../controller/post';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import TabNavigator from '../navigation/TabNavigator';
 
 const userPosts = [
     {
@@ -81,6 +83,7 @@ function OpenCourtScreen() {
                 </View>
 
             </ScrollView>
+
         </View >
     );
 }

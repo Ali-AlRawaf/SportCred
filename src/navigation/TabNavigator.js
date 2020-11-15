@@ -1,6 +1,6 @@
 // ./navigation/TabNavigator.js
 
-import React from "react";
+import React, { Fragment } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import OpenCourtScreen from "../screens/OpenCourtScreen";
 import TriviaScreen from '../screens/TriviaScreen';
@@ -15,6 +15,7 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
     return (
+
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
@@ -39,16 +40,13 @@ const TabNavigator = () => {
                         iconName = 'graph';
                         return <SimpleLineIcons name={iconName} size={size} color={color} />;
                     }
-
-                    // You can return any component that you like here!
-                    // return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
                 },
             })}
             tabBarOptions={{
                 activeTintColor: 'tomato',
                 inactiveTintColor: 'gray',
                 activeBackgroundColor: '#474747',
-                inactiveBackgroundColor: '#474747'
+                inactiveBackgroundColor: '#474747',
             }}
             barStyle={{ backgroundColor: '#474747' }}
         >
