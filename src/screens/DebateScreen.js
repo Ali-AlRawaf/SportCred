@@ -17,8 +17,8 @@ const debate = {
 			username: 'user2'
 		},
 	],
-	topic: 'Who had a better season?',
-	options: ['Ibaka', 'VanVleet']
+	topic: 'Was this the best season for Ibaka?',
+	options: ['No', 'Yes']
 }
 
 class Debate extends React.Component {
@@ -33,6 +33,12 @@ class Debate extends React.Component {
 		this.handlerSliderChange = this.handlerSliderChange.bind(this);
 	}
 
+	componentDidMount = () => {
+		// Here is where we will get the debate object from the backend
+		// Also check if the user has already voted in which case
+		// just direct them to DebateStanding: this.props.navigation.navigate("DebateStanding")
+	}
+
 	handlerSliderChange = (value) => {
 		this.setState({
 			value
@@ -41,7 +47,7 @@ class Debate extends React.Component {
 
 	handleSubmit = () => {
 		console.log(this.state)
-		this.props.navigation.navigate("DebateStanding")
+		this.props.navigation.navigate("DebateStanding", {debate: debate, value: this.state.value})
 	}
 
 	render(){
