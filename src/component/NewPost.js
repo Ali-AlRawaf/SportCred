@@ -3,18 +3,30 @@ import StephenASmith from '../assets/StephenASmith.png';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { TextInput } from 'react-native-gesture-handler';
+import { newPost } from '../controller/post';
 
-const NewPost = (props) => {
+const NewPostComponent = (props) => {
     const [post, setPost] = useState("");
 
     const handlePost = (text) => {
         setPost(text);
     }
 
-    const buttonPress = () => {
-        //TODO
+    const thePost = {
+        title: props.userName,
+        description: post,
     }
 
+    const buttonPress = async () => {
+        const result = await newPost(thePost);
+        console.log(result)
+        if (result.status === 200) {
+            alert('Post worked!')
+        } else {
+            const error_msg = result.error
+            alert(result.status + ": " + error_msg)
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -24,11 +36,13 @@ const NewPost = (props) => {
                     style={styles.input}
                     multiline={true}
                     placeholder="What's on your mind?"
-                    onChangeText={(text) => handlePost(text)}></TextInput>
+                    onChangeText={text => handlePost(text)}>
+
+                </TextInput>
             </View>
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => buttonPress}>
+                onPress={() => buttonPress()}>
                 <Text> ></Text>
             </TouchableOpacity>
 
@@ -111,4 +125,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default NewPost;
+export default NewPostComponent;

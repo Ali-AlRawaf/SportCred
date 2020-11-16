@@ -1,16 +1,18 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Post from '../component/Post';
 import profile_img from '../assets/profile_img.jpg';
 import logo_png from '../assets/logo_png.png';
 import StephenASmith from '../assets/StephenASmith.png';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ScrollView } from 'react-native-gesture-handler';
 import search_img from '../assets/search_18dp.png'
 import { useNavigation } from '@react-navigation/native';
-import NewPost from '../component/NewPost';
+import NewPostComponent from '../component/NewPost';
 import { getAllPosts } from '../controller/post';
+import { connect } from "react-redux";
+import { getUser } from '../controller/user';
+
+
 
 const userPosts = [
     {
@@ -40,49 +42,61 @@ const userPosts = [
     }
 ]
 
-function OpenCourtScreen() {
+class OpenCourtScreen extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            userName: 'NAME',
+            profilePic: StephenASmith,
+            posts: [],
+            renderPosts: [],
+            isLoading: true
+        }
+    }
 
-    var actualPosts;
+    componentDidMount() {
+        getUser(this.props.currentUser)
+            .then((result) => {
+                this.setState({ userName: result.user.username })
+            }).then(() => {
+                this.realPosts().then((resp) => {
+                    this.setState({ posts: resp, isLoading: false })
+                }).then(() => {
+                    this.setState({
+                        renderPosts: this.state.posts.map((d, idx) => <Post key={idx} name={d.title} profilePic={d.profilePic} post={d.description}></Post>)
+                    })
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
 
-    // const actualPosts = getAllPosts();
-    getAllPosts().then(resp => {
-        actualPosts = resp.postsArray;
-        console.log(actualPosts);
-    }).catch(e => {
-        console.log(e)
-    })
+    realPosts = async () => {
+        const result = await getAllPosts();
+        if (result.status === 200) {
+            return result.postsArray;
+        } else {
+            alert("Something went wrong!")
+        }
+    }
 
+    render() {
+        if (this.state.isLoading) {
+            return null
+        }
+        return (
+            <View style={styles.screen}>
+                <NewPostComponent userName={this.state.userName} profilePic={this.state.profilePic} />
+                <ScrollView>
+                    <View style={styles.posts}>
+                        {this.state.renderPosts}
+                    </View>
 
-
-    const navigation = useNavigation();
-
-    const listItems = userPosts.map((d, idx) => <Post key={idx} name={d.name} profilePic={d.profilePic} post={d.post}></Post>);
-
-    return (
-        <View style={styles.screen}>
-            <NewPost />
-            <View
-                style={styles.header}
-            >
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('Search')}
-                >
-                    <Image
-                        style={styles.search_img}
-                        source={search_img}
-                    />
-
-                </TouchableOpacity>
-
-            </View>
-            <ScrollView>
-                <View style={styles.posts}>
-                    {listItems}
-                </View>
-
-            </ScrollView>
-        </View >
-    );
+                </ScrollView>
+            </View >
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -93,7 +107,7 @@ const styles = StyleSheet.create({
         marginTop: 40
     },
     screen: {
-        backgroundColor: '#333436',
+        backgroundColor: '#242526',
         height: 900
     },
     search_img: {
@@ -109,4 +123,9 @@ const styles = StyleSheet.create({
     }
 })
 
-export default OpenCourtScreen;
+const mapStateToProps = (state) => {
+    return {
+        currentUser: state.auth.currentUser,
+    };
+};
+export default connect(mapStateToProps, {})(OpenCourtScreen);
