@@ -25,6 +25,7 @@ import Debate from './screens/DebateScreen';
 import { Provider } from "react-redux";
 import store from "./config/store"
 import ForgotPassword from './screens/ForgotPassword';
+import NewDebate from './screens/NewDebate';
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,7 @@ function App() {
           <Stack.Screen name="Tutorial" component={TutorialScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Container" component={TabNavigator} options={{ headerShown: false }} />
           <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
+          <Stack.Screen name="NewDebate" component={NewDebate} options={{ headerShown: false }} />
           <Stack.Screen name="DebateStanding" component={DebateStanding} options={{ headerShown: false }} />
           <Stack.Screen name="Debate" component={Debate} options={{ headerShown: false }} />
           <Stack.Screen name="Comment" component={PostComment} options={{ headerShown: true, headerTitle: "Comments" }} />
