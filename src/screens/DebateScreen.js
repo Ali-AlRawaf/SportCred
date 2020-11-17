@@ -4,7 +4,11 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, ImageBackground } from
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
 import arrow from '../assets/arrow_forward.png'
-import bg from '../assets/bg.png'
+import bg from '../assets/bg.png';
+import { getDebate, getOptionNames } from '../controller/debate';
+import { getOption } from '../controller/option';
+import { getVote } from '../controller/vote';
+import { getUser } from '../controller/user';
 
 const debate = {
 	users: [
@@ -26,18 +30,42 @@ class Debate extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			value: 50
+      value: 50,
+      topic: "",
+      users: [],
+      options: []
 		}
 
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handlerSliderChange = this.handlerSliderChange.bind(this);
+    this.setDebateInfo = this.setDebateInfo.bind(this);
 	}
 
 	componentDidMount = () => {
+    this.setDebateInfo();
 		// Here is where we will get the debate object from the backend
 		// Also check if the user has already voted in which case
 		// just direct them to DebateStanding: this.props.navigation.navigate("DebateStanding")
+    console.log(this.state);
 	}
+
+  setDebateInfo = async () => {
+    const getDebateRes = await getDebate("5fb3021b01ea3323c41e9ae7");
+    const options = await getOptionNames("5fb3021b01ea3323c41e9ae7");
+    // You would usually get these using the debate
+    const users = [];
+    let usr = await getUser("5f8ab8e746c4267c36bfda65");
+    users.push(usr.user);
+    usr = await getUser("5f8d2fd5973adc58e42715f7");
+    users.push(usr.user);
+
+    const debate = getDebateRes.debate;
+    this.setState({
+      topic: debate.topic,
+      users: users,
+      options: options.options
+    });
+  }
 
 	handlerSliderChange = (value) => {
 		this.setState({
@@ -51,9 +79,9 @@ class Debate extends React.Component {
 	}
 
 	render(){
-		const users = debate.users;
-		const topic = debate.topic;
-		const options = debate.options;
+		const users = this.state.users;
+		const topic = this.state.topic;
+		const options = this.state.options;
 		return(
 			<ImageBackground
               source={bg}
@@ -77,7 +105,7 @@ class Debate extends React.Component {
 					{
 						users.map((user) => {
 							return <View style={styles.debater}>
-								<Text style={styles.debaterName}>{user.username}</Text>					
+								<Text style={styles.debaterName}>{user.username}</Text>
 							</View>
 						})
 					}
@@ -89,13 +117,13 @@ class Debate extends React.Component {
 					{
 						options.map((option) => {
 							return <View style={styles.optionContainer}>
-								<Text style={styles.option}>{option}</Text>					
+								<Text style={styles.option}>{option}</Text>
 							</View>
 						})
 					}
 				</View>
 				<View style={styles.slider}>
-					<Slider value={this.state.value} 
+					<Slider value={this.state.value}
 							minimumValue={0}
 							maximumValue={100}
 							onValueChange={this.handlerSliderChange}
@@ -111,8 +139,8 @@ class Debate extends React.Component {
                 >
                     <Text style={styles.buttonText}>Submit</Text>
                 </TouchableOpacity>
-			</View>		
-			</ImageBackground>	
+			</View>
+			</ImageBackground>
 		)
 	}
 }
@@ -180,7 +208,7 @@ const styles = StyleSheet.create({
 		fontSize: 100,
 		textAlign: 'center',
 		color: '#53900F'
-		
+
 	},
 	optionsContainer: {
 		flexDirection: 'row',
@@ -201,7 +229,7 @@ const styles = StyleSheet.create({
 		maxWidth: 150
 	},
 	option: {
-		fontSize: 30,	
+		fontSize: 30,
 		justifyContent: 'center',
 		alignItems: 'center',
 		alignSelf: 'center',
