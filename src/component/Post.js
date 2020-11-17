@@ -40,7 +40,8 @@ const Post = (props) => {
                         onPress={() => navigation.navigate('Comment', {
                             name: props.name,
                             profilePic: props.profilePic,
-                            post: props.post
+                            post: props.post,
+                            id: props.id
                         })}
                     >
                         <Text style={styles.buttonText}>

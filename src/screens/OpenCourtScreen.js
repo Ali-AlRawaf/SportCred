@@ -13,35 +13,6 @@ import { connect } from "react-redux";
 import { getUser } from '../controller/user';
 
 
-
-const userPosts = [
-    {
-        name: "Yousuf Madi",
-        profilePic: profile_img,
-        post: 'Jimmy Butler will have a ring within the next 4 years! Calling it from now'
-    },
-    {
-        name: "Yousuf Madi",
-        profilePic: profile_img,
-        post: 'Jimmy Butler will have a ring within the next 4 years! Calling it from now'
-    },
-    {
-        name: "Stephen A Smith",
-        profilePic: StephenASmith,
-        post: "I AM DISSAPOINTED IN PAUL GEORGE'S PLAYOFF PERFORMANCE!" +
-            "I AM DISSAPOINTED IN PAUL GEORGE'S PLAYOFF PERFORMANCE!" +
-            "I AM DISSAPOINTED IN PAUL GEORGE'S PLAYOFF PERFORMANCE!" +
-            "I AM DISSAPOINTED IN PAUL GEORGE'S PLAYOFF PERFORMANCE!" +
-            "I AM DISSAPOINTED IN PAUL GEORGE'S PLAYOFF PERFORMANCE!" +
-            "I AM DISSAPOINTED IN PAUL GEORGE'S PLAYOFF PERFORMANCE!",
-    },
-    {
-        name: "SportCred",
-        profilePic: logo_png,
-        post: "Login for 7 days straight and boost your ACS by 25 points!"
-    }
-]
-
 class OpenCourtScreen extends React.Component {
     constructor(props) {
         super(props)
@@ -63,7 +34,7 @@ class OpenCourtScreen extends React.Component {
                     this.setState({ posts: resp, isLoading: false })
                 }).then(() => {
                     this.setState({
-                        renderPosts: this.state.posts.map((d, idx) => <Post key={idx} name={d.title} profilePic={d.profilePic} post={d.description}></Post>)
+                        renderPosts: this.state.posts.map((d, idx) => <Post key={idx} id={d._id} name={d.title} profilePic={d.profilePic} post={d.description}></Post>)
                     })
                 })
             })
@@ -85,6 +56,7 @@ class OpenCourtScreen extends React.Component {
         if (this.state.isLoading) {
             return null
         }
+        console.log(this.state.renderPosts)
         return (
             <View style={styles.screen}>
                 <NewPostComponent userName={this.state.userName} profilePic={this.state.profilePic} />

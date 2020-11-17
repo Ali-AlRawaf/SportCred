@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
 // Show a specific post
 router.get("/:id", async (req, res) => {
   const foundPost = await Post.findById(req.params.id)
-    .populate("postComment")
+    .populate("comments")
     .exec()
     .catch((err) => {
       return res.status(400).send(err)
