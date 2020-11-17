@@ -43,9 +43,9 @@ class Debate extends React.Component {
 	}
 
 	componentDidMount = () => {
-		console.log(this.props.route.params)
+		console.log(this.props.route);
 		this.setDebateInfo(this.props.route.params.id).then(result => console.log(result)).catch(e => console.log(e));
-	
+
 		// Here is where we will get the debate object from the backend
 		// Also check if the user has already voted in which case
 		// just direct them to DebateStanding: this.props.navigation.navigate("DebateStanding")
