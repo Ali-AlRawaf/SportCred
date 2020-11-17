@@ -101,6 +101,23 @@ router.get('/getAllOptions/:debate', async (req, res) => {
   res.status(200).send({'options': debate.options});
 });
 
+router.get('/getAllOptionNames/:debate', async (req, res) => {
+
+  const debate = await Debate.findOne({_id: req.params.debate}).catch(error => console.log('invalid debate id'));
+  if (!debate) return res.status(400).send('Could not find debate');
+
+  let optList = [];
+  for (const optIndex in debate.options) {
+    const option = await Option.findOne({_id: debate.options[optIndex]}).catch(error => console.log('invalid debate id'));
+    if (!option) {
+      continue;
+    }
+    optList.push(option.option);
+  }
+
+  res.status(200).send({'options': optList});
+});
+
 router.get('/getDebate/:debate', async (req, res) => {
 
   const debate = await Debate.findOne({_id: req.params.debate}).catch(error => console.log('invalid debate id'));
@@ -122,6 +139,18 @@ router.get('/optionVotes/:debate/:option', async (req, res) => {
     }
   }
   res.status(200).send({'votes': optionVotes});
+});
+
+// Get all debates
+router.get('/', async (req, res) => {
+  const allDebates = await Debate.find({}).catch((error) => {
+        return res.status(400).send("error getting all debates")
+    });
+    try {
+        return res.status(200).send({allDebates: allDebates})
+    } catch (err) {
+        return res.status(400).send(err)
+    }
 });
 
 module.exports = router;

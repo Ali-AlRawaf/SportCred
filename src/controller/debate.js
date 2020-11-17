@@ -40,6 +40,26 @@ export const getOptions = async (debateId) => {
   return result;
 }
 
+export const getOptionNames = async (debateId) => {
+
+  const url = "http://localhost:5000/debate/getAllOptionNames/" + debateId + "/";
+
+  const result = {}
+
+  const response = await fetch(url);
+  if (response.status === 200){
+    const json = await response.json();
+    result.status = response.status;
+    result.options = json.options;
+  } else {
+    const msg = await response.text();
+    result.status = response.status;
+    result.error = msg;
+  }
+
+  return result;
+}
+
 export const getOptionVotes = async (debateId, optionId) => {
 
   const url = "http://localhost:5000/debate/optionVotes/" + debateId + "/" + optionId;
@@ -145,4 +165,27 @@ export const addOption = async (body) => {
 
   return result;
 
+}
+
+export const getAllDebates = async () => {
+  const url = "http://localhost:5000/debate/"
+
+  const request = new Request(url, {
+    method: "get",
+  });
+
+  const result = {}
+
+  const response = await fetch(request);
+  if (response.status === 200){
+    result.status = 200;
+    const msg = await response.json();
+    result.allDebates = msg.allDebates;
+  } else {
+    const msg = await response.text();
+    result.status = response.status;
+    result.error = msg;
+  }
+
+  return result;
 }

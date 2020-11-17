@@ -9,7 +9,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ScrollView } from 'react-native-gesture-handler';
 import search_img from '../assets/search_18dp.png'
 import { useNavigation } from '@react-navigation/native';
-import ExpoStatusBar from 'expo-status-bar/build/ExpoStatusBar';
 
 const userPosts = [
     {
@@ -50,7 +49,6 @@ function OpenCourtScreen() {
                 style={styles.header}
             >
                 <TouchableOpacity
-                    style={styles.search_button}
                     onPress={() => navigation.navigate('Search')}
                 >
                     <Image
@@ -91,12 +89,7 @@ const styles = StyleSheet.create({
     header: {
         justifyContent: "flex-end",
         marginRight: 10,
-        paddingTop: 25
-    },
-    search_button:{
-        height: 20,
-        width: 20,
-        alignSelf: 'flex-end'
+        marginTop: 10
     }
 })
 
