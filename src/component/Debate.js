@@ -25,7 +25,7 @@ const Debate = (props) => {
                     <Text style={styles.bodyText}
                         onTextLayout={onTextLayout}
                         numberOfLines={textShown ? undefined : 4}>
-                        {props.description}
+                        {props.topic}
                     </Text>
                     {
                         lengthMore ? <Text

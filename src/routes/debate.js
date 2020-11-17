@@ -124,4 +124,16 @@ router.get('/optionVotes/:debate/:option', async (req, res) => {
   res.status(200).send({'votes': optionVotes});
 });
 
+// Get all debates
+router.get('/', async (req, res) => {
+  const allDebates = await Debate.find({}).catch((error) => {
+        return res.status(400).send("error getting all debates")
+    });
+    try {
+        return res.status(200).send({allDebates: allDebates})
+    } catch (err) {
+        return res.status(400).send(err)
+    }
+});
+
 module.exports = router;
