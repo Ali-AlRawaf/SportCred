@@ -142,7 +142,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "flex-end",
         padding: 10,
-        marginTop: 50
     },
     editLogoContainer: {
         width: "100%",

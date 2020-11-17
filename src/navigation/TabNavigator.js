@@ -4,7 +4,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import OpenCourtScreen from "../screens/OpenCourtScreen";
 import TriviaScreen from '../screens/TriviaScreen';
-import DebatesScreen from '../screens/DebatesScreen';
+import DebateScreen from '../screens/DebateScreen';
 import PicksScreen from '../screens/PicksScreen';
 import ProfileScreen from "../screens/ProfileScreen";
 import { Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
@@ -55,7 +55,7 @@ const TabNavigator = () => {
             <Tab.Screen name="OpenCourt" component={OpenCourtScreen} />
             <Tab.Screen name="Trivia" component={TriviaScreen} />
             <Tab.Screen name="Picks" component={PicksScreen} />
-            <Tab.Screen name="Debates" component={DebatesScreen} />
+            <Tab.Screen name="Debates" component={DebateScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>
     );

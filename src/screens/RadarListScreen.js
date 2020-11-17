@@ -36,7 +36,6 @@ class RadarListScreen extends React.Component {
     return(
       <ImageBackground
           source={bg}
-          style={styles.background}
       >
       <TouchableOpacity
           style={styles.button}
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    minHeight: '100%'
+    minHeight: '100vh'
   },
 
   radarItem: {
@@ -83,15 +82,8 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    marginTop: 80,
+    marginTop: 20,
     marginLeft: 20,
-  },
-
-  background: {
-    flex: 1,
-    resizeMode: "stretch",
-    width: "100%",
-    height: "100%"
   },
 
   arrow: {
