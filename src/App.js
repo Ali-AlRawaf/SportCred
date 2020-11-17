@@ -13,11 +13,14 @@ import RegisterScreenTwo from './screens/RegisterScreenTwo';
 import TutorialScreen from './screens/TutorialScreen';
 import Search from './screens/Search';
 import EditProfile from "./screens/EditProfileScreen";
-import OtherProfile from "./screens/OtherProfile";
+
 
 import RadarList from './screens/RadarListScreen';
 import TabNavigator from './navigation/TabNavigator';
 import PostComment from './screens/PostComment';
+
+import DebateStanding from './screens/DebateStanding';
+import Debate from './screens/DebateScreen';
 
 import { Provider } from "react-redux";
 import store from "./config/store"
@@ -43,10 +46,10 @@ function App() {
           <Stack.Screen name="Tutorial" component={TutorialScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Container" component={TabNavigator} options={{ headerShown: false }} />
           <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
+          <Stack.Screen name="DebateStanding" component={DebateStanding} options={{ headerShown: false }} />
+          <Stack.Screen name="Debate" component={Debate} options={{ headerShown: false }} />
           <Stack.Screen name="Comment" component={PostComment} options={{ headerShown: true, headerTitle: "Comments" }} />
           <Stack.Screen name="Edit" component={EditProfile} options={{ headerShown: false }} />
-          <Stack.Screen name="OtherProfile" component={OtherProfile} options={{ headerShown: false }} />
-
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

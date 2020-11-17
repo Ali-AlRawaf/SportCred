@@ -12,27 +12,33 @@ class RadarListScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      data: []
+      data: [],
+      isLoading: true
     };
     this.getRadarList = this.getRadarList.bind(this);
   }
 
-
   componentDidMount = () => {
-      this.getRadarList();
+      this.getRadarList().then(res => {
+        this.setState({
+          data: res.followers,
+          isLoading: false
+        })
+      });
+
   }
 
-  getRadarList = async() => {
+  getRadarList = async () => {
     const data = await getFollowers({'user': '5fa03dbd26f5b1307cd8c610'});
+    
     for (let i in data.followers) {
       data.followers[i].profileImg = profileImage;
     }
-    this.setState({
-      data: data.followers
-    })
+    return data
   }
 
   render(){
+    if (this.state.isLoading) return null;
     return(
       <ImageBackground
           source={bg}

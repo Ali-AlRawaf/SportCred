@@ -30,26 +30,21 @@ class Debate extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-      value: 50,
-      topic: "",
-	  users: [],
-	  debate: "",
-      options: []
+	      value: 50,
+	      topic: "",
+		  users: [],
+		  debate: "",
+	      options: []
 		}
 
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handlerSliderChange = this.handlerSliderChange.bind(this);
-    this.setDebateInfo = this.setDebateInfo.bind(this);
+	    this.setDebateInfo = this.setDebateInfo.bind(this);
 	}
 
 	componentDidMount = () => {
 		console.log(this.props.route);
-		this.setDebateInfo(this.props.route.params.id).then(result => console.log(result)).catch(e => console.log(e));
-
-		// Here is where we will get the debate object from the backend
-		// Also check if the user has already voted in which case
-		// just direct them to DebateStanding: this.props.navigation.navigate("DebateStanding")
-    console.log(this.state);
+		this.setDebateInfo(this.props.route.params.id).then(result => console.log("worked")).catch(e => console.log(e));
 	}
 
   setDebateInfo = async (id) => {

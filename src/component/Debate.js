@@ -14,7 +14,7 @@ const Debate = (props) => {
     const onTextLayout = useCallback(e => {
         setLengthMore(e.nativeEvent.lines.length >= 4);
     }, []);
-    console.log("----------------------------" + props);
+
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.card}

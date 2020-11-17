@@ -17,20 +17,24 @@ class DebatesScreen extends React.Component {
         super(props)
         this.state = {
             topic: "TOPIC",
-            creation: Date.now
+            creation: Date.now,
+            isLoading: true
         }
+
+        this.renderDebates = this.renderDebates.bind(this);
     }
 
     componentDidMount() {
         this.realDebates().then((resp) => {
             this.setState({ debates: resp, isLoading: false })
-        }).then(() => {
-            this.setState({
-                renderDebates: this.state.debates.map((d, idx) => <Debate key={idx} topic={d.topic} creation={d.createdAt} id={d._id}></Debate>)
-            })
+            console.log(this.state)
         }).catch((err) => {
             console.log(err)
         })
+    }
+
+    renderDebates = () => {
+        return this.state.debates.map((d, idx) => <Debate key={idx} topic={d.topic} creation={d.createdAt} id={d._id}></Debate>)
     }
 
     realDebates = async () => {
@@ -70,11 +74,11 @@ class DebatesScreen extends React.Component {
                 </View>
                 <ScrollView>
                     <View style={styles.debates}>
-                        {this.state.renderDebates}
+                        {this.state.debates.map((d, idx) => <Debate key={idx} topic={d.topic} creation={d.createdAt} id={d._id}></Debate>)}
                     </View>
     
                 </ScrollView>
-            </View >
+            </View>
         );
     }
 }
@@ -128,4 +132,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, {})(DebatesScreen);
+export default DebatesScreen;
