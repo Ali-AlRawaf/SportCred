@@ -64,20 +64,19 @@ router.post('/addOption', async (req, res) => {
 
 });
 
-
 router.post('/addVote', async (req, res) => {
 
-  const debate = await Debate.findOne({_id: req.body.debate}).catch(error => console.log('invalid debate id'));
+  const opt = await Option.findOne({_id: req.body.option}).catch(error => console.log('invalid option id'));
+  if (!opt) return res.status(400).send('Could not find option');
+
+  const debate = await Debate.findOne({_id: opt.debateId}).catch(error => console.log('invalid debate id'));
   if (!debate) return res.status(400).send('Could not find debate');
 
   const user = await User.findOne({_id: req.body.user}).catch(error => console.log('invalid user id'));
   if (!user) return res.status(400).send('Could not find user');
 
-  const opt = await Option.findOne({_id: req.body.option}).catch(error => console.log('invalid option id'));
-  if (!opt) return res.status(400).send('Could not find option');
-
   var newVote = new Vote({
-    debateId: req.body.debate,
+    debateId: opt.debateId,
     optionId: req.body.option,
     userId: req.body.user,
     value: req.body.value
@@ -109,8 +108,6 @@ router.get('/getDebate/:debate', async (req, res) => {
 
   res.status(200).send({'debate': debate});
 });
-
-
 
 router.get('/optionVotes/:debate/:option', async (req, res) => {
 
