@@ -11,6 +11,7 @@ import NewPostComponent from '../component/NewPost';
 import { getAllPosts } from '../controller/post';
 import { connect } from "react-redux";
 import { getUser } from '../controller/user';
+import ExpoStatusBar from 'expo-status-bar/build/ExpoStatusBar';
 
 
 class OpenCourtScreen extends React.Component {
@@ -43,6 +44,7 @@ class OpenCourtScreen extends React.Component {
             })
     }
 
+
     realPosts = async () => {
         const result = await getAllPosts();
         if (result.status === 200) {
@@ -59,6 +61,17 @@ class OpenCourtScreen extends React.Component {
         console.log(this.state.renderPosts)
         return (
             <View style={styles.screen}>
+               <View style={styles.header}>
+              <TouchableOpacity
+                    style={styles.search_button}
+                    onPress={() => navigation.navigate('Search')}
+                >
+                    <Image
+                        style={styles.search_img}
+                        source={search_img}
+                    />
+               </TouchableOpacity>
+               </View>
                 <NewPostComponent userName={this.state.userName} profilePic={this.state.profilePic} />
                 <ScrollView>
                     <View style={styles.posts}>
@@ -91,7 +104,12 @@ const styles = StyleSheet.create({
     header: {
         justifyContent: "flex-end",
         marginRight: 10,
-        marginTop: 10
+        paddingTop: 25
+    },
+    search_button:{
+        height: 20,
+        width: 20,
+        alignSelf: 'flex-end'
     }
 })
 
