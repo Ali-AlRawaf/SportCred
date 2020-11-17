@@ -4,10 +4,7 @@ import { getUser } from '../controller/user'
 import StephenASmith from '../assets/StephenASmith.png';
 import { View, Dimensions, KeyboardAvoidingView, Button, StyleSheet, TouchableOpacity, Text, Image, ImageBackground } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import Comment from '../component/Comment';
-import { getPost } from '../controller/post';
-import { newPostComment } from '../controller/postComment';
-
+import Comment from '../component/Comment'
 
 
 class PostComment extends React.Component {
@@ -18,9 +15,7 @@ class PostComment extends React.Component {
             submit: false,
             comment: "",
             userName: 'NAME',
-            profilePic: StephenASmith,
-            comments: [],
-            renderComments: []
+            profilePic: StephenASmith
         }
     }
 
@@ -28,30 +23,10 @@ class PostComment extends React.Component {
         getUser(this.props.currentUser)
             .then((result) => {
                 this.setState({ userName: result.user.username })
-            }).then(() => {
-                this.realComments().then(resp => {
-                    this.setState({ comments: resp })
-                }).then(() => {
-                    this.setState({
-                        renderComments: this.state.comments.map((c, idx) => <Comment key={idx} userName={this.state.userName} comment={c.text} profilePic={this.profilePic} />
-                        )
-                    })
-                })
             })
             .catch((err) => {
                 console.log(err)
             })
-    }
-
-
-
-    realComments = async () => {
-        const result = await getPost(this.props.route.params.id);
-        if (result.status === 200) {
-            return result.foundPost.comments;
-        } else {
-            alert("Something went wrong!")
-        }
     }
 
     updateField = (key, val) => {
@@ -61,13 +36,18 @@ class PostComment extends React.Component {
     };
 
 
-    buttonPress = async () => {
-        const result = await newPostComment(this.state.comment, this.props.route.params.id)
-        if (result.status === 200) {
-            alert('Comment Worked!')
-        } else {
-            alert(result.status + ": " + result.error)
+
+    renderBottomComponent() {
+        if (this.state.submit) {
+            return (
+                <Comment userName={this.state.userName} comment={this.state.comment} profilePic={this.state.profilePic} />
+            )
         }
+    }
+
+
+    buttonPress = () => {
+        this.setState({ submit: true })
     }
 
     render() {
@@ -79,7 +59,7 @@ class PostComment extends React.Component {
             <View style={styles.container}>
                 <View style={styles.card}>
                     <View style={styles.userInfo}>
-                        <Image style={styles.imgBox} source={StephenASmith} />
+                        <Image style={styles.imgBox} source={this.props.route.params.profilePic} />
                         <Text style={styles.headerText}>
                             {this.props.route.params.name}
                         </Text>
@@ -93,19 +73,19 @@ class PostComment extends React.Component {
                         // UPVOTE ON TOUCH LOGIC HERE
                         >
                             <Text style={styles.buttonText}>
-                                👍
+                                ↑
                         </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button}
                         // DOWNVOTE ON TOUCH LOGIC HERE
                         >
                             <Text style={styles.buttonText}>
-                                👎
+                                ↓
                         </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-                {this.state.renderComments}
+                {this.renderBottomComponent()}
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={styles.input}
