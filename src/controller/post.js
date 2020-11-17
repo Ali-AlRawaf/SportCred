@@ -18,11 +18,11 @@ export const newPost = async (new_post) => {
 
   const response = await fetch(url, request);
 
-  if (response.status === 200) {
+  if (response.status === 200){
     result.status = 200
     const msg = await response.json()
     result.post = msg.post;
-  } else {
+  }else{
     const msg = await response.text();
     result.status = response.status;
     result.error = msg;
@@ -42,14 +42,11 @@ export const getAllPosts = async () => {
   const result = {}
 
   const response = await fetch(url, request);
-  if (response.status === 200) {
+  if (response.status === 200){
     result.status = 200
     const msg = await response.json()
-    // ADD:
-    /////////////////////////////////////
-    result.postsArray = msg.postsArray;
-    ////////////////////////////////////
-  } else {
+    result.allPosts = msg.allPosts;
+  }else{
     const msg = await response.text();
     result.status = response.status;
     result.error = msg;
@@ -59,7 +56,7 @@ export const getAllPosts = async () => {
 }
 
 export const getPost = async (post_id) => {
-
+  
   const result = {}
 
   if (post_id == "") {
@@ -68,23 +65,23 @@ export const getPost = async (post_id) => {
     result.error = msg
     return result
   }
-
+      
   const url = "http://localhost:5000/post/" + post_id
-
+  
   const request = {
     method: "get",
   }
-
+  
   const response = await fetch(url, request);
-  if (response.status === 200) {
+  if (response.status === 200){
     result.status = 200
     const msg = await response.json()
     result.foundPost = msg.foundPost;
-  } else {
+  }else{
     const msg = await response.text();
     result.status = response.status;
     result.error = msg;
   }
-
+  
   return result;
 }
