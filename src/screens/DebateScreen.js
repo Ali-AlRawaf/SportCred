@@ -10,20 +10,20 @@ import { getOption } from '../controller/option';
 import { getVote } from '../controller/vote';
 import { getUser } from '../controller/user';
 
-const debate = {
-	users: [
-		{
-			id: 1,
-			username: 'user1'
-		},
-		{
-			id: 2,
-			username: 'user2'
-		},
-	],
-	topic: 'Was this the best season for Ibaka?',
-	options: ['No', 'Yes']
-}
+// const debate = {
+// 	users: [
+// 		{
+// 			id: 1,
+// 			username: 'user1'
+// 		},
+// 		{
+// 			id: 2,
+// 			username: 'user2'
+// 		},
+// 	],
+// 	topic: 'Was this the best season for Ibaka?',
+// 	options: ['No', 'Yes']
+// }
 
 class Debate extends React.Component {
 
@@ -32,7 +32,8 @@ class Debate extends React.Component {
 		this.state = {
       value: 50,
       topic: "",
-      users: [],
+	  users: [],
+	  debate: "",
       options: []
 		}
 
@@ -42,28 +43,32 @@ class Debate extends React.Component {
 	}
 
 	componentDidMount = () => {
-    this.setDebateInfo();
+		console.log(this.props.route.params)
+		this.setDebateInfo(this.props.route.params.id).then(result => console.log(result)).catch(e => console.log(e));
+	
 		// Here is where we will get the debate object from the backend
 		// Also check if the user has already voted in which case
 		// just direct them to DebateStanding: this.props.navigation.navigate("DebateStanding")
     console.log(this.state);
 	}
 
-  setDebateInfo = async () => {
-    const getDebateRes = await getDebate("5fb3021b01ea3323c41e9ae7");
-    const options = await getOptionNames("5fb3021b01ea3323c41e9ae7");
+  setDebateInfo = async (id) => {
+    const getDebateRes = await getDebate(id);
+	const options = await getOptionNames(id);
+	console.log(options.options);
     // You would usually get these using the debate
     const users = [];
-    let usr = await getUser("5f8ab8e746c4267c36bfda65");
-    users.push(usr.user);
-    usr = await getUser("5f8d2fd5973adc58e42715f7");
-    users.push(usr.user);
+    // let usr = await getUser("5f8ab8e746c4267c36bfda65");
+    // users.push(usr.user);
+    // usr = await getUser("5f8d2fd5973adc58e42715f7");
+    // users.push(usr.user);
 
     const debate = getDebateRes.debate;
     this.setState({
       topic: debate.topic,
-      users: users,
-      options: options.options
+      users: debate.users,
+	  options: options.options,
+	  debate: debate
     });
   }
 
@@ -75,7 +80,7 @@ class Debate extends React.Component {
 
 	handleSubmit = () => {
 		console.log(this.state)
-		this.props.navigation.navigate("DebateStanding", {debate: debate, value: this.state.value})
+		this.props.navigation.navigate("DebateStanding", {debate: this.state.debate, value: this.state.value, options: this.state.options})
 	}
 
 	render(){

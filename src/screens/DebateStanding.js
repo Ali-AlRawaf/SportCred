@@ -26,7 +26,8 @@ class DebateStanding extends React.Component {
     this.setState({
       debate: this.props.route.params.debate,
       vote: this.props.route.params.value,
-      isLoading: false
+      isLoading: false,
+      options: this.props.route.params.options
     })
 
   }
@@ -35,10 +36,10 @@ class DebateStanding extends React.Component {
     let voteText = "You sided with "
     console.log(this.state.debate.options)
     if (this.state.vote < 50){
-      voteText += this.state.debate.options[0]
+      voteText += this.state.options[0]
       
     }else{
-      voteText += this.state.debate.options[1]
+      voteText += this.state.options[1]
     }
 
     voteText += " with a vote of " + this.state.vote

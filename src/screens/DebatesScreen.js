@@ -26,7 +26,7 @@ class DebatesScreen extends React.Component {
             this.setState({ debates: resp, isLoading: false })
         }).then(() => {
             this.setState({
-                renderDebates: this.state.debates.map((d, idx) => <Debate key={idx} topic={d.topic} creation={d.createdAt} _id={d._id}></Debate>)
+                renderDebates: this.state.debates.map((d, idx) => <Debate key={idx} topic={d.topic} creation={d.createdAt} id={d._id}></Debate>)
             })
         }).catch((err) => {
             console.log(err)

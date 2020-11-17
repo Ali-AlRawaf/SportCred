@@ -19,7 +19,7 @@ const Debate = (props) => {
         <View style={styles.container}>
             <TouchableOpacity style={styles.card}
             onPress={() => navigation.navigate('Debate', {
-                _id: props._id
+                id: props.id
             })}>
                 <View style={styles.textBox}>
                     <Text style={styles.bodyText}
