@@ -19,7 +19,7 @@ const Post = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.card}>
-                <Image style={styles.imgBox} source={props.profilePic} />
+                <Image style={styles.imgBox} source={StephenASmith} />
                 <View style={styles.textBox}>
                     <Text style={styles.headerText}>
                         {props.name}
@@ -40,7 +40,8 @@ const Post = (props) => {
                         onPress={() => navigation.navigate('Comment', {
                             name: props.name,
                             profilePic: props.profilePic,
-                            post: props.post
+                            post: props.post,
+                            id: props.id
                         })}
                     >
                         <Text style={styles.buttonText}>
@@ -55,15 +56,15 @@ const Post = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        margin: 7
+        margin: 5
     },
     toggle: {
         color: "#3D929A",
         marginLeft: 10,
     },
     card: {
-        backgroundColor: '#242526',
-        width: 340,
+        backgroundColor: '#333436',
+        width: 380,
         minHeight: 120,
         shadowColor: '#673939',
         shadowOpacity: .1,
