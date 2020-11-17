@@ -34,12 +34,12 @@ router.post('/addFollower', async (req, res) => {
   }
 });
 
-router.get('/getFollowers/:user', async (req, res) => {
+router.post('/getFollowers', async (req, res) => {
 
-  const user = await User.findOne({_id: req.params.user}).catch(error => console.log('invalid user id'));
+  const user = await User.findOne({_id: req.body.user}).catch(error => console.log('invalid user id'));
   if (!user) return res.status(400).send('Could not find user');
 
-  var radarList = await Radar.findOne({user: req.params.user}).catch(error => console.log('invalid user id'));
+  var radarList = await Radar.findOne({user: req.body.user}).catch(error => console.log('invalid user id'));
   if (!radarList) {
     radarList = new Radar({
       user: user._id,
