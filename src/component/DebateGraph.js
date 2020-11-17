@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { VictoryBar, VictoryChart, VictoryTheme, VictoryLabel, VictoryAxis } from "victory-native";
+import { VictoryBar, VictoryChart, VictoryTheme, VictoryLabel, VictoryAxis } from "./Victory";
 
 export default class DebateGraph extends React.Component {
   render() {

@@ -3,25 +3,32 @@ import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Debate from './DebateScreen'
-import { useNavigation } from '@react-navigation/native';
 
-function DebatesScreen(){
 
-	const navigation = useNavigation();
+class DebatesScreen extends React.Component{
+
+    constructor(props){
+        super(props);
+        this.state = {
+            isLoading: true
+        }
+
+        this.handleSubmit = this.handleSubmit.bind(this)
+    }
 	
-
 	handleSubmit = () => {
-		
-		navigation.navigate("Debate", {id: 1 })
+		this.props.navigation.navigate("Debate", {id: 1 });
 	}
 	
-	return (
-    <View style={styles.debates}>
-        <TouchableOpacity onPress={() => handleSubmit()}>
-        	<Text>Debate</Text>
-        </TouchableOpacity>
-    </View>
-    );
+	render(){
+        return (
+        <View style={styles.debates}>
+            <TouchableOpacity onPress={() => this.handleSubmit()}>
+                <Text>Debate</Text>
+            </TouchableOpacity>
+        </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
