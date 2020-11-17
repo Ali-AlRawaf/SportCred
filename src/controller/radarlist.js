@@ -29,18 +29,17 @@ export const addFollower = async (body) => {
 
 }
 
-export const getFollowers = async (req) => {
+export const getFollowers = async (userId) => {
 
-  const url = "http://localhost:5000/radar/getFollowers"
+  const url = "http://localhost:5000/radar/getFollowers/" + userId
 
-  const request = new Request(url, {
-    method: "post",
-    body: JSON.stringify(req),
+  const request = {
+    method: "get",
     headers: {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",
     }
-  });
+  }
 
   const result = {}
 

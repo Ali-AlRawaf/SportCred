@@ -48,6 +48,9 @@ const post = require("./routes/post")
 const postComment = require("./routes/postComment")
 const search = require('./routes/search')
 const radar = require('./routes/radarlist')
+const debate = require('./routes/debate')
+const option = require('./routes/option')
+const vote = require('./routes/vote')
 
 app.use(cors({origin: '*'}));
 
@@ -57,7 +60,10 @@ app.use('/survey', survey);
 app.use('/post', post);
 app.use('/post/:id/postComment', postComment);
 app.use('/search', search);
-app.use('/radar', radar)
+app.use('/debate', debate);
+app.use('/option', option);
+app.use('/vote', vote);
+app.use('/radar', radar);
 
 app.listen(port);//, () => console.log(`Listening on port ${port}`));
 module.exports = ({ connect, app });
