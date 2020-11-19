@@ -6,6 +6,7 @@ import RadarItem from '../component/RadarItem'
 import profileImage from '../assets/profile_img.jpg';
 import arrow from '../assets/arrow_forward.png'
 import { getFollowers } from '../controller/radarlist'
+import debatePNG from '../assets/debate.png'
 
 class RadarListScreen extends React.Component {
 
@@ -13,9 +14,12 @@ class RadarListScreen extends React.Component {
     super(props);
     this.state = {
       data: [],
-      isLoading: true
+      isLoading: true,
+      selectedUser: "",
+      debating: false
     };
     this.getRadarList = this.getRadarList.bind(this);
+    this.enableDebate = this.enableDebate.bind(this);
   }
 
   componentDidMount = () => {
@@ -37,6 +41,18 @@ class RadarListScreen extends React.Component {
     return data
   }
 
+  enableDebate = async() => {
+    await this.setState({debating: true});
+    alert("Please tap on someone from your radar list to challenge to a debate!");
+  }
+
+  challenge = async(user) => {
+    if(this.state.debating) {
+      await this.setState({selectedUser: user});
+      this.props.navigation.navigate("NewDebate", {challengee: this.state.selectedUser});
+    }
+  }
+
   render(){
     if (this.state.isLoading) return null;
     return(
@@ -54,6 +70,16 @@ class RadarListScreen extends React.Component {
             source={arrow}
         />
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.debateButton}
+        activeOpacity={0.7}
+        onPress={() => this.enableDebate()}
+      >
+        <Image
+          style={styles.debateImg}
+          source={debatePNG}
+        />
+      </TouchableOpacity>
       <ScrollView contentContainerStyle={styles.container}>
         <FlatList data={this.state.data}
             keyExtractor={(item, index) => 'key' + index}
@@ -66,7 +92,15 @@ class RadarListScreen extends React.Component {
             decelerationRate={"fast"}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item }) => {
-                return <RadarItem item={item} />
+              return (
+                <TouchableOpacity 
+                  style={styles.containerRadar}
+                  activeOpacity={0.7}
+                  onPress={()=> this.challenge(item.username)}
+                >
+                  <RadarItem item={item}/>
+                </TouchableOpacity>
+              );
             }}
         />
       </ScrollView>
@@ -82,6 +116,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     minHeight: '100%'
+  },
+
+  containerRadar: {
+    flex: 1,
+    width: null,
   },
 
   radarItem: {
@@ -107,6 +146,17 @@ const styles = StyleSheet.create({
       rotate: '-180deg'
     }],
   },
+
+  debateButton: {
+    marginTop: -20,
+    marginRight: 20,
+    alignSelf: 'flex-end'
+  },
+
+  debateImg: {
+    height: 40,
+    width: 40
+},
 })
 
 export default RadarListScreen;

@@ -7,35 +7,41 @@ const User = require('../models/user');
 
 router.post('/addDebate', async (req, res) => {
 
-  const winner = await User.findOne({_id: req.body.winner}).catch(error => console.log('invalid winner id'));
-  if (!winner) return res.status(400).send('Could not find winner');
+  // const winner = await User.findOne({_id: req.body.winner}).catch(error => console.log('invalid winner id'));
+  // if (!winner) return res.status(400).send('Could not find winner');
 
-  for (const option in req.body.options) {
-    const opt = await Option.findOne({_id: req.body.options[option]}).catch(error => console.log('invalid option id'));
-    if (!opt) return res.status(400).send('Could not find option');
-  }
+  // for (const option in req.body.options) {
+  //   const opt = await Option.findOne({_id: req.body.options[option]}).catch(error => console.log('invalid option id'));
+  //   if (!opt) return res.status(400).send('Could not find option');
+  // }
 
   for (const user in req.body.users) {
     const usr = await User.findOne({_id: req.body.users[user]}).catch(error => console.log('invalid user id'));
     if (!usr) return res.status(400).send('Could not find user');
   }
 
-  for (const vote in req.body.votes) {
-    const v = await Votes.findOne({_id: req.body.votes[vote]}).catch(error => console.log('invalid vote id'));
-    if (!v) return res.status(400).send('Could not find vote');
-  }
+  // for (const vote in req.body.votes) {
+  //   const v = await Votes.findOne({_id: req.body.votes[vote]}).catch(error => console.log('invalid vote id'));
+  //   if (!v) return res.status(400).send('Could not find vote');
+  // }
 
   var newDebate = new Debate({
     topic: req.body.topic,
-    options: req.body.options,
     users: req.body.users,
-    votes: req.body.votes,
-    winner: req.body.winner,
+    public: false
   });
 
+  var newOption = new Option({
+    debateId: newDebate._id,
+    option: req.body.option,
+  })
+
+  newDebate.options = [newOption._id]
+
   try {
+    await newOption.save();
     await newDebate.save();
-    res.status(200).send('debate added');
+    res.status(200).send({id: newDebate._id});
   } catch (err) {
     console.log(err);
     res.status(400).send('error adding debate');
@@ -55,6 +61,7 @@ router.post('/addOption', async (req, res) => {
   try {
     await newOption.save();
     debate.options.push(newOption._id);
+    debate.public = true;
     await debate.save();
     res.status(200).send('option added');
   } catch (err) {
@@ -143,7 +150,7 @@ router.get('/optionVotes/:debate/:option', async (req, res) => {
 
 // Get all debates
 router.get('/', async (req, res) => {
-  const allDebates = await Debate.find({}).catch((error) => {
+  const allDebates = await Debate.find({public: true}).catch((error) => {
         return res.status(400).send("error getting all debates")
     });
     try {

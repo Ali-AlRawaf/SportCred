@@ -96,12 +96,14 @@ export const addDebate = async (body) => {
   const result = {}
 
   const response = await fetch(request);
+  result.status = response.status;
+
   if (response.status === 200){
     console.log('debate successfully added')
-    result.status = response.status;
+    const res = await response.json();
+    result.debateId = res.id;
   } else {
     const msg = await response.text();
-    result.status = response.status;
     result.error = msg;
   }
 

@@ -1,18 +1,24 @@
 import React from "react";
+import { connect } from "react-redux";
 import profile_img from '../assets/profile_img.jpg';
 import { View, Text, TextInput, Image, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
 import arrow from '../assets/arrow_forward.png'
 import bg from '../assets/bg.png'
+import { getUser, getUserByName } from '../controller/user'
+import { sendNotif } from "../controller/notif"
+import { addDebate } from "../controller/debate"
 
 class NewDebate extends React.Component {
 
 	constructor(props){
 		super(props);
+		var challengee = props.route.params.challengee;
 		this.state = {
 			topic: "",
-			option: ""
+			option: "",
+			challengee: challengee
 		}
 
 		this.updateField = this.updateField.bind(this)
@@ -25,9 +31,40 @@ class NewDebate extends React.Component {
         });
     };
 
-    handleSubmit = () => {
-    	// TODO
-    }
+    handleSubmit = async () => {
+		const recipientRes = await getUserByName(this.state.challengee);
+		if(recipientRes.status != 200) {
+			alert(recipientRes.status + ': ' + recipientRes.error)
+		} else {
+			const req = {
+				topic: this.state.topic,
+				option: this.state.option,
+				users: [this.props.currentUser, recipientRes.user._id]
+			};
+			console.log(req);
+
+			const debateRes = await addDebate(req);
+			if(debateRes.status != 200) {
+				alert(debateRes.status + ': ' + debateRes.error)
+			} else {
+				const currUser = await getUser(this.props.currentUser);
+				const challenge = {
+					sender : this.props.currentUser,
+					link: debateRes.debateId,
+					notifBody: currUser.user.username + " has challenged you to a debate: " + this.state.topic + '!',
+					recipient: recipientRes.user._id
+				}
+				console.log(challenge)
+				const notifRes = await sendNotif(challenge);
+				if(notifRes.status != 200){
+					alert(notifRes.status + ': ' + notifRes.error)
+				} else {
+					alert("Succesfully challenged " + this.state.challengee + " to a debate!");
+					this.props.navigation.navigate("RadarList")
+				}
+			}
+		}
+    };
 
 	render(){
 		return (
@@ -64,7 +101,7 @@ class NewDebate extends React.Component {
 				<TouchableOpacity
                     style={styles.submitButton}
                     activeOpacity={0.7}
-                    onPress={() => this.handleSubmit()}
+                    onPress={()=>this.handleSubmit()}
                 >
                     <Text style={styles.submitButtonText}>Submit</Text>
                 </TouchableOpacity>
@@ -132,4 +169,10 @@ const styles = StyleSheet.create({
     }
 })
 
-export default NewDebate;
+const mapStateToProps = (state) => {
+	return {
+	  currentUser: state.auth.currentUser,
+	};
+  };
+  
+export default connect(mapStateToProps)(NewDebate);

@@ -51,6 +51,7 @@ const radar = require('./routes/radarlist')
 const debate = require('./routes/debate')
 const option = require('./routes/option')
 const vote = require('./routes/vote')
+const notif = require('./routes/notif')
 
 app.use(cors({origin: '*'}));
 
@@ -64,6 +65,7 @@ app.use('/debate', debate);
 app.use('/option', option);
 app.use('/vote', vote);
 app.use('/radar', radar);
+app.use('/notif', notif);
 
 app.listen(port);//, () => console.log(`Listening on port ${port}`));
 module.exports = ({ connect, app });
