@@ -71,6 +71,7 @@ export const getOptionVotes = async (debateId, optionId) => {
     const json = await response.json();
     result.status = response.status;
     result.votes = json.votes;
+    console.log(result.votes)
   } else {
     const msg = await response.text();
     result.status = response.status;
