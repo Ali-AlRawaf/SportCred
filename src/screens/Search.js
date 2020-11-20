@@ -103,22 +103,23 @@ const styles = StyleSheet.create({
     screenContainer: {
         display: 'flex',
         height: '100%',
-        width: '100%'
+        width: '100%',
     },
     Bar: {
         paddingStart: 5,
         paddingVertical: 10,
-        alignSelf: 'flex-end',
-        paddingEnd: 30
+        paddingEnd: 30,
     },
     navContainer: {
-        flex: 1
+        flex: 1,
+        paddingTop: 20,
     },
     header:{
         flexDirection: "row",
         backgroundColor: "#393e42",
         alignItems: 'center',
-        paddingLeft: 5
+        paddingLeft: 5,
+        
     },
     arrow: {
         height: 25,
