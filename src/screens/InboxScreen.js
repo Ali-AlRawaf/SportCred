@@ -31,8 +31,38 @@ class InboxScreen extends React.Component {
 
   render(){
     if (this.state.isLoading) return null;
+
+    if(this.state.data.length == 0) {
+      return(
+        <ImageBackground
+          source={bg}
+          style={styles.background}
+        >
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={() => this.props.navigation.goBack(null)}
+          >
+            <Image
+              style={styles.arrow}
+              source={arrow}
+            />
+          </TouchableOpacity>
+          <View
+          style={styles.noNotifContainer}
+          >
+            <Text
+            style={styles.noNotifText}
+            >
+              No Notifications
+            </Text>
+          </View>
+        </ImageBackground>
+      )
+    }
+
     const listItems = this.state.data.map((d, idx) => {
-        return(<Notification notifBody={d.notifBody} link={d.link}></Notification>);
+      return(<Notification notifBody={d.notifBody} link={d.link}></Notification>);
     });
 
     return(
@@ -51,9 +81,9 @@ class InboxScreen extends React.Component {
         />
       </TouchableOpacity>
       <ScrollView>
-            <View style={styles.posts}>
-                {listItems}
-            </View>
+        <View style={styles.posts}>
+            {listItems}
+        </View>
       </ScrollView>
       </ImageBackground>
     )
@@ -62,6 +92,15 @@ class InboxScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    noNotifText: {
+      color: 'white',
+      fontSize: 20,
+    },
+    noNotifContainer:{
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
     posts: {
         flex: 1,
         justifyContent: 'center',
