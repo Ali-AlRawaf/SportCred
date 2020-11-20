@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import profile_img from '../assets/profile_img.jpg';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import StephenASmith from '../assets/StephenASmith.png';
 
 const Comment = (props) => {
     console.log(props)
@@ -20,7 +21,7 @@ const Comment = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.card}>
-                <Image style={styles.imgBox} source={props.profilePic} />
+                <Image style={styles.imgBox} source={StephenASmith} />
                 <View style={styles.textBox}>
                     <Text style={styles.headerText}>
                         {props.userName}
