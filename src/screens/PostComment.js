@@ -119,7 +119,7 @@ class PostComment extends React.Component {
                         onPress={() => this.buttonPress()}
                     >
                         <Text style={styles.buttonText}>
-                            C
+                            Comment
                             </Text>
                     </TouchableOpacity>
                 </View>
