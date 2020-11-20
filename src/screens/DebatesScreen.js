@@ -10,7 +10,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import search_img from '../assets/search_18dp.png'
 import { useNavigation } from '@react-navigation/native';
 import { getAllDebates } from '../controller/debate';
-import { connect } from "react-redux";
+import refreshPNG from '../assets/refresh.png'
 
 class DebatesScreen extends React.Component {
     constructor(props) {
@@ -47,6 +47,14 @@ class DebatesScreen extends React.Component {
         }
     }
 
+    refresh = async () => {
+        this.realDebates().then((resp) => {
+            this.setState({debates: resp})
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
     sortInorder = async (a, b) => {
         alert(a.topic)
         alert(b.topic)
@@ -65,11 +73,25 @@ class DebatesScreen extends React.Component {
                     style={styles.header}
                 >
                     <TouchableOpacity style={styles.button}
-            
+                        activeOpacity={0.7}
+                        onPress={()=>{
+                            alert("You will be redirected to your radar. Please tap the debate button.");
+                            this.props.navigation.navigate("RadarList");
+                        }}
                     >
                         <Text style={styles.buttonText}>
                             New Debate
                         </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.refreshButton}
+                        activeOpacity={0.7}
+                        onPress={() => this.refresh()}
+                    >
+                        <Image
+                            style={styles.refreshImg}
+                            source={refreshPNG}
+                        />
                     </TouchableOpacity>
                 </View>
                 <ScrollView>
@@ -123,6 +145,18 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#ffffff',
         fontWeight: 'bold'
+    },
+
+    refreshButton: {
+        marginTop: -20,
+        marginRight: 20,
+        alignSelf: 'flex-end'
+    },
+
+    refreshImg: {
+        height: 40,
+        width: 40,
+        tintColor: 'white'
     },
 })
 

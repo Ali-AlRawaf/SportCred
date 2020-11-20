@@ -146,6 +146,34 @@ export const getUser = async (userId) => {
 
   return result;
 }
+
+export const getUserByName = async (username) => {
+  const url = "http://localhost:5000/user/get-user-by-name/" + username
+
+  const request = {
+    method: "get",
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json",
+    }
+  }
+
+  const result = {}
+
+  const response = await fetch(url, request);
+  result.status = response.status;
+
+  if (response.status === 200){
+    const msg = await response.json();
+    result.user = msg;
+  }else{
+    const msg = await response.text();
+    result.error = msg;
+  }
+
+  return result;
+}
+
 export const editData = async (userData) => {
 
         const response = await fetch(
