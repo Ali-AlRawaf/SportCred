@@ -36,5 +36,15 @@ router.post('/send-notif', async (req, res) => {
     }
 })
 
+router.get('/get-notifs/:id', async (req, res) => {
+    const inbox = await Inbox.findOne({user: req.params.id});
+
+    if(inbox){
+        return res.status(200).send({notifs: inbox.notifs})
+    } else {
+        return res.status(200).send({notifs: []})
+    }
+})
+
 
 module.exports = router;

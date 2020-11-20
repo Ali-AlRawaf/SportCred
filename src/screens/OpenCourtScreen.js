@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ScrollView } from 'react-native-gesture-handler';
 import search_img from '../assets/search_18dp.png'
+import notif from '../assets/notif.png'
 import { useNavigation } from '@react-navigation/native';
 
 const userPosts = [
@@ -49,6 +50,15 @@ function OpenCourtScreen() {
                 style={styles.header}
             >
                 <TouchableOpacity
+                    onPress={() => navigation.navigate('Inbox')}
+                >
+                    <Image
+                        style={styles.notif_img}
+                        source={notif}
+                    />
+
+                </TouchableOpacity>
+                <TouchableOpacity
                     onPress={() => navigation.navigate('Search')}
                 >
                     <Image
@@ -81,15 +91,23 @@ const styles = StyleSheet.create({
         height: 900
     },
     search_img: {
-        height: 20,
-        width: 20,
-        alignSelf: 'flex-end',
+        height: 40,
+        width: 40,
+        marginTop: 10,
+        marginRight: 10,
         tintColor: 'white'
     },
     header: {
-        justifyContent: "flex-end",
-        marginRight: 10,
-        marginTop: 10
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 15
+    },
+    notif_img: {
+        height: 40,
+        width: 40,
+        marginTop: 10,
+        marginLeft: 10,
+        tintColor: 'white',
     }
 })
 

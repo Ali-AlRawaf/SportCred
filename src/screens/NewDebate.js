@@ -51,7 +51,7 @@ class NewDebate extends React.Component {
 				const challenge = {
 					sender : this.props.currentUser,
 					link: debateRes.debateId,
-					notifBody: currUser.user.username + " has challenged you to a debate: " + this.state.topic + '!',
+					notifBody: currUser.user.username + " has challenged you to a debate: " + this.state.topic + '?',
 					recipient: recipientRes.user._id
 				}
 				console.log(challenge)

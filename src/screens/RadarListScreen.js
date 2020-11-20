@@ -60,26 +60,28 @@ class RadarListScreen extends React.Component {
           source={bg}
           style={styles.background}
       >
-      <TouchableOpacity
-          style={styles.button}
+      <View style={styles.header}>
+        <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={() => this.props.navigation.goBack(null)}
+        >
+          <Image
+              style={styles.arrow}
+              source={arrow}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.debateButton}
           activeOpacity={0.7}
-          onPress={() => this.props.navigation.goBack(null)}
-      >
-        <Image
-            style={styles.arrow}
-            source={arrow}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.debateButton}
-        activeOpacity={0.7}
-        onPress={() => this.enableDebate()}
-      >
-        <Image
-          style={styles.debateImg}
-          source={debatePNG}
-        />
-      </TouchableOpacity>
+          onPress={() => this.enableDebate()}
+        >
+          <Image
+            style={styles.debateImg}
+            source={debatePNG}
+          />
+        </TouchableOpacity>
+      </View>
       <ScrollView contentContainerStyle={styles.container}>
         <FlatList data={this.state.data}
             keyExtractor={(item, index) => 'key' + index}
@@ -111,6 +113,9 @@ class RadarListScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  header:{
+    justifyContent: 'space-between'
+  },
   container: {
     marginTop: 10,
     flexDirection: 'row',
@@ -156,7 +161,7 @@ const styles = StyleSheet.create({
   debateImg: {
     height: 40,
     width: 40
-},
+  },
 })
 
 export default RadarListScreen;
