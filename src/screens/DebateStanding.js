@@ -16,25 +16,31 @@ class DebateStanding extends React.Component {
     this.state = {
       debate: "null",
       vote: "",
-      isLoading: true
+      isLoading: true,
+      options: [],
+      optionToVotes: "",
+      votes: ""
     }
 
     this.getVoteText = this.getVoteText.bind(this)
   }
 
   componentDidMount = () => {
+    console.log('in ds')
+    console.log(this.props.route.params.optionToVotes)
     this.setState({
       debate: this.props.route.params.debate,
       vote: this.props.route.params.value,
       isLoading: false,
-      options: this.props.route.params.options
+      options: this.props.route.params.options,
+      optionToVotes: this.props.route.params.optionToVotes,
+      votes: this.props.route.params.votes
     })
 
   }
 
   getVoteText = () => {
     let voteText = "You sided with "
-    console.log(this.state.debate.options)
     if (this.state.vote < 50){
       voteText += this.state.options[0]
       
@@ -61,7 +67,6 @@ class DebateStanding extends React.Component {
               >
           <View style={styles.header}>
               <TouchableOpacity onPress={() => this.props.navigation.navigate("Debates")}>
-
                   <Image
                       style={styles.arrow}
                       source={arrow}
@@ -71,7 +76,7 @@ class DebateStanding extends React.Component {
           </View>
           <Text style={styles.topic}>{debate.topic}</Text>
           <View style={styles.graphContainer}>
-            <DebateGraph data={data}/>
+            <DebateGraph data={data} optionToVotes={this.state.optionToVotes} options={this.state.options}/>
           </View>
           <View style={styles.uservoteContainer}>
             <Text style={styles.uservote}>{this.getVoteText()}</Text>

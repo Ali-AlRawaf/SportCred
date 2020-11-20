@@ -9,6 +9,7 @@ import { getDebate, getOptionNames } from '../controller/debate';
 import { getOption } from '../controller/option';
 import { getVote } from '../controller/vote';
 import { getUser } from '../controller/user';
+import {getOptionVotes} from '../controller/debate';
 
 // const debate = {
 // 	users: [
@@ -43,16 +44,29 @@ class Debate extends React.Component {
 	}
 
 	componentDidMount = () => {
-		console.log(this.props.route);
 		this.setDebateInfo(this.props.route.params.id).then(result => console.log("worked")).catch(e => console.log(e));
 	}
 
   setDebateInfo = async (id) => {
     const getDebateRes = await getDebate(id);
 	const options = await getOptionNames(id);
-	console.log(options.options);
+	const optionsIds = getDebateRes.debate.options;
+	let i = 0;
+	const optionToVotes = await Promise.all(optionsIds.map(async optionId => {
+		const optionVote = await getOptionVotes(id, optionId);
+		// console.log(optionVote.votes)
+
+		console.log('options')
+		console.log(options)
+
+		// const result = {'option': optionVote.votes.length}
+		const result = {'option': options.options[i], vote: 3}
+		i += 1
+		return result
+	}))
     // You would usually get these using the debate
     const users = [];
+    console.log(optionToVotes)
     // let usr = await getUser("5f8ab8e746c4267c36bfda65");
     // users.push(usr.user);
     // usr = await getUser("5f8d2fd5973adc58e42715f7");
@@ -63,6 +77,7 @@ class Debate extends React.Component {
       topic: debate.topic,
       users: debate.users,
 	  options: options.options,
+	  optionToVotes: optionToVotes,
 	  debate: debate
     });
   }
@@ -74,8 +89,7 @@ class Debate extends React.Component {
 	}
 
 	handleSubmit = () => {
-		console.log(this.state)
-		this.props.navigation.navigate("DebateStanding", {debate: this.state.debate, value: this.state.value, options: this.state.options})
+		this.props.navigation.navigate("DebateStanding", {debate: this.state.debate, value: this.state.value, options: this.state.options, optionToVotes: this.state.optionToVotes})
 	}
 
 	render(){
