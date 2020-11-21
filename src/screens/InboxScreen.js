@@ -25,7 +25,7 @@ class InboxScreen extends React.Component {
         this.setState({
             data: resNotifs.notifs,
             isLoading: false
-        })
+        }).then(result => console.log(result)).catch(err => console.log(err))
     });
   }
 
