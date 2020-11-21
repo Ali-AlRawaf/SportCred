@@ -19,9 +19,15 @@ import RadarList from './screens/RadarListScreen';
 import TabNavigator from './navigation/TabNavigator';
 import PostComment from './screens/PostComment';
 
+import DebateStanding from './screens/DebateStanding';
+import Debate from './screens/DebateScreen';
+
 import { Provider } from "react-redux";
 import store from "./config/store"
 import ForgotPassword from './screens/ForgotPassword';
+import NewDebate from './screens/NewDebate';
+import InboxScreen from './screens/InboxScreen';
+import DebateChallengeOption from './screens/DebateChallengeOption';
 
 const Stack = createStackNavigator();
 
@@ -39,10 +45,15 @@ function App() {
           <Stack.Screen name="Activate" component={ActivateAccount} options={{ headerShown: false }} />
           <Stack.Screen name="RegisterTwo" component={RegisterScreenTwo} options={{ headerShown: false }} />
           <Stack.Screen name="RadarList" component={RadarList} options={{ headerShown: false }} />
+          <Stack.Screen name="Inbox" component={InboxScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Tutorial" component={TutorialScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Container" component={TabNavigator} options={{ headerShown: false }} />
           <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
+          <Stack.Screen name="NewDebate" component={NewDebate} options={{ headerShown: false }} />
+          <Stack.Screen name="DebateChallengeOption" component={DebateChallengeOption} options={{ headerShown: false }} />
+          <Stack.Screen name="DebateStanding" component={DebateStanding} options={{ headerShown: false }} />
+          <Stack.Screen name="Debate" component={Debate} options={{ headerShown: false }} />
           <Stack.Screen name="Comment" component={PostComment} options={{ headerShown: true, headerTitle: "Comments" }} />
           <Stack.Screen name="Edit" component={EditProfile} options={{ headerShown: false }} />
         </Stack.Navigator>

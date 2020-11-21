@@ -6,47 +6,82 @@ import RadarItem from '../component/RadarItem'
 import profileImage from '../assets/profile_img.jpg';
 import arrow from '../assets/arrow_forward.png'
 import { getFollowers } from '../controller/radarlist'
+import debatePNG from '../assets/debate.png'
 
 class RadarListScreen extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {
-      data: []
+      data: [],
+      isLoading: true,
+      selectedUser: "",
+      debating: false
     };
     this.getRadarList = this.getRadarList.bind(this);
+    this.enableDebate = this.enableDebate.bind(this);
   }
-
 
   componentDidMount = () => {
-      this.getRadarList();
+      this.getRadarList().then(res => {
+        this.setState({
+          data: res.followers,
+          isLoading: false
+        })
+      });
+
   }
 
-  getRadarList = async() => {
+  getRadarList = async () => {
     const data = await getFollowers({'user': '5fa03dbd26f5b1307cd8c610'});
+    
     for (let i in data.followers) {
       data.followers[i].profileImg = profileImage;
     }
-    this.setState({
-      data: data.followers
-    })
+    return data
+  }
+
+  enableDebate = async() => {
+    await this.setState({debating: true});
+    alert("Please tap on someone from your radar list to challenge to a debate!");
+  }
+
+  challenge = async(user) => {
+    if(this.state.debating) {
+      await this.setState({selectedUser: user});
+      this.props.navigation.navigate("NewDebate", {challengee: this.state.selectedUser});
+    }
   }
 
   render(){
+    if (this.state.isLoading) return null;
     return(
       <ImageBackground
           source={bg}
+          style={styles.background}
       >
-      <TouchableOpacity
-          style={styles.button}
+      <View style={styles.header}>
+        <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={() => this.props.navigation.goBack(null)}
+        >
+          <Image
+              style={styles.arrow}
+              source={arrow}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.debateButton}
           activeOpacity={0.7}
-          onPress={() => this.props.navigation.goBack(null)}
-      >
-        <Image
-            style={styles.arrow}
-            source={arrow}
-        />
-      </TouchableOpacity>
+          onPress={() => this.enableDebate()}
+        >
+          <Image
+            style={styles.debateImg}
+            source={debatePNG}
+          />
+        </TouchableOpacity>
+      </View>
       <ScrollView contentContainerStyle={styles.container}>
         <FlatList data={this.state.data}
             keyExtractor={(item, index) => 'key' + index}
@@ -59,7 +94,15 @@ class RadarListScreen extends React.Component {
             decelerationRate={"fast"}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item }) => {
-                return <RadarItem item={item} />
+              return (
+                <TouchableOpacity 
+                  style={styles.containerRadar}
+                  activeOpacity={0.7}
+                  onPress={()=> this.challenge(item.username)}
+                >
+                  <RadarItem item={item}/>
+                </TouchableOpacity>
+              );
             }}
         />
       </ScrollView>
@@ -70,11 +113,19 @@ class RadarListScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  header:{
+    justifyContent: 'space-between'
+  },
   container: {
     marginTop: 10,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    minHeight: '100vh'
+    minHeight: '100%'
+  },
+
+  containerRadar: {
+    flex: 1,
+    width: null,
   },
 
   radarItem: {
@@ -82,8 +133,15 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    marginTop: 20,
+    marginTop: 80,
     marginLeft: 20,
+  },
+
+  background: {
+    flex: 1,
+    resizeMode: "stretch",
+    width: "100%",
+    height: "100%"
   },
 
   arrow: {
@@ -92,6 +150,17 @@ const styles = StyleSheet.create({
     transform: [{
       rotate: '-180deg'
     }],
+  },
+
+  debateButton: {
+    marginTop: -20,
+    marginRight: 20,
+    alignSelf: 'flex-end'
+  },
+
+  debateImg: {
+    height: 40,
+    width: 40
   },
 })
 
