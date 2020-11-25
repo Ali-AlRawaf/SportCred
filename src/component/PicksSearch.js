@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import {getNBAplayerByName, getHeadshotOfPlayer} from '../controller/nba'
 import NBAPickCard from './NBAPickCard'
 
@@ -18,6 +18,10 @@ class PicksSearch extends React.Component{
 
 	handleSubmit = () => {
 		const player = getNBAplayerByName(this.state.player)
+		if (player === undefined) {
+			Alert.alert('Player not found');
+			return;
+		}
 		const headshot = getHeadshotOfPlayer(player)
 
 		player['headshot'] = headshot
