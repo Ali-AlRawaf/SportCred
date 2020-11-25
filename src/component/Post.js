@@ -19,7 +19,7 @@ const Post = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.card}>
-                <Image style={styles.imgBox} source={props.profilePic} />
+                <Image style={styles.imgBox} source={StephenASmith} />
                 <View style={styles.textBox}>
                     <Text style={styles.headerText}>
                         {props.name}
@@ -40,7 +40,8 @@ const Post = (props) => {
                         onPress={() => navigation.navigate('Comment', {
                             name: props.name,
                             profilePic: props.profilePic,
-                            post: props.post
+                            post: props.post,
+                            id: props.id
                         })}
                     >
                         <Text style={styles.buttonText}>
