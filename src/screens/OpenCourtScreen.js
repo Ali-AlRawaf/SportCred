@@ -78,7 +78,6 @@ class OpenCourtScreen extends React.Component {
                     <View style={styles.posts}>
                         {this.state.renderPosts}
                     </View>
-
                 </ScrollView>
             </View >
         );
@@ -94,7 +93,8 @@ const styles = StyleSheet.create({
     },
     screen: {
         backgroundColor: '#333436',
-        height: 900
+        height: '100%',
+        paddingTop: 50
     },
     search_img: {
         height: 20,
