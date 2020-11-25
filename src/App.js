@@ -22,6 +22,8 @@ import PostComment from './screens/PostComment';
 import DebateStanding from './screens/DebateStanding';
 import Debate from './screens/DebateScreen';
 
+import PicksSearch from './component/PicksSearch';
+
 import { Provider } from "react-redux";
 import store from "./config/store"
 import ForgotPassword from './screens/ForgotPassword';
@@ -38,6 +40,7 @@ function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen name="PicksSearch" component={PicksSearch} options={{ headerShown: false }} />
           <Stack.Screen name="Start" component={StartingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ForgotPassword" component = {ForgotPassword} options={{ headerShown: false }} />
