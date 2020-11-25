@@ -56,10 +56,9 @@ class PicksSearch extends React.Component{
                             <Text
                                 style={styles.prompt}
                             >Search</Text>
-                </TouchableOpacity>
-	            {this.state.searchItem && <NBAPickCard player={this.state.searchItem} />}	
+		            </TouchableOpacity>
+		            {this.state.searchItem && <NBAPickCard player={this.state.searchItem} />}	
 				</View>
-				
 				
 			</View>
 		);
