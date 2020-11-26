@@ -13,6 +13,7 @@ import RegisterScreenTwo from './screens/RegisterScreenTwo';
 import TutorialScreen from './screens/TutorialScreen';
 import Search from './screens/Search';
 import EditProfile from "./screens/EditProfileScreen";
+import TriviaLandingScreen from './screens/TriviaLandingScreen';
 
 
 import RadarList from './screens/RadarListScreen';
@@ -40,7 +41,7 @@ function App() {
         <Stack.Navigator>
           <Stack.Screen name="Start" component={StartingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="ForgotPassword" component = {ForgotPassword} options={{ headerShown: false }} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={RegisterScreenOne} options={{ headerShown: false }} />
           <Stack.Screen name="Activate" component={ActivateAccount} options={{ headerShown: false }} />
           <Stack.Screen name="RegisterTwo" component={RegisterScreenTwo} options={{ headerShown: false }} />

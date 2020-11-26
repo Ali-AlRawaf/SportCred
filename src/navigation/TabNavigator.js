@@ -3,7 +3,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import OpenCourtScreen from "../screens/OpenCourtScreen";
-import TriviaScreen from '../screens/TriviaScreen';
+import TriviaLandingScreen from '../screens/TriviaLandingScreen';
 import DebatesScreen from '../screens/DebatesScreen';
 import PicksScreen from '../screens/PicksScreen';
 import ProfileScreen from "../screens/ProfileScreen";
@@ -53,7 +53,7 @@ const TabNavigator = () => {
             barStyle={{ backgroundColor: '#474747' }}
         >
             <Tab.Screen name="OpenCourt" component={OpenCourtScreen} />
-            <Tab.Screen name="Trivia" component={TriviaScreen} />
+            <Tab.Screen name="Trivia" component={TriviaLandingScreen} />
             <Tab.Screen name="Picks" component={PicksScreen} />
             <Tab.Screen name="Debates" component={DebatesScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
