@@ -2,33 +2,29 @@ import React, { useState, useCallback } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const Season = (props) => {
+const PicksTopic = (props) => {
     const navigation = useNavigation();
+
+    let pick = "";
+    if (props.isAssigned) {
+        pick = props.pick;
+    }
+
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.button}
-            onPress={() => {
-                if (props.id === "1") {
-                    navigation.navigate('PreSeason', {
-                        id: props.id
-                    })
-                } else if (props.id === "2") {
-                    navigation.navigate('RegularSeason', {
-                        id: props.id
-                    }) 
-                } else {
-                    navigation.navigate('Playoffs', {
-                        id: props.id
-                    })
-                }
-                }}>
-                
-                    <Text style={styles.buttonText}>
-                        
-                        {props.season}
+            <TouchableOpacity style={styles.card}
+            onPress={() => navigation.navigate('Container', {
+                id: props.id
+            })}>
+                <View style={styles.textBox}>
+                    <Text style={styles.bodyText}>
+                        {props.topic}
                     </Text>
-                
+                    <Text style={styles.pick}>
+                        {pick}
+                    </Text>
+                </View>
             </TouchableOpacity>
         </View>
     );
@@ -36,7 +32,7 @@ const Season = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        margin: 30
+        margin: 7
     },
     toggle: {
         color: "#3D929A",
@@ -44,8 +40,8 @@ const styles = StyleSheet.create({
     },
     card: {
         backgroundColor: '#242526',
-        width: 300,
-        height: 100,
+        width: 340,
+        minHeight: 120,
         shadowColor: '#673939',
         shadowOpacity: .1,
         borderRadius: 1,
@@ -71,22 +67,19 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
     },
     bodyText: {
-        fontSize: 17,
+        fontSize: 18.5,
         paddingLeft: 10,
         paddingTop: 10,
         color: '#ffffff'
     },
     button: {
-        width: 200,
-        height: 70,
-        backgroundColor: '#242526',
-        borderRadius: 25,
-        shadowColor: '#673939',
-        shadowOpacity: .1,
-        shadowRadius: 9,
+        width: 130,
+        height: 30,
+        backgroundColor: '#3D929A',
+        borderRadius: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        
+        left: 10,
         position: 'relative',
         bottom: 0,
         marginTop: 5
@@ -94,11 +87,20 @@ const styles = StyleSheet.create({
     },
 
     buttonText: {
-        fontSize: 20,
+        fontSize: 14,
         color: '#ffffff',
         fontWeight: 'bold'
     },
+
+    pick: {
+        fontSize: 15.5,
+        fontWeight: 'bold',
+        color: '#FF9233',
+        paddingLeft: 10,
+        paddingTop: 20,
+        writingDirection: 'rtl'
+    }
 });
 
 
-export default Season;
+export default PicksTopic;
