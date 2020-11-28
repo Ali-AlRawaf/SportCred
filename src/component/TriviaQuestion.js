@@ -1,26 +1,35 @@
 import React from 'react'
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
 import logo from '../assets/text_logo.png'
-import MultipleChoice from '../component/MultipleChoice'
+import MultipleChoice from './MultipleChoice.js'
 
 export default class TriviaQuestion extends React.Component{
     constructor(props){
         super(props)
+        
+        console.log("console props" + JSON.stringify(this.props))
+    }
+
+    state = {
+        question: this.props.question
     }
 
     render(){
+        const {answers} = this.state.question.answer
         return(
             <View
             style={styles.questionContainer}
         >
             <Text
                 style={styles.question}
-            >Who has the most championship rings?</Text>
+            >{this.props.question.question}</Text>
             <Image
                 style={styles.questionImg}
                 source={logo}
             />
-            <MultipleChoice/>
+            <MultipleChoice
+                answer={this.props.question.answer}
+            />
         </View>
         )
 
