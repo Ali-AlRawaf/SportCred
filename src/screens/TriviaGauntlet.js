@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Text, View, ImageBackground, StyleSheet } from 'react-native';
 import Question from '../component/TriviaQuestion'
+import MultipleChoice from '../component/MultipleChoice'
 import bg from '../assets/bg.png'
 
 export default class TriviaGauntlet extends React.Component {
@@ -10,7 +11,8 @@ export default class TriviaGauntlet extends React.Component {
     }
 
     state = {
-        currentQuestion: {"question": "", "answer": {"a": "", "b": "", "c": "", "d": ""} }
+        currentQuestion: {"question": "", "answer": {"a": "bruh", "b": "", "c": "", "d": ""} },
+        answer: {"question": "", "answer": {"a": "bruh", "b": "", "c": "", "d": ""} }
     }
 
     componentDidMount(){
@@ -26,7 +28,8 @@ export default class TriviaGauntlet extends React.Component {
             }
             index += 1
             this.setState({
-                currentQuestion: this.props.route.params.questions[index]
+                currentQuestion: this.props.route.params.questions[index],
+                answer: this.props.route.params.questions[index]
             })
         }, 14000)       
     }
@@ -44,7 +47,9 @@ export default class TriviaGauntlet extends React.Component {
                     <Question
                         question={this.state.currentQuestion}
                     />
-
+                    <MultipleChoice
+                        answer={this.state.answer}
+                    />
                 </ImageBackground>              
             </View>
         )

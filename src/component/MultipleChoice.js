@@ -5,12 +5,15 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 export default class MultipleChoice extends React.Component{
     constructor(props){
         super(props)
-        this.state = {
-            answer: this.props.answer
-        }
+
         console.log("THIS IS PROPS" + JSON.stringify(this.props))
     }
 
+
+
+    state = {
+        answer: this.props.answer
+    }
     render(){
         return(
             <View>
@@ -22,14 +25,14 @@ export default class MultipleChoice extends React.Component{
                     >
                         <Text
                             style={styles.answerText}    
-        >{this.state.answer.a}</Text>
+        >{this.props.answer.answer.a}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.answerButton}
                     >
                         <Text
                             style={styles.answerText}                   
-                        >{this.state.answer.b}</Text>                    
+                        >{this.props.answer.answer.b}</Text>                    
                     </TouchableOpacity>
                 </View>
                 <View
@@ -40,14 +43,14 @@ export default class MultipleChoice extends React.Component{
                     >
                         <Text
                             style={styles.answerText}                    
-                        >{this.state.answer.c}</Text>                        
+                        >{this.props.answer.answer.c}</Text>                        
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.answerButton}
                     >
                         <Text
                             style={styles.answerText}                    
-                        >{this.state.answer.d}</Text>                        
+                        >{this.props.answer.answer.d}</Text>                        
                     </TouchableOpacity>
 
                 </View>  

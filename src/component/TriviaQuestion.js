@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
 import logo from '../assets/text_logo.png'
-import MultipleChoice from './MultipleChoice.js'
 
 export default class TriviaQuestion extends React.Component{
     constructor(props){
@@ -27,9 +26,7 @@ export default class TriviaQuestion extends React.Component{
                 style={styles.questionImg}
                 source={logo}
             />
-            <MultipleChoice
-                answer={this.props.question.answer}
-            />
+
         </View>
         )
 
