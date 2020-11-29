@@ -1,5 +1,6 @@
 import React from 'react'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native'
+import arrow from '../assets/arrow_forward.png'
 import {getNBAplayerByName, getHeadshotOfPlayer} from '../controller/nba'
 import NBAPickCard from './NBAPickCard'
 
@@ -41,6 +42,16 @@ class PicksSearch extends React.Component{
 	render(){
 		return(
 			<View style={styles.container}>
+			<View style={styles.header}>
+			    <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
+
+			        <Image
+			            style={styles.arrow}
+			            source={arrow}
+			        />
+			    </TouchableOpacity>
+
+			</View>
 				<Text style={styles.title}>{this.state.pickCategory}</Text>
 				<View style={styles.inputContainer}>
 					<TextInput style={styles.input} placeholder="Enter player's name"
@@ -73,6 +84,21 @@ const styles = StyleSheet.create({
 		backgroundColor: "#333436",
 		height: '100%'
 	},
+	header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 30,
+        width: '95%',
+        paddingLeft: 10
+    },
+    arrow: {
+      height: 25,
+      width: 25,
+      transform: [{
+        rotate: '-180deg'
+      }],
+    },
+    
     title: {
     	textAlign: 'center',
     	fontSize: 35,

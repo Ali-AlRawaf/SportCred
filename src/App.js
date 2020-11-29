@@ -13,6 +13,7 @@ import RegisterScreenTwo from './screens/RegisterScreenTwo';
 import TutorialScreen from './screens/TutorialScreen';
 import Search from './screens/Search';
 import EditProfile from "./screens/EditProfileScreen";
+import TriviaLandingScreen from './screens/TriviaLandingScreen';
 
 
 import RadarList from './screens/RadarListScreen';
@@ -30,6 +31,9 @@ import ForgotPassword from './screens/ForgotPassword';
 import NewDebate from './screens/NewDebate';
 import InboxScreen from './screens/InboxScreen';
 import DebateChallengeOption from './screens/DebateChallengeOption';
+import PreSeasonScreen from './screens/PreSeasonScreen';
+import RegularSeasonScreen from './screens/RegularSeasonScreen';
+import PlayoffsScreen from './screens/PlayoffsScreen';
 
 const Stack = createStackNavigator();
 
@@ -40,10 +44,9 @@ function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="PicksSearch" component={PicksSearch} options={{ headerShown: false }} />
           <Stack.Screen name="Start" component={StartingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="ForgotPassword" component = {ForgotPassword} options={{ headerShown: false }} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={RegisterScreenOne} options={{ headerShown: false }} />
           <Stack.Screen name="Activate" component={ActivateAccount} options={{ headerShown: false }} />
           <Stack.Screen name="RegisterTwo" component={RegisterScreenTwo} options={{ headerShown: false }} />
@@ -58,6 +61,10 @@ function App() {
           <Stack.Screen name="DebateStanding" component={DebateStanding} options={{ headerShown: false }} />
           <Stack.Screen name="Debate" component={Debate} options={{ headerShown: false }} />
           <Stack.Screen name="Comment" component={PostComment} options={{ headerShown: true, headerTitle: "Comments" }} />
+          <Stack.Screen name="PreSeason" component={PreSeasonScreen} options={{ headerShown: true, headerTitle: "Preseason" }} />
+          <Stack.Screen name="RegularSeason" component={RegularSeasonScreen} options={{ headerShown: true, headerTitle: "Regular Season" }} />
+          <Stack.Screen name="Playoffs" component={PlayoffsScreen} options={{ headerShown: true, headerTitle: "Playoffs" }} />
+          <Stack.Screen name="PicksSearch" component={PicksSearch} options={{ headerShown: false }} />
           <Stack.Screen name="Edit" component={EditProfile} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
