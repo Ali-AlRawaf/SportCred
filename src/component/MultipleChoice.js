@@ -6,7 +6,6 @@ export default class MultipleChoice extends React.Component{
     constructor(props){
         super(props)
 
-        console.log("THIS IS PROPS" + JSON.stringify(this.props))
     }
 
 

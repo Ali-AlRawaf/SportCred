@@ -6,7 +6,6 @@ export default class TriviaQuestion extends React.Component{
     constructor(props){
         super(props)
         
-        console.log("console props" + JSON.stringify(this.props))
     }
 
     state = {

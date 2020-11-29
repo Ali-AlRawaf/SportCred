@@ -7,7 +7,6 @@ import bg from '../assets/bg.png'
 export default class TriviaGauntlet extends React.Component {
     constructor(props){
         super(props)
-        console.log(JSON.stringify(props))
         this.interval = null
         this.onChoice = this.onChoice.bind(this)
     }
@@ -19,7 +18,6 @@ export default class TriviaGauntlet extends React.Component {
 
     componentDidMount(){
         this.startInterval()
-        console.log("ayooo"+JSON.stringify(this.props.route.params.questions))
     }
 
     startInterval(){
