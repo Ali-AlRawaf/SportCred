@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
 
     here: {
         color: "#FF652F",
-        alignSelf: "center"
+        alignSelf: "center",
     },
 
     hereButton: {
@@ -83,6 +83,9 @@ const styles = StyleSheet.create({
         marginBottom: 15
     },
 
+    otherOptions: {
+
+    }
 
 
 });
@@ -163,8 +166,7 @@ class LoginScreen extends React.Component {
                         </TouchableOpacity>
                     </View>
                     <View
-                        style={styles.container}
-                        flexDirection="row"
+                        style={styles.otherOptions}
                     >
                         <Text
                             style={styles.prompt}
@@ -179,6 +181,9 @@ class LoginScreen extends React.Component {
                                 style={styles.here}
                             >Reset</Text>
                         </TouchableOpacity>
+                    </View>
+                    <View style={styles.otherOptions}
+                        >
                         <Text
                             style={styles.prompt}
                         >Don't have an account?</Text>

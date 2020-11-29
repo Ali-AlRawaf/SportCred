@@ -1,17 +1,15 @@
 import React, { useState, useCallback } from 'react';
-import profile_img from '../assets/profile_img.jpg';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, ScrollView, Image, Button, StyleSheet, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import profileImage from '../assets/profile_img.jpg';
 import { useNavigation } from '@react-navigation/native';
-import StephenASmith from '../assets/StephenASmith.png';
+import { getDebate } from '../controller/debate';
 
-const Comment = (props) => {
-    console.log(props)
+const Notification = (props) => {
     const navigation = useNavigation();
     const [textShown, setTextShown] = useState(false);
     const [lengthMore, setLengthMore] = useState(false);
     const toggleNumberOfLines = () => {
         setTextShown(!textShown);
-        console.log(props)
     }
 
     const onTextLayout = useCallback(e => {
@@ -21,15 +19,12 @@ const Comment = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.card}>
-                <Image style={styles.imgBox} source={StephenASmith} />
+                <Image style={styles.imgBox} source={profileImage} />
                 <View style={styles.textBox}>
-                    <Text style={styles.headerText}>
-                        {props.userName}
-                    </Text>
                     <Text style={styles.bodyText}
                         onTextLayout={onTextLayout}
                         numberOfLines={textShown ? undefined : 4}>
-                        {props.comment}
+                        {props.notifBody}
                     </Text>
                     {
                         lengthMore ? <Text
@@ -38,6 +33,21 @@ const Comment = (props) => {
                         >{textShown ? 'Read Less' : 'Read More'}</Text>
                             : null
                     }
+                    <TouchableOpacity style={styles.button}
+                        onPress={() => {
+                            getDebate(props.link).then((resDebate) => {
+                                if(resDebate.debate.public){
+                                    navigation.navigate('Debate', {id: props.link})
+                                } else {
+                                    navigation.navigate('DebateChallengeOption', {id: props.link})
+                                }
+                            })
+                        }}
+                    >
+                        <Text style={styles.buttonText}>
+                            Accept
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>
@@ -45,20 +55,22 @@ const Comment = (props) => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        margin: 7
+    },
     toggle: {
         color: "#3D929A",
         marginLeft: 10,
     },
     card: {
         backgroundColor: '#242526',
+        width: 340,
         minHeight: 120,
         shadowColor: '#673939',
         shadowOpacity: .1,
         borderRadius: 1,
         shadowRadius: 13,
-        flexDirection: 'row',
-        paddingLeft: 20
-
+        flexDirection: 'row'
     },
     imgBox: {
         width: 40,
@@ -68,16 +80,11 @@ const styles = StyleSheet.create({
         borderRadius: 25
     },
     textBox: {
-        marginTop: 10,
-        paddingTop: 10,
-        marginLeft: 20,
+        paddingTop: 20,
         alignContent: 'space-between',
-        width: 270,
-        minHeight: 100,
+        width: 280,
         justifyContent: 'flex-start',
-        paddingLeft: 12,
-        backgroundColor: '#383838',
-        borderRadius: 10,
+        paddingLeft: 12
     },
     headerText: {
         fontSize: 15,
@@ -113,5 +120,4 @@ const styles = StyleSheet.create({
 
 });
 
-
-export default Comment;
+export default Notification;

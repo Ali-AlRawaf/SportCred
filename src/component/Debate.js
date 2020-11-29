@@ -1,11 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import profile_img from '../assets/profile_img.jpg';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import StephenASmith from '../assets/StephenASmith.png';
 
-const Comment = (props) => {
-    console.log(props)
+const Debate = (props) => {
     const navigation = useNavigation();
     const [textShown, setTextShown] = useState(false);
     const [lengthMore, setLengthMore] = useState(false);
@@ -20,16 +17,15 @@ const Comment = (props) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.card}>
-                <Image style={styles.imgBox} source={StephenASmith} />
+            <TouchableOpacity style={styles.card}
+            onPress={() => navigation.navigate('Debate', {
+                id: props.id
+            })}>
                 <View style={styles.textBox}>
-                    <Text style={styles.headerText}>
-                        {props.userName}
-                    </Text>
                     <Text style={styles.bodyText}
                         onTextLayout={onTextLayout}
                         numberOfLines={textShown ? undefined : 4}>
-                        {props.comment}
+                        {props.topic}
                     </Text>
                     {
                         lengthMore ? <Text
@@ -39,26 +35,28 @@ const Comment = (props) => {
                             : null
                     }
                 </View>
-            </View>
+            </TouchableOpacity>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        margin: 7
+    },
     toggle: {
         color: "#3D929A",
         marginLeft: 10,
     },
     card: {
         backgroundColor: '#242526',
+        width: 340,
         minHeight: 120,
         shadowColor: '#673939',
         shadowOpacity: .1,
         borderRadius: 1,
         shadowRadius: 13,
-        flexDirection: 'row',
-        paddingLeft: 20
-
+        flexDirection: 'row'
     },
     imgBox: {
         width: 40,
@@ -68,16 +66,9 @@ const styles = StyleSheet.create({
         borderRadius: 25
     },
     textBox: {
-        marginTop: 10,
-        paddingTop: 10,
-        marginLeft: 20,
         alignContent: 'space-between',
-        width: 270,
-        minHeight: 100,
-        justifyContent: 'flex-start',
-        paddingLeft: 12,
-        backgroundColor: '#383838',
-        borderRadius: 10,
+        width: 320,
+        padding: 15
     },
     headerText: {
         fontSize: 15,
@@ -86,7 +77,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
     },
     bodyText: {
-        fontSize: 12,
+        fontSize: 17,
         paddingLeft: 10,
         paddingTop: 10,
         color: '#ffffff'
@@ -110,8 +101,7 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         fontWeight: 'bold'
     },
-
 });
 
 
-export default Comment;
+export default Debate;

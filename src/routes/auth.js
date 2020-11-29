@@ -279,7 +279,12 @@ router.post('/authenticate-reset', async (req, res) => {
 
 router.get('/get-user/:id', async (req, res) => {
   const user = await User.findOne({_id: req.params.id});
-  console.log(user);
+  if (!user) return res.status(400).send('user query failed');
+  return res.status(200).send(user);
+})
+
+router.get('/get-user-by-name/:username', async (req, res) => {
+  const user = await User.findOne({username: req.params.username});
   if (!user) return res.status(400).send('user query failed');
   return res.status(200).send(user);
 })
@@ -296,8 +301,6 @@ router.post('/edit-prof', async (req, res) => {
       const hashed_password = await bcrypt.hash(req.body.password, salt);
       await User.update({email : req.body.email}, {$set: { "password" : hashed_password}});
     }
-
-    console.log(User);
     const user = await User.findOne({email: req.body.email});
     if (!user) return res.status(400).send('username or password is incorrect');
     await User.update({email : req.body.email}, 
