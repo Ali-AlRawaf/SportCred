@@ -25,14 +25,14 @@ export default class MultipleChoice extends React.Component{
                     >
                         <Text
                             style={styles.answerText}    
-        >{this.props.answer.answer.a}</Text>
+        >{this.props.answer.a}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.answerButton}
                     >
                         <Text
                             style={styles.answerText}                   
-                        >{this.props.answer.answer.b}</Text>                    
+                        >{this.props.answer.b}</Text>                    
                     </TouchableOpacity>
                 </View>
                 <View
@@ -43,14 +43,14 @@ export default class MultipleChoice extends React.Component{
                     >
                         <Text
                             style={styles.answerText}                    
-                        >{this.props.answer.answer.c}</Text>                        
+                        >{this.props.answer.c}</Text>                        
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.answerButton}
                     >
                         <Text
                             style={styles.answerText}                    
-                        >{this.props.answer.answer.d}</Text>                        
+                        >{this.props.answer.d}</Text>                        
                     </TouchableOpacity>
 
                 </View>  

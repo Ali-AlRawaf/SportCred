@@ -14,14 +14,13 @@ export default class TriviaQuestion extends React.Component{
     }
 
     render(){
-        const {answers} = this.state.question.answer
         return(
             <View
             style={styles.questionContainer}
         >
             <Text
                 style={styles.question}
-            >{this.props.question.question}</Text>
+            >{this.props.question}</Text>
             <Image
                 style={styles.questionImg}
                 source={logo}

@@ -8,11 +8,12 @@ export default class TriviaGauntlet extends React.Component {
     constructor(props){
         super(props)
         console.log(JSON.stringify(props))
+
     }
 
     state = {
-        currentQuestion: {"question": "", "answer": {"a": "bruh", "b": "", "c": "", "d": ""} },
-        answer: {"question": "", "answer": {"a": "bruh", "b": "", "c": "", "d": ""} }
+        currentQuestion: "",
+        answer:{"a": "", "b": "", "c": "", "d": ""} 
     }
 
     componentDidMount(){
@@ -21,6 +22,10 @@ export default class TriviaGauntlet extends React.Component {
     }
 
     startInterval(index){
+        this.setState({
+            currentQuestion: this.props.route.params.questions[index].question,
+            answer: this.props.route.params.questions[index].answer
+        })
         var interval = setInterval(()=>{
             if (index === this.props.route.params.questions.length){
                 clearInterval(interval)
@@ -28,8 +33,8 @@ export default class TriviaGauntlet extends React.Component {
             }
             index += 1
             this.setState({
-                currentQuestion: this.props.route.params.questions[index],
-                answer: this.props.route.params.questions[index]
+                currentQuestion: this.props.route.params.questions[index].question,
+                answer: this.props.route.params.questions[index].answer
             })
         }, 14000)       
     }
