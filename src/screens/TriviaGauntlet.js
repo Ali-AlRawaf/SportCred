@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, ImageBackground, StyleSheet } from 'react-native';
+import { View, ImageBackground, StyleSheet } from 'react-native';
 import Question from '../component/TriviaQuestion'
 import MultipleChoice from '../component/MultipleChoice'
 import bg from '../assets/bg.png'
@@ -8,39 +8,51 @@ export default class TriviaGauntlet extends React.Component {
     constructor(props){
         super(props)
         console.log(JSON.stringify(props))
-
+        this.interval = null
+        this.onChoice = this.onChoice.bind(this)
     }
-
     state = {
         currentQuestion: "",
-        answer:{"a": "", "b": "", "c": "", "d": ""} 
+        answer:{"a": "", "b": "", "c": "", "d": ""},
+        index: 0
     }
 
     componentDidMount(){
-        this.startInterval(0)
+        this.startInterval()
         console.log("ayooo"+JSON.stringify(this.props.route.params.questions))
     }
 
-    startInterval(index){
+    startInterval(){
         this.setState({
-            currentQuestion: this.props.route.params.questions[index].question,
-            answer: this.props.route.params.questions[index].answer
+            currentQuestion: this.props.route.params.questions[this.state.index].question,
+            answer: this.props.route.params.questions[this.state.index].answer
         })
-        var interval = setInterval(()=>{
-            if (index === this.props.route.params.questions.length){
-                clearInterval(interval)
+        this.interval = setInterval(()=>{
+            if (this.state.index === this.props.route.params.questions.length){
+                clearInterval(this.interval)
                 this.props.navigation.navigate("Search")
             }
-            index += 1
             this.setState({
-                currentQuestion: this.props.route.params.questions[index].question,
-                answer: this.props.route.params.questions[index].answer
+                currentQuestion: this.props.route.params.questions[this.state.index].question,
+                answer: this.props.route.params.questions[this.state.index].answer,
+                index: this.state.index + 1
             })
         }, 14000)       
     }
 
+    onChoice(){
+        clearInterval(this.interval)
+        if (this.state.index === this.props.route.params.questions.length){
+            this.props.navigation.navigate("Search")
+        }
+        this.setState({
+            index: this.state.index + 1
+        })
+        this.startInterval()
+    }
+
+
     render(){
-        const {data} = this.state;
         return(
             <View
                 style={styles.screenContainer}
@@ -54,6 +66,7 @@ export default class TriviaGauntlet extends React.Component {
                     />
                     <MultipleChoice
                         answer={this.state.answer}
+                        answerHandler={this.onChoice}
                     />
                 </ImageBackground>              
             </View>

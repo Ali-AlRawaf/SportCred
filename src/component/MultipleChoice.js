@@ -22,6 +22,8 @@ export default class MultipleChoice extends React.Component{
                 >
                     <TouchableOpacity
                         style={styles.answerButton}
+                        onPress={() => this.props.answerHandler()}
+
                     >
                         <Text
                             style={styles.answerText}    
@@ -29,6 +31,7 @@ export default class MultipleChoice extends React.Component{
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.answerButton}
+                        onPress={() => this.props.answerHandler()}
                     >
                         <Text
                             style={styles.answerText}                   
@@ -40,6 +43,7 @@ export default class MultipleChoice extends React.Component{
                 >
                     <TouchableOpacity
                         style={styles.answerButton}
+                        onPress={() => this.props.answerHandler()}
                     >
                         <Text
                             style={styles.answerText}                    
@@ -47,6 +51,7 @@ export default class MultipleChoice extends React.Component{
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.answerButton}
+                        onPress={() => this.props.answerHandler()}
                     >
                         <Text
                             style={styles.answerText}                    
