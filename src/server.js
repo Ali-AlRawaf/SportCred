@@ -52,8 +52,9 @@ const debate = require('./routes/debate')
 const option = require('./routes/option')
 const vote = require('./routes/vote')
 const notif = require('./routes/notif')
+const trivia = require('./routes/trivia')
 
-app.use(cors({origin: '*'}));
+app.use(cors({ origin: '*' }));
 
 app.use('/testAPI', testAPI);
 app.use('/user', authRoutes);
@@ -66,6 +67,7 @@ app.use('/option', option);
 app.use('/vote', vote);
 app.use('/radar', radar);
 app.use('/notif', notif);
+app.use('/trivia', trivia);
 
 app.listen(port);//, () => console.log(`Listening on port ${port}`));
 module.exports = ({ connect, app });
