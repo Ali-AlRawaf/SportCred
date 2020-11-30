@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { connect } from "react-redux";
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import PicksTopic from '../component/PicksTopic';
+import UpcomingGamesCard from '../component/UpcomingGamesCard';
 import profile_img from '../assets/profile_img.jpg';
 import logo_png from '../assets/logo_png.png';
 import StephenASmith from '../assets/StephenASmith.png';
@@ -10,36 +11,32 @@ import { ScrollView } from 'react-native-gesture-handler';
 import search_img from '../assets/search_18dp.png'
 import { useNavigation } from '@react-navigation/native';
 
-const topics = [
-    {
-        topic: "Game 1 - Milwaukee Bucks vs Orlando Magic",
-        isAssigned: true,
-        pick: "Orlando Magic",
-        id: "1"
-    },
-    {
-        topic: 'Game 1 - Boston Celtics vs Philadelphia 76ers',
-        isAssigned: false,
-        pick: "",
-        id: "2"
-    },
-    {
-        topic: "Game 2 - Milwaukee Bucks vs Orlando Magic",
-        isAssigned: true,
-        pick: "Milwaukee Bucks",
-        id: "3"
-    }
-]
-
-const listItems = topics.map((d, idx) => <PicksTopic key={idx} topic={d.topic} isAssigned={d.isAssigned} pick={d.pick} id={d.id}></PicksTopic>);
+import {getPlayoffsTopics} from '../controller/picks'
 
 class PlayoffsScreen extends React.Component {
 
     constructor (props) {
         super(props);
+        this.state = {
+            topics: [],
+            isLoading: true
+        }
+    }
+
+    componentDidMount = () => {
+        getPlayoffsTopics().then(res => {
+            this.setState({
+                topics: res.topics,
+                isLoading: false
+            })
+        }).catch(err => console.log(err))
     }
 
     render() {
+        if (this.state.isLoading) return null;
+
+        const listItems = this.state.topics.map((d, idx) => <UpcomingGamesCard key={idx} topic={d} userId={this.props.currentUser} navigation={this.props.navigation}></UpcomingGamesCard>);
+
         return (
             <View style={styles.screen}>
                 <View
@@ -50,9 +47,8 @@ class PlayoffsScreen extends React.Component {
                     <View style={styles.topics}>
                         {listItems}
                     </View>
-    
                 </ScrollView>
-            </View >
+            </View>
         );
     }
 }
@@ -81,4 +77,12 @@ const styles = StyleSheet.create({
     }
 })
 
-export default PlayoffsScreen;
+// export default RegularSeasonScreen;
+
+const mapStateToProps = (state) => {
+    return {
+        currentUser: state.auth.currentUser,
+    };
+};
+
+export default connect(mapStateToProps, { })(PlayoffsScreen);

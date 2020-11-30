@@ -24,7 +24,6 @@ class Search extends React.Component {
         const user = await getUser(this.props.currentUser);
         if(!(user.status === 200)){
             alert(result.status + ': ' + result.error)
-
         }
 
         const result = await searchUsers({ [key]: text, "currUser": user.user.username })

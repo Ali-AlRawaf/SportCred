@@ -2,32 +2,58 @@ import React, { useState, useCallback } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const PicksTopic = (props) => {
-    const navigation = useNavigation();
+import {getCurrentPick} from '../controller/picks';
 
-    let pick = "";
-    if (props.isAssigned) {
-        pick = props.pick;
+class PicksTopic extends React.Component {
+
+    constructor(props){
+        super(props)
+        this.state = {
+            pick: "unassigned",
+            isLoading: true
+        }
     }
 
+    componentDidMount = () => {
+        const pick = getCurrentPick(this.props.userId, this.props.topic._id).then(res => {
+            if(res.status === 200){
+                console.log(res.pick.pick)
+                this.setState({
+                    pick: res.pick.pick,
+                    isLoading: false
+                })    
+            }else{
+                this.setState({
+                    isLoading: false
+                })    
+            }
+            
+        }).catch(err => {
+            console.log(err)
+        })
+        
+    }
 
-    return (
-        <View style={styles.container}>
-            <TouchableOpacity style={styles.card}
-            onPress={() => navigation.navigate('PicksSearch', {
-                id: props.id
-            })}>
-                <View style={styles.textBox}>
-                    <Text style={styles.bodyText}>
-                        {props.topic}
-                    </Text>
-                    <Text style={styles.pick}>
-                        {pick}
-                    </Text>
-                </View>
-            </TouchableOpacity>
-        </View>
-    );
+    render(){
+        if (this.state.isLoading) return null;
+            return (
+            <View style={styles.container}>
+                <TouchableOpacity style={styles.card}
+                onPress={() => this.props.navigation.navigate('PicksSearch', {
+                    id: this.props.topic._id
+                })}>
+                    <View style={styles.textBox}>
+                        <Text style={styles.bodyText}>
+                            {this.props.topic.topic}
+                        </Text>
+                        <Text style={styles.pick}>
+                            {this.state.pick}
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 };
 
 const styles = StyleSheet.create({

@@ -239,4 +239,25 @@ router.post('/assignPick', async (req, res) => {
 
 })
 
+router.post('/currentPick', async (req, res) => {
+
+	const topicId = req.body.topicId;
+	const userId = req.body.userId;
+
+	try{
+		const existing_pick = await Pick.findOne({topicId: topicId, userId: userId});
+		if(existing_pick){
+			return res.status(200).send(existing_pick);
+		}else{
+			return res.status(400).send(null);
+		}
+
+
+	}catch(err){
+		return res.status(400).send(null);
+	}
+
+})	
+
+
 module.exports = router;

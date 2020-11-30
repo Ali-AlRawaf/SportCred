@@ -6,7 +6,6 @@ import logo_png from '../assets/logo_png.png';
 import StephenASmith from '../assets/StephenASmith.png';
 import { ScrollView } from 'react-native-gesture-handler';
 import search_img from '../assets/search_18dp.png'
-import { useNavigation } from '@react-navigation/native';
 import NewPostComponent from '../component/NewPost';
 import { getAllPosts } from '../controller/post';
 import { connect } from "react-redux";
@@ -65,7 +64,7 @@ class OpenCourtScreen extends React.Component {
                 <View style={styles.header}>
                     <TouchableOpacity
                         style={styles.search_button}
-                        onPress={() => navigation.navigate('Search')}
+                        onPress={() => this.props.navigation.navigate('Search')}
                     >
                         <Image
                             style={styles.search_img}
@@ -94,7 +93,7 @@ const styles = StyleSheet.create({
     screen: {
         backgroundColor: '#333436',
         height: '100%',
-        paddingTop: 50
+        paddingTop: 20
     },
     search_img: {
         height: 20,

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { connect } from "react-redux";
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import PicksTopic from '../component/PicksTopic';
 import profile_img from '../assets/profile_img.jpg';
@@ -11,29 +12,6 @@ import search_img from '../assets/search_18dp.png'
 import { useNavigation } from '@react-navigation/native';
 
 import {getPreseasonTopics} from '../controller/picks';
-
-// const topics = [
-//     {
-//         topic: "MVP",
-//         isAssigned: true,
-//         pick: "Giannis Antetokounmpo",
-//         id: "1"
-//     },
-//     {
-//         topic: 'DPOY',
-//         isAssigned: false,
-//         pick: "",
-//         id: "2"
-//     },
-//     {
-//         topic: "ROTY",
-//         isAssigned: true,
-//         pick: "Ja Morant",
-//         id: "3"
-//     }
-// ]
-
-// const listItems = topics.map((d, idx) => <PicksTopic key={idx} topic={d.topic} isAssigned={d.isAssigned} pick={d.pick} id={d.id}></PicksTopic>);
 
 class PreSeasonScreen extends React.Component {
 
@@ -48,18 +26,14 @@ class PreSeasonScreen extends React.Component {
     }
 
     displayTopics = () => {
-        const listItems = this.state.topics.map((d, idx) => <PicksTopic key={idx} topic={d.topic} isAssigned={true} pick={"placeholder"} id={d._id}></PicksTopic>);
+        // const listItems = this.state.topics.map((d, idx) => <PicksTopic key={idx} topic={d.topic} isAssigned={true} pick={"placeholder"} id={d._id}></PicksTopic>);
+        const listItems = this.state.topics.map((d, idx) => <PicksTopic key={idx} topic={d} userId={this.props.currentUser} navigation={this.props.navigation}></PicksTopic>);
         return listItems
     }
 
     componentDidMount = () => {
         getPreseasonTopics().then(res => {
             console.log(res);
-            // const preseasonTopics = res.topics.map(topic => {
-            //     return topic
-            // })
-
-            // console.log(preseasonTopics)
             this.setState({
                 topics: res.topics,
                 isLoading: false
@@ -81,7 +55,7 @@ class PreSeasonScreen extends React.Component {
                     </View>
     
                 </ScrollView>
-            </View >
+            </View>
         );
     }
 }
@@ -110,4 +84,12 @@ const styles = StyleSheet.create({
     }
 })
 
-export default PreSeasonScreen;
+// export default PreSeasonScreen;
+
+const mapStateToProps = (state) => {
+    return {
+        currentUser: state.auth.currentUser,
+    };
+};
+
+export default connect(mapStateToProps, { })(PreSeasonScreen);

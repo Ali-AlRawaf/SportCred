@@ -1,12 +1,16 @@
 import React from 'react';
-import { View, ScrollView, Image, Button, StyleSheet, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, ScrollView, Image, Button, StyleSheet, Text, ImageBackground, TouchableOpacity, Alert } from 'react-native';
 import profileImage from '../assets/profile_img.jpg';
 import {assignPick} from '../controller/picks'
 
 const NBAPickCard = ({player, userId, topicId}) => {
 
   function handleAssign(){
-    assignPick(userId, topicId, player.fullName);
+    assignPick(userId, topicId, player.fullName).then(res => {
+      Alert.alert('Pick assigned!');
+    }).catch(err => {
+      Alert.alert('Error assigning pick');
+    });
   }
 
   return(

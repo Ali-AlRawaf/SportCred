@@ -24,6 +24,7 @@ import DebateStanding from './screens/DebateStanding';
 import Debate from './screens/DebateScreen';
 
 import PicksSearch from './component/PicksSearch';
+import PicksTeam from './component/PicksTeam';
 
 import { Provider } from "react-redux";
 import store from "./config/store"
@@ -65,6 +66,7 @@ function App() {
           <Stack.Screen name="RegularSeason" component={RegularSeasonScreen} options={{ headerShown: true, headerTitle: "Regular Season" }} />
           <Stack.Screen name="Playoffs" component={PlayoffsScreen} options={{ headerShown: true, headerTitle: "Playoffs" }} />
           <Stack.Screen name="PicksSearch" component={PicksSearch} options={{ headerShown: false }} />
+          <Stack.Screen name="PicksTeam" component={PicksTeam} options={{ headerShown: false }} />
           <Stack.Screen name="Edit" component={EditProfile} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>

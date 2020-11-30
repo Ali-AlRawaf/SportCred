@@ -26,3 +26,14 @@ export const getGamesOnDay = async () => {
 	})
 	return result
 }
+
+export const getTeamLogo = async (team) => {
+	console.log(teamDetails)
+	const logo = NBAClient.getTeamLogoURLs(team.toLowerCase())
+	if (logo.length > 0){
+		return logo[0]
+	}
+	console.log(logo)
+	
+	return ""
+}
