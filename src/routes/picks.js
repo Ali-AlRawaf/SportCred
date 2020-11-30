@@ -196,5 +196,47 @@ router.get('/playoffsTopics', async (req, res) => {
 
 })
 
+router.post('/assignPick', async (req, res) => {
+
+	const topicId = req.body.topicId;
+	const userId = req.body.userId;
+	const pick = req.body.pick;
+
+	console.log('topicId ' + topicId + ' userId ' + userId + ' pick ' + pick)
+
+	// Check if the user already has a pick for this topic.
+	try{
+		const existing_pick = await Pick.findOne({topicId: topicId, userId: userId});
+		console.log(existing_pick)
+		if (existing_pick){
+			const query = {_id: existing_pick._id}
+			const update = {pick: pick}
+			try{
+				await Pick.updateOne(query, update, {})
+				return res.status(200).send('pick updated');
+			}catch{
+				return res.status(400).send('pick could not be updated');
+			}
+			
+		}
+	}catch{
+		console.log('creating new pick')
+	}
+
+	// Create and assign pick
+	const new_pick = new Pick({
+		topicId: topicId,
+		userId: userId,
+		pick: pick
+	})
+
+	try{
+		await new_pick.save();
+		return res.status(200).send("pick created");
+	}catch(err){
+		return res.status(400).send("error creating pick");
+	}
+
+})
 
 module.exports = router;

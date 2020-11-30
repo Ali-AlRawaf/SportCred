@@ -10,36 +10,65 @@ import { ScrollView } from 'react-native-gesture-handler';
 import search_img from '../assets/search_18dp.png'
 import { useNavigation } from '@react-navigation/native';
 
-const topics = [
-    {
-        topic: "MVP",
-        isAssigned: true,
-        pick: "Giannis Antetokounmpo",
-        id: "1"
-    },
-    {
-        topic: 'DPOY',
-        isAssigned: false,
-        pick: "",
-        id: "2"
-    },
-    {
-        topic: "ROTY",
-        isAssigned: true,
-        pick: "Ja Morant",
-        id: "3"
-    }
-]
+import {getPreseasonTopics} from '../controller/picks';
 
-const listItems = topics.map((d, idx) => <PicksTopic key={idx} topic={d.topic} isAssigned={d.isAssigned} pick={d.pick} id={d.id}></PicksTopic>);
+// const topics = [
+//     {
+//         topic: "MVP",
+//         isAssigned: true,
+//         pick: "Giannis Antetokounmpo",
+//         id: "1"
+//     },
+//     {
+//         topic: 'DPOY',
+//         isAssigned: false,
+//         pick: "",
+//         id: "2"
+//     },
+//     {
+//         topic: "ROTY",
+//         isAssigned: true,
+//         pick: "Ja Morant",
+//         id: "3"
+//     }
+// ]
+
+// const listItems = topics.map((d, idx) => <PicksTopic key={idx} topic={d.topic} isAssigned={d.isAssigned} pick={d.pick} id={d.id}></PicksTopic>);
 
 class PreSeasonScreen extends React.Component {
 
     constructor (props) {
         super(props);
+        this.state = {
+            isLoading: true,
+            topics: []
+        }
+
+        this.displayTopics = this.displayTopics.bind(this)
+    }
+
+    displayTopics = () => {
+        const listItems = this.state.topics.map((d, idx) => <PicksTopic key={idx} topic={d.topic} isAssigned={true} pick={"placeholder"} id={d._id}></PicksTopic>);
+        return listItems
+    }
+
+    componentDidMount = () => {
+        getPreseasonTopics().then(res => {
+            console.log(res);
+            // const preseasonTopics = res.topics.map(topic => {
+            //     return topic
+            // })
+
+            // console.log(preseasonTopics)
+            this.setState({
+                topics: res.topics,
+                isLoading: false
+            })
+        }).catch(err => console.log(err))
     }
 
     render() {
+        if (this.state.isLoading) return null
         return (
             <View style={styles.screen}>
                 <View
@@ -48,7 +77,7 @@ class PreSeasonScreen extends React.Component {
                 </View>
                 <ScrollView>
                     <View style={styles.topics}>
-                        {listItems}
+                        {this.displayTopics()}
                     </View>
     
                 </ScrollView>

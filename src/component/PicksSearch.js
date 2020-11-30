@@ -1,7 +1,9 @@
 import React from 'react'
+import { connect } from "react-redux";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native'
 import arrow from '../assets/arrow_forward.png'
 import {getNBAplayerByName, getHeadshotOfPlayer} from '../controller/nba'
+import {assignPick} from '../controller/picks'
 import NBAPickCard from './NBAPickCard'
 
 class PicksSearch extends React.Component{
@@ -14,10 +16,11 @@ class PicksSearch extends React.Component{
 			searchItem: null
 		}
 
-		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleSearch = this.handleSearch.bind(this);
+        this.getNBACard = this.getNBACard.bind(this);
 	}
 
-	handleSubmit = () => {
+	handleSearch = () => {
 		const player = getNBAplayerByName(this.state.player)
 		if (player === undefined) {
 			Alert.alert('Player not found');
@@ -32,6 +35,11 @@ class PicksSearch extends React.Component{
 		})
 		console.log(player)
 	}
+
+
+    getNBACard = () => {
+        return <NBAPickCard player={this.state.searchItem} userId={this.props.currentUser} topicId={this.props.route.params.id} />
+    }
 
 	updateField = (val) => {
 		this.setState({
@@ -62,13 +70,13 @@ class PicksSearch extends React.Component{
 					<TouchableOpacity
                             style={styles.button}
                             activeOpacity={0.7}
-                            onPress={() => this.handleSubmit()}
+                            onPress={() => this.handleSearch()}
                         >
                             <Text
                                 style={styles.prompt}
                             >Search</Text>
 		            </TouchableOpacity>
-		            {this.state.searchItem && <NBAPickCard player={this.state.searchItem} />}	
+		            {this.state.searchItem && this.getNBACard()}	
 				</View>
 				
 			</View>
@@ -98,7 +106,7 @@ const styles = StyleSheet.create({
         rotate: '-180deg'
       }],
     },
-    
+
     title: {
     	textAlign: 'center',
     	fontSize: 35,
@@ -138,4 +146,12 @@ const styles = StyleSheet.create({
     },
 })
 
-export default PicksSearch;
+// export default PicksSearch;
+
+const mapStateToProps = (state) => {
+    return {
+        currentUser: state.auth.currentUser,
+    };
+};
+
+export default connect(mapStateToProps, { })(PicksSearch);

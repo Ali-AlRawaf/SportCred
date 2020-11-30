@@ -1,8 +1,13 @@
 import React from 'react';
 import { View, ScrollView, Image, Button, StyleSheet, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import profileImage from '../assets/profile_img.jpg';
+import {assignPick} from '../controller/picks'
 
-const NBAPickCard = ({player}) => {
+const NBAPickCard = ({player, userId, topicId}) => {
+
+  function handleAssign(){
+    assignPick(userId, topicId, player.fullName);
+  }
 
   return(
     <View style={styles.container}>
@@ -18,6 +23,7 @@ const NBAPickCard = ({player}) => {
       <TouchableOpacity
                 style={styles.button}
                 activeOpacity={0.7}
+                onPress={handleAssign}
             >
                 <Text
                     style={styles.prompt}
