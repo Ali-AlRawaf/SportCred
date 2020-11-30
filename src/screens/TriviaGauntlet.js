@@ -7,46 +7,56 @@ import bg from '../assets/bg.png'
 export default class TriviaGauntlet extends React.Component {
     constructor(props){
         super(props)
-        this.interval = null
         this.onChoice = this.onChoice.bind(this)
     }
     state = {
         currentQuestion: "",
         answer:{"a": "", "b": "", "c": "", "d": ""},
-        index: 0
+        index: 0,
+        interval: null
     }
 
     componentDidMount(){
-        this.startInterval()
+        this.startInterval(0)
     }
 
-    startInterval(){
+    startInterval(index){
         this.setState({
-            currentQuestion: this.props.route.params.questions[this.state.index].question,
-            answer: this.props.route.params.questions[this.state.index].answer
+            currentQuestion: this.props.route.params.questions[index].question,
+            answer: this.props.route.params.questions[index].answer,
         })
-        this.interval = setInterval(()=>{
-            if (this.state.index === this.props.route.params.questions.length){
-                clearInterval(this.interval)
-                this.props.navigation.navigate("Search")
+        const interval = setInterval(()=>{
+            index += 1
+            if (index >= (this.props.route.params.questions.length - 1)){
+                clearInterval(this.state.interval)
+                this.props.navigation.navigate("TriviaResults")
             }
-            this.setState({
-                currentQuestion: this.props.route.params.questions[this.state.index].question,
-                answer: this.props.route.params.questions[this.state.index].answer,
-                index: this.state.index + 1
-            })
-        }, 14000)       
+            else{
+                this.setState({
+                    currentQuestion: this.props.route.params.questions[index].question,
+                    answer: this.props.route.params.questions[index].answer,
+                    index: index
+                })
+            }
+        }, 14000)
+        this.setState({
+            interval: interval
+        })
     }
 
     onChoice(){
-        clearInterval(this.interval)
-        if (this.state.index === this.props.route.params.questions.length){
-            this.props.navigation.navigate("Search")
-        }
+        clearInterval(this.state.interval)
+
+        var temp = this.state.index + 1
         this.setState({
-            index: this.state.index + 1
+            index: temp
         })
-        this.startInterval()
+        if (temp === this.props.route.params.questions.length){
+            this.props.navigation.navigate("TriviaResults")
+        }
+        else{
+            this.startInterval(temp)        
+        }
     }
 
 
