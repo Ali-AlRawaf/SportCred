@@ -13,8 +13,10 @@ import RegisterScreenTwo from './screens/RegisterScreenTwo';
 import TutorialScreen from './screens/TutorialScreen';
 import Search from './screens/Search';
 import EditProfile from "./screens/EditProfileScreen";
+import OtherProfile from "./screens/OtherProfile";
+import TriviaGauntlet from './screens/TriviaGauntlet';
 import TriviaLandingScreen from './screens/TriviaLandingScreen';
-
+import TriviaResults from './screens/TriviaResults'
 
 import RadarList from './screens/RadarListScreen';
 import TabNavigator from './navigation/TabNavigator';
@@ -68,6 +70,9 @@ function App() {
           <Stack.Screen name="PicksSearch" component={PicksSearch} options={{ headerShown: false }} />
           <Stack.Screen name="PicksTeam" component={PicksTeam} options={{ headerShown: false }} />
           <Stack.Screen name="Edit" component={EditProfile} options={{ headerShown: false }} />
+          <Stack.Screen name="OtherProfile" component={OtherProfile} options={{ headerShown: false }} />
+          <Stack.Screen name="TriviaGauntlet" component={TriviaGauntlet} options={{ headerShown: false }} />
+          <Stack.Screen name="TriviaResults" component={TriviaResults} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

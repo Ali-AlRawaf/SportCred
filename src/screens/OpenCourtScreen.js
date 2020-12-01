@@ -6,6 +6,7 @@ import logo_png from '../assets/logo_png.png';
 import StephenASmith from '../assets/StephenASmith.png';
 import { ScrollView } from 'react-native-gesture-handler';
 import search_img from '../assets/search_18dp.png'
+import { useNavigation } from '@react-navigation/native';
 import NewPostComponent from '../component/NewPost';
 import { getAllPosts } from '../controller/post';
 import { connect } from "react-redux";

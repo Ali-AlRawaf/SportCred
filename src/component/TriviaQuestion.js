@@ -1,11 +1,15 @@
 import React from 'react'
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
 import logo from '../assets/text_logo.png'
-import MultipleChoice from '../component/MultipleChoice'
 
 export default class TriviaQuestion extends React.Component{
     constructor(props){
         super(props)
+        
+    }
+
+    state = {
+        question: this.props.question
     }
 
     render(){
@@ -15,12 +19,12 @@ export default class TriviaQuestion extends React.Component{
         >
             <Text
                 style={styles.question}
-            >Who has the most championship rings?</Text>
+            >{this.props.question}</Text>
             <Image
                 style={styles.questionImg}
                 source={logo}
             />
-            <MultipleChoice/>
+
         </View>
         )
 
