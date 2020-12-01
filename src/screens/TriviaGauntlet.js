@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, ImageBackground, StyleSheet } from 'react-native';
+import { View, ImageBackground, StyleSheet, Text } from 'react-native';
 import { connect } from "react-redux";
 import Question from '../component/TriviaQuestion'
 import MultipleChoice from '../component/MultipleChoice'
@@ -17,6 +17,8 @@ class TriviaGauntlet extends React.Component {
         answers:[],
         index: 0,
         interval: null,
+        clock: 14,
+        clockInterval: null
         score: 0
     }
 
@@ -30,9 +32,11 @@ class TriviaGauntlet extends React.Component {
             currentQuestion: this.props.route.params.questions[index].question,
             answers: this.props.route.params.questions[index].answers,
         })
+        this.restartClock()
         const interval = setInterval(()=>{
             index += 1
-            if (index >= (this.props.route.params.questions.length - 1)){
+            this.stopClock()
+            if (index > (this.props.route.params.questions.length - 1)){
                 clearInterval(this.state.interval)
                 this.props.navigation.navigate("TriviaResults", {
                     score: this.state.score, 
@@ -47,6 +51,7 @@ class TriviaGauntlet extends React.Component {
                     answers: this.props.route.params.questions[index].answers,
                     index: index
                 })
+                this.restartClock()
             }
         }, 14000)
         this.setState({
@@ -75,6 +80,7 @@ class TriviaGauntlet extends React.Component {
         this.setState({
             index: temp
         })
+        this.stopClock()
         if (temp === this.props.route.params.questions.length){
             this.props.navigation.navigate("TriviaResults", {
                 score: this.state.score, 
@@ -88,6 +94,20 @@ class TriviaGauntlet extends React.Component {
         }
     }
 
+    restartClock(){
+        this.setState({
+            clock: 14,
+            clockInterval: setInterval(()=>{
+                this.setState({
+                    clock: this.state.clock - 1
+                })
+            }, 1000)
+        })
+    }
+
+    stopClock(){
+        clearInterval(this.state.clockInterval)
+    }
 
     render(){
         if(this.state.isLoading) return null
@@ -100,13 +120,35 @@ class TriviaGauntlet extends React.Component {
                     style={styles.background}
                     source={bg}
                 >
-                    <Question
-                        question={this.state.currentQuestion}
-                    />
-                    <MultipleChoice
-                        answer={this.state.answers}
-                        answerHandler={this.onChoice}
-                    />
+                    <View
+                        style={styles.qaContainer}
+                    >
+                        <Question
+                            question={this.state.currentQuestion}
+                        />
+
+                        <View
+                            style={styles.answer}
+                        >
+                            <MultipleChoice
+                                answer={this.state.answer}
+                                answerHandler={this.onChoice}
+                            />
+                        </View>
+
+                    </View>
+
+                    <View
+                        style={styles.timerContainer}
+                    >
+                        <View
+                            style={styles.circleBorder}
+                        >
+                            <Text
+                                style={styles.timer}
+                            >{this.state.clock}</Text>
+                        </View>
+                    </View>
                 </ImageBackground>              
             </View>
         )
@@ -125,6 +167,35 @@ const styles = StyleSheet.create({
         display: 'flex',
         height: '100%',
         width: '100%'
+    },
+    timer:{
+        color: 'white',
+        textAlign: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        alignSelf: 'center',
+        fontSize: 25,
+        
+    },
+    timerContainer:{
+        flex: 1,
+        justifyContent: 'center'
+    },
+    qaContainer:{
+        flex: 2,
+        justifyContent: 'center'
+    },
+    answer:{
+        marginTop: 50
+    },
+    circleBorder:{
+        borderRadius: 50,
+        borderColor: 'white',
+        borderWidth: 5,
+        alignSelf: 'center'  ,
+        width: '20%',
+        height: '27%',
+        justifyContent: 'center'     
     }
 })
 
