@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { finishTrivia } from '../controller/trivia';
 
 import bg from '../assets/bg.png'
+import user from '../models/user';
+import { getUser } from '../controller/user';
+
 export default class TriviaResults extends React.Component {
     constructor(props){
         super(props)
@@ -18,10 +22,14 @@ export default class TriviaResults extends React.Component {
                 >
                     <Text
                         style={styles.text}
-                    >You scored 10/10</Text>
+                    >You scored {this.props.route.params.score}/{this.props.route.params.total}</Text>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this.props.navigation.navigate("Container")}
+                        onPress={() => {
+                            finishTrivia(this.props.route.params.sid, this.props.route.params.pid, this.props.route.params.total).then(() => {    
+                                this.props.navigation.navigate("Container")
+                            })
+                        }}
                     >
                         <Text
                             style={styles.buttonText}

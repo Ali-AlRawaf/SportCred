@@ -7,7 +7,12 @@ const player = new mongoose.Schema({
         ref: 'User'
     },
     totalScore: {
-        type: Number
+        type: Number,
+        default: 0
+    },
+    done: {
+        type: Boolean,
+        default: false
     }
 })
 

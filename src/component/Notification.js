@@ -3,6 +3,49 @@ import { View, ScrollView, Image, Button, StyleSheet, Text, ImageBackground, Tou
 import profileImage from '../assets/profile_img.jpg';
 import { useNavigation } from '@react-navigation/native';
 import { getDebate } from '../controller/debate';
+import { getTrivia } from '../controller/trivia';
+
+const notifButton = (props) => {
+    const navigation = useNavigation();
+    if(props.type == "Info"){
+        return(null)
+    } else {
+        return(
+            <TouchableOpacity style={styles.button}
+                onPress={() => {
+                    if (props.type == "Trivia") {
+                        getTrivia(props.link).then((resTrivia) => {
+                            var done
+                            resTrivia.trivia.players.forEach(p => {
+                                if (p.userId == props.user) {
+                                    if (p.done) done = true
+                                }
+                            })
+
+                            if (done) {
+                                alert("You have already completed this trivia!")
+                            } else {
+                                navigation.navigate("TriviaGauntlet", { questions: resTrivia.trivia.questions, sid: resTrivia.trivia._id })
+                            }
+                        })
+                    } else if (props.type == "Debate") {
+                        getDebate(props.link).then((resDebate) => {
+                            if (resDebate.debate.public) {
+                                navigation.navigate('Debate', { id: props.link })
+                            } else {
+                                navigation.navigate('DebateChallengeOption', { id: props.link })
+                            }
+                        })
+                    }
+                }}
+            >
+                <Text style={styles.buttonText}>
+                    Accept
+                        </Text>
+            </TouchableOpacity>
+        )
+    }
+}
 
 const Notification = (props) => {
     const navigation = useNavigation();
@@ -33,21 +76,7 @@ const Notification = (props) => {
                         >{textShown ? 'Read Less' : 'Read More'}</Text>
                             : null
                     }
-                    <TouchableOpacity style={styles.button}
-                        onPress={() => {
-                            getDebate(props.link).then((resDebate) => {
-                                if(resDebate.debate.public){
-                                    navigation.navigate('Debate', {id: props.link})
-                                } else {
-                                    navigation.navigate('DebateChallengeOption', {id: props.link})
-                                }
-                            })
-                        }}
-                    >
-                        <Text style={styles.buttonText}>
-                            Accept
-                        </Text>
-                    </TouchableOpacity>
+                    {notifButton(props)}
                 </View>
             </View>
         </View>

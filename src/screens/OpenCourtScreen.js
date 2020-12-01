@@ -11,6 +11,7 @@ import NewPostComponent from '../component/NewPost';
 import { getAllPosts } from '../controller/post';
 import { connect } from "react-redux";
 import { getUser } from '../controller/user';
+import notif from '../assets/notif.png'
 import ExpoStatusBar from 'expo-status-bar/build/ExpoStatusBar';
 
 
@@ -64,8 +65,17 @@ class OpenCourtScreen extends React.Component {
             <View style={styles.screen}>
                 <View style={styles.header}>
                     <TouchableOpacity
+                        onPress={() => this.props.navigation.navigate('Inbox')}
+                    >
+                        <Image
+                            style={styles.notif_img}
+                            source={notif}
+                        />
+
+                    </TouchableOpacity>
+                    <TouchableOpacity
                         style={styles.search_button}
-                        onPress={() => navigation.navigate('Search')}
+                        onPress={() => this.props.navigation.navigate('Search')}
                     >
                         <Image
                             style={styles.search_img}
@@ -97,20 +107,26 @@ const styles = StyleSheet.create({
         paddingTop: 50
     },
     search_img: {
-        height: 20,
-        width: 20,
-        alignSelf: 'flex-end',
+        height: 40,
+        width: 40,
+        marginRight: 20,
+        marginBottom: 20,
         tintColor: 'white'
     },
     header: {
-        justifyContent: "flex-end",
-        marginRight: 10,
-        paddingTop: 25
+        flexDirection: 'row',
+        justifyContent: "space-between"
     },
     search_button: {
         height: 20,
         width: 20,
-        alignSelf: 'flex-end'
+        marginRight: 20
+    },
+    notif_img: {
+        height: 40,
+        width: 40,
+        marginLeft: 10,
+        tintColor: 'white',
     }
 })
 

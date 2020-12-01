@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 
 const notifSchema = new mongoose.Schema({
     sender: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
-    link: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Debate' }, //generalize notifs here
+    link: { type: mongoose.Schema.Types.ObjectId },
+    type: {type: String, required: true},
     notifBody: {type: String, required: true}
 })
 
