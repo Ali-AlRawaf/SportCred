@@ -65,7 +65,7 @@ class OpenCourtScreen extends React.Component {
                 <View style={styles.header}>
                     <TouchableOpacity
                         style={styles.search_button}
-                        onPress={() => navigation.navigate('Search')}
+                        onPress={() => this.props.navigation.navigate('Search')}
                     >
                         <Image
                             style={styles.search_img}
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     screen: {
         backgroundColor: '#333436',
         height: '100%',
-        paddingTop: 50
+        paddingTop: 20
     },
     search_img: {
         height: 20,
