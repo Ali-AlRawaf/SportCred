@@ -43,6 +43,7 @@ class Search extends React.Component {
         }
     }
 
+    
     handleSearch = (text) => {
         this.setState({ search: text });
         this.searchUsername("username", text);
