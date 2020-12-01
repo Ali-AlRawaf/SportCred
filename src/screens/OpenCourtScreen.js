@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     screen: {
         backgroundColor: '#333436',
         height: '100%',
-        paddingTop: 50
+        paddingTop: 20
     },
     search_img: {
         height: 40,
