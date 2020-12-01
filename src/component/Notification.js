@@ -25,7 +25,7 @@ const notifButton = (props) => {
                             if (done) {
                                 alert("You have already completed this trivia!")
                             } else {
-                                navigation.navigate("TriviaGauntlet", { questions: resTrivia.trivia.questions, sid: resTrivia.trivia._id })
+                                navigation.navigate("TriviaGauntlet", { questions: resTrivia.trivia.questions, sid: resTrivia.trivia._id, solo: false })
                             }
                         })
                     } else if (props.type == "Debate") {

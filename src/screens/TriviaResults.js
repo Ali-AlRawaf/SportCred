@@ -26,9 +26,9 @@ export default class TriviaResults extends React.Component {
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {
-                            finishTrivia(this.props.route.params.sid, this.props.route.params.pid, this.props.route.params.total).then(() => {    
-                                this.props.navigation.navigate("Container")
-                            })
+                            if(!this.props.route.params.solo)
+                                finishTrivia(this.props.route.params.sid, this.props.route.params.pid, this.props.route.params.total)
+                            this.props.navigation.navigate("Container")
                         }}
                     >
                         <Text

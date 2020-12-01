@@ -18,7 +18,7 @@ class TriviaGauntlet extends React.Component {
         index: 0,
         interval: null,
         clock: 14,
-        clockInterval: null
+        clockInterval: null,
         score: 0
     }
 
@@ -38,12 +38,21 @@ class TriviaGauntlet extends React.Component {
             this.stopClock()
             if (index > (this.props.route.params.questions.length - 1)){
                 clearInterval(this.state.interval)
-                this.props.navigation.navigate("TriviaResults", {
-                    score: this.state.score, 
-                    total: this.props.route.params.questions.length,
-                    sid: this.props.route.params.sid,
-                    pid: this.props.currentUser
-                })
+                if(this.props.route.params.solo){
+                    this.props.navigation.navigate("TriviaResults", {
+                        score: this.state.score, 
+                        total: this.props.route.params.questions.length,
+                        solo: this.props.route.params.solo
+                    })
+                } else {
+                    this.props.navigation.navigate("TriviaResults", {
+                        score: this.state.score, 
+                        total: this.props.route.params.questions.length,
+                        sid: this.props.route.params.sid,
+                        pid: this.props.currentUser,
+                        solo: this.props.route.params.solo
+                    })
+                }
             }
             else{
                 this.setState({
@@ -66,12 +75,14 @@ class TriviaGauntlet extends React.Component {
             await this.setState({
                 score: this.state.score + 1
             })
-            incrementScore(this.props.route.params.sid, this.props.currentUser).then(res => {
-                if(res.status != 200)
-                    alert(res.status + ': ' + res.text)
-                else
-                    alert(res.text)
-            })
+            alert("Correct!")
+
+            if(!this.props.route.params.solo) {
+                incrementScore(this.props.route.params.sid, this.props.currentUser).then(res => {
+                    if(res.status != 200)
+                        alert(res.status + ': ' + res.text)
+                })
+            }
         } else {
             alert("Incorrect!")
         }
@@ -82,12 +93,21 @@ class TriviaGauntlet extends React.Component {
         })
         this.stopClock()
         if (temp === this.props.route.params.questions.length){
-            this.props.navigation.navigate("TriviaResults", {
-                score: this.state.score, 
-                total: this.props.route.params.questions.length,
-                sid: this.props.route.params.sid,
-                pid: this.props.currentUser
-            })
+            if(this.props.route.params.solo){
+                this.props.navigation.navigate("TriviaResults", {
+                    score: this.state.score, 
+                    total: this.props.route.params.questions.length,
+                    solo: this.props.route.params.solo
+                })
+            } else {
+                this.props.navigation.navigate("TriviaResults", {
+                    score: this.state.score, 
+                    total: this.props.route.params.questions.length,
+                    sid: this.props.route.params.sid,
+                    pid: this.props.currentUser,
+                    solo: this.props.route.params.solo
+                })
+            }
         }
         else{
             this.startInterval(temp)        
@@ -131,7 +151,7 @@ class TriviaGauntlet extends React.Component {
                             style={styles.answer}
                         >
                             <MultipleChoice
-                                answer={this.state.answer}
+                                answer={this.state.answers}
                                 answerHandler={this.onChoice}
                             />
                         </View>

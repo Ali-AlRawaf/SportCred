@@ -81,7 +81,7 @@ class RadarListScreen extends React.Component {
                   } else {
                     alert("Succesfully challenged " + user + " to a trivia!");
                     getTrivia(triviaRes.id).then((resTrivia) => {
-                      this.props.navigation.navigate("TriviaGauntlet", {questions: resTrivia.trivia.questions, sid: resTrivia.trivia._id})
+                      this.props.navigation.navigate("TriviaGauntlet", {questions: resTrivia.trivia.questions, sid: resTrivia.trivia._id, solo: false})
                     })
                   }
                 })
