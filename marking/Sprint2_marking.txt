@@ -124,7 +124,7 @@ System Design - (PDF or MD file or another suitable format) (Max 10 marks)
   [2 marks: Two class names do not match the collaborator names or the responsibilities of two or more classes are not stated or are unclear]
   [1 mark: The majority of class names do not match the collaborator names or the responsibilities of the majority of the classes are not stated or are unclear]
   [0 marks: No CRC provided or the provided document does not match the CRC model]
-  Marks: 3/4 (some classes like 'Model - User' look like the responsibilities are just a list of all the member variables; instead try to summarize it in a high-level description)
+  Marks: 4/4 (some classes like 'Model - User' look like the responsibilities are just a list of all the member variables; instead try to summarize it in a high-level description)
 - Software Architecture Diagram 
   [4 marks: The Architecture Diagram is present, it is formatted using proper graphic symbols, and it follows a known Architecture diagram.
   If the system architecture does not follow the MVC (studied in class), a web link or reference has been provided to support the used architecture]
@@ -135,9 +135,9 @@ System Design - (PDF or MD file or another suitable format) (Max 10 marks)
   [1 mark: The Architecture Diagram is present, it is not formatted well, and it is unclear what Architecture it follows.
   There is no web link or other reference lending support to the presented diagram.
   [0 marks: No diagram present or the presented document does not look like a software architecture diagram]
-  Marks: 3/4 (please include a rendered version in GitHub, right now I see the raw HTML code)
-Total: 8/10
+  Marks: 4/4
+Total: 10/10
 
 Demo: 9.5/10
 
-Overall: 78.5/85
+Overall: 80.5/85
