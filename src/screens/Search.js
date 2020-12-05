@@ -24,7 +24,6 @@ class Search extends React.Component {
         const user = await getUser(this.props.currentUser);
         if(!(user.status === 200)){
             alert(result.status + ': ' + result.error)
-
         }
 
         const result = await searchUsers({ [key]: text, "currUser": user.user.username })
@@ -47,6 +46,10 @@ class Search extends React.Component {
         this.setState({ search: text });
         this.searchUsername("username", text);
     };
+
+    handlePress = (id) =>{
+        this.props.navigation.navigate("OtherProfile", id);
+    }
 
     render() {
         const {search} = this.state;
@@ -84,6 +87,8 @@ class Search extends React.Component {
                         </View>
                         <UserList
                             data={this.state.data}
+                            handlePress={this.handlePress}
+
                         />
                     </View>
                 </ImageBackground>

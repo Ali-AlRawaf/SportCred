@@ -25,7 +25,7 @@ class InboxScreen extends React.Component {
         this.setState({
             data: resNotifs.notifs,
             isLoading: false
-        }).then(result => console.log(result)).catch(err => console.log(err))
+        })
     });
   }
 
@@ -62,7 +62,7 @@ class InboxScreen extends React.Component {
     }
 
     const listItems = this.state.data.map((d, idx) => {
-      return(<Notification notifBody={d.notifBody} link={d.link}></Notification>);
+      return(<Notification notifBody={d.notifBody} link={d.link} type={d.type} user={this.props.currentUser}></Notification>);
     });
 
     return(

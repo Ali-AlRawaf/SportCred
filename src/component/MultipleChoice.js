@@ -5,8 +5,14 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 export default class MultipleChoice extends React.Component{
     constructor(props){
         super(props)
+
     }
 
+
+
+    state = {
+        answer: this.props.answer
+    }
     render(){
         return(
             <View>
@@ -15,17 +21,19 @@ export default class MultipleChoice extends React.Component{
                 >
                     <TouchableOpacity
                         style={styles.answerButton}
+                        onPress={() => this.props.answerHandler(this.props.answer[0].isCorrect)}
                     >
                         <Text
                             style={styles.answerText}    
-                        >Lebron James</Text>
+                        >{this.props.answer[0].answerBody}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.answerButton}
+                        onPress={() => this.props.answerHandler(this.props.answer[1].isCorrect)}
                     >
                         <Text
                             style={styles.answerText}                   
-                        >Kobe Bryant</Text>                    
+                        >{this.props.answer[1].answerBody}</Text>                    
                     </TouchableOpacity>
                 </View>
                 <View
@@ -33,17 +41,19 @@ export default class MultipleChoice extends React.Component{
                 >
                     <TouchableOpacity
                         style={styles.answerButton}
+                        onPress={() => this.props.answerHandler(this.props.answer[2].isCorrect)}
                     >
                         <Text
                             style={styles.answerText}                    
-                        >Michael Jordan</Text>                        
+                        >{this.props.answer[2].answerBody}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.answerButton}
+                        onPress={() => this.props.answerHandler(this.props.answer[3].isCorrect)}
                     >
                         <Text
                             style={styles.answerText}                    
-                        >Bill Russel</Text>                        
+                        >{this.props.answer[3].answerBody}</Text>                        
                     </TouchableOpacity>
 
                 </View>  

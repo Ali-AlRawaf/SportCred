@@ -7,6 +7,11 @@ import profileImage from '../assets/profile_img.jpg';
 import arrow from '../assets/arrow_forward.png'
 import { getFollowers } from '../controller/radarlist'
 import debatePNG from '../assets/debate.png'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { getUser, getUserByName } from '../controller/user'
+import { addTrivia } from '../controller/trivia'
+import { sendNotif } from "../controller/notif"
+import { getTrivia } from "../controller/trivia"
 
 class RadarListScreen extends React.Component {
 
@@ -15,8 +20,8 @@ class RadarListScreen extends React.Component {
     this.state = {
       data: [],
       isLoading: true,
-      selectedUser: "",
-      debating: false
+      debating: false,
+      trivia: false
     };
     this.getRadarList = this.getRadarList.bind(this);
     this.enableDebate = this.enableDebate.bind(this);
@@ -42,14 +47,49 @@ class RadarListScreen extends React.Component {
   }
 
   enableDebate = async() => {
-    await this.setState({debating: true});
+    await this.setState({debating: true, trivia: false});
     alert("Please tap on someone from your radar list to challenge to a debate!");
+  }
+
+  enableTrivia = async() => {
+    await this.setState({debating: false, trivia: true});
+    alert("Please tap on someone from your radar list to challenge to a Trivia!");
   }
 
   challenge = async(user) => {
     if(this.state.debating) {
-      await this.setState({selectedUser: user});
-      this.props.navigation.navigate("NewDebate", {challengee: this.state.selectedUser});
+      this.props.navigation.navigate("NewDebate", {challengee: user});
+    } else if (this.state.trivia) {
+      getUserByName(user).then(recipientRes => {
+        if(recipientRes.status != 200) {
+          alert(recipientRes.status + ': ' + recipientRes.error)
+        } else {
+          addTrivia({ players: [ { userId: this.props.currentUser }, { userId: recipientRes.user._id } ] }).then(triviaRes => {
+            if(triviaRes.status != 200) {
+              alert(triviaRes.status + ': ' + triviaRes.error)
+            } else {
+              getUser(this.props.currentUser).then(currUser => {
+                sendNotif({
+                  sender: this.props.currentUser,
+                  link: triviaRes.id,
+                  notifBody: currUser.user.username + " has challenged you to a trivia!",
+                  recipient: recipientRes.user._id,
+                  type: "Trivia"
+                }).then(notifRes => {
+                  if (notifRes.status != 200) {
+                    alert(notifRes.status + ': ' + notifRes.error)
+                  } else {
+                    alert("Succesfully challenged " + user + " to a trivia!");
+                    getTrivia(triviaRes.id).then((resTrivia) => {
+                      this.props.navigation.navigate("TriviaGauntlet", {questions: resTrivia.trivia.questions, sid: resTrivia.trivia._id, solo: false})
+                    })
+                  }
+                })
+              })
+            }
+          })
+        }
+      })
     }
   }
 
@@ -70,6 +110,13 @@ class RadarListScreen extends React.Component {
               style={styles.arrow}
               source={arrow}
           />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.triviaButton}
+          activeOpacity={0.7}
+          onPress={() => this.enableTrivia()}
+        >
+          <MaterialCommunityIcons name={"gamepad-square"} size={60} color={"black"} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.debateButton}
@@ -114,7 +161,8 @@ class RadarListScreen extends React.Component {
 
 const styles = StyleSheet.create({
   header:{
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    flexDirection: "row"
   },
   container: {
     marginTop: 10,
@@ -135,6 +183,10 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 80,
     marginLeft: 20,
+  },
+
+  triviaButton: {
+    marginTop: 60
   },
 
   background: {
@@ -164,4 +216,10 @@ const styles = StyleSheet.create({
   },
 })
 
-export default RadarListScreen;
+const mapStateToProps = (state) => {
+	return {
+	  currentUser: state.auth.currentUser,
+	};
+  };
+  
+export default connect(mapStateToProps)(RadarListScreen);

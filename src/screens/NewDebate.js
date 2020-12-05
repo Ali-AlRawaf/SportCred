@@ -52,7 +52,8 @@ class NewDebate extends React.Component {
 					sender : this.props.currentUser,
 					link: debateRes.debateId,
 					notifBody: currUser.user.username + " has challenged you to a debate: " + this.state.topic + '?',
-					recipient: recipientRes.user._id
+					recipient: recipientRes.user._id,
+					type: "Debate"
 				}
 				console.log(challenge)
 				const notifRes = await sendNotif(challenge);

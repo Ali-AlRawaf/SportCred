@@ -3,7 +3,7 @@ import { View, Dimensions, FlatList, StyleSheet, Text } from 'react-native'
 import UserItem from './UserItem'
 const { width, height } = Dimensions.get('window')
 
-const UserList = ({ data }) => {
+const UserList = ({ data, handlePress }) => {
 
 
     const ItemSeparator = () =>{
@@ -27,7 +27,10 @@ const UserList = ({ data }) => {
                 showsHorizontalScrollIndicator={false}
                 ListEmptyComponent={() => {return (<View/>)}}
                 renderItem={({ item }) => {
-                    return <UserItem user={item} />
+                    return <UserItem 
+                    user={item}
+                    handlePress={handlePress}
+                    />
                 }}
             />
         </View>

@@ -6,7 +6,7 @@ router.get('/searchName', async (req, res) => {
     const users = await User.find({username: new RegExp(req.query.username, "gi")});
     if (!users.length) return res.status(404).send('User does not exist');
     try{
-      res.send(users.map(function(user) {return {"username": user.username, "email": user.email}} ));
+      res.send(users.map(function(user) {return {"username": user.username, "email": user.email, "id": user.id}} ));
     }catch(err){
       res.status(400).send(err);
     }
