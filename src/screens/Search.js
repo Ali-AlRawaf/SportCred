@@ -47,6 +47,10 @@ class Search extends React.Component {
         this.searchUsername("username", text);
     };
 
+    handlePress = (id) =>{
+        this.props.navigation.navigate("OtherProfile", id);
+    }
+
     render() {
         const {search} = this.state;
         return (
@@ -83,6 +87,8 @@ class Search extends React.Component {
                         </View>
                         <UserList
                             data={this.state.data}
+                            handlePress={this.handlePress}
+
                         />
                     </View>
                 </ImageBackground>
