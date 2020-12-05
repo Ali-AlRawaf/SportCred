@@ -1,27 +1,36 @@
 import React from 'react'
-import { View, StyleSheet, Text, Image, Dimensions } from 'react-native'
+import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
 import profileImage from '../assets/profile_img.jpg';
 
-const UserItem = ({user}) =>{
-    return(
-        <View
-            style={styles.ItemView}
-        > 
-            <Image
-                style={styles.ProfilePic}
-                source={profileImage}
-            />
-            <View
-                style={styles.TextView}
+class UserItem extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        return (
+
+            <TouchableOpacity
+                style={styles.ItemView}
+                onPress={() => this.props.handlePress(this.props.user.id)}
             >
-                <Text
-                    style={styles.userName}
+                <Image
+                    style={styles.ProfilePic}
+                    source={profileImage}
+                />
+                <View
+                    style={styles.TextView}
                 >
-                    {user.username}
-                </Text>          
-            </View>
-        </View>
-    )
+                    <Text
+                        style={styles.userName}
+                    >
+                        {this.props.user.username}
+                    </Text>
+                </View>
+            </TouchableOpacity>
+
+        )
+    }
 }
 
 
