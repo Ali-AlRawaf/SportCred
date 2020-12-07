@@ -24,6 +24,10 @@ const Post = (props) => {
                     <Text style={styles.headerText}>
                         {props.name}
                     </Text>
+                    <Text style={styles.headerAcs}>
+                        {props.acs}
+                    </Text>
+
                     <Text style={styles.bodyText}
                         onTextLayout={onTextLayout}
                         numberOfLines={textShown ? undefined : 4}>
@@ -41,7 +45,8 @@ const Post = (props) => {
                             name: props.name,
                             profilePic: props.profilePic,
                             post: props.post,
-                            id: props.id
+                            id: props.id,
+                            acs: props.acs
                         })}
                     >
                         <Text style={styles.buttonText}>
@@ -61,6 +66,12 @@ const styles = StyleSheet.create({
     toggle: {
         color: "#3D929A",
         marginLeft: 10,
+    },
+    headerAcs: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: '#5792dc',
+        paddingLeft: 10,
     },
     card: {
         backgroundColor: '#242526',

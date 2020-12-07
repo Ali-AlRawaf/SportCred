@@ -20,11 +20,17 @@ const userSchema = new mongoose.Schema({
     max: 200
   },
 
+  acs: {
+    type: Number,
+    max: 1100,
+    default: 100
+  },
+
   bio: {
     type: String,
     max: 255
   },
-  
+
   description: {
     type: String,
     max: 255
