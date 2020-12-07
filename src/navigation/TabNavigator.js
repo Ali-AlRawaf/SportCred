@@ -20,7 +20,7 @@ const TabNavigator = () => {
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconName;
 
-                    if (route.name === 'OpenCourt') {
+                    if (route.name === 'The Zone') {
                         iconName = focused ? 'basketball-hoop' : 'basketball-hoop-outline';
                         return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
                     } else if (route.name === 'Trivia') {
@@ -52,7 +52,7 @@ const TabNavigator = () => {
             }}
             barStyle={{ backgroundColor: '#474747' }}
         >
-            <Tab.Screen name="OpenCourt" component={OpenCourtScreen} />
+            <Tab.Screen name="The Zone" component={OpenCourtScreen} />
             <Tab.Screen name="Trivia" component={TriviaLandingScreen} />
             <Tab.Screen name="Picks" component={PicksScreen} />
             <Tab.Screen name="Debates" component={DebatesScreen} />

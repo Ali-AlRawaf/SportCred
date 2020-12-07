@@ -23,9 +23,15 @@ const Comment = (props) => {
             <View style={styles.card}>
                 <Image style={styles.imgBox} source={StephenASmith} />
                 <View style={styles.textBox}>
-                    <Text style={styles.headerText}>
-                        {props.userName}
-                    </Text>
+                    <View style={styles.infoRow}>
+                        <Text style={styles.headerText}>
+                            {props.userName}
+                        </Text>
+                        <Text style={styles.headerAcs}>
+                            {props.acs}
+                        </Text>
+                    </View>
+
                     <Text style={styles.bodyText}
                         onTextLayout={onTextLayout}
                         numberOfLines={textShown ? undefined : 4}>
@@ -45,6 +51,9 @@ const Comment = (props) => {
 };
 
 const styles = StyleSheet.create({
+    infoRow: {
+        display: "inline-table"
+    },
     toggle: {
         color: "#3D929A",
         marginLeft: 10,
@@ -83,6 +92,13 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         color: '#ffffff',
+        paddingLeft: 10,
+    },
+    headerAcs: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: '#5792dc',
+        marginTop: 10,
         paddingLeft: 10,
     },
     bodyText: {

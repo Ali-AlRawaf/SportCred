@@ -22,6 +22,7 @@ class OpenCourtScreen extends React.Component {
             userName: 'NAME',
             profilePic: StephenASmith,
             posts: [],
+            acs: 0,
             renderPosts: [],
             isLoading: true
         }
@@ -30,13 +31,15 @@ class OpenCourtScreen extends React.Component {
     componentDidMount() {
         getUser(this.props.currentUser)
             .then((result) => {
-                this.setState({ userName: result.user.username })
+                console.log("----------------------")
+                console.log(result)
+                this.setState({ userName: result.user.username, acs: result.user.acs })
             }).then(() => {
                 this.realPosts().then((resp) => {
                     this.setState({ posts: resp, isLoading: false })
                 }).then(() => {
                     this.setState({
-                        renderPosts: this.state.posts.map((d, idx) => <Post key={idx} id={d._id} name={d.title} profilePic={d.profilePic} post={d.description}></Post>)
+                        renderPosts: this.state.posts.map((d, idx) => <Post key={idx} id={d._id} name={d.title} profilePic={d.profilePic} post={d.description} acs={d.acs}></Post>)
                     })
                 })
             })
