@@ -33,7 +33,7 @@ class PostComment extends React.Component {
                     this.setState({ comments: resp })
                 }).then(() => {
                     this.setState({
-                        renderComments: this.state.comments.map((c, idx) => <Comment key={idx} userName={this.state.userName} comment={c.text} profilePic={this.profilePic} />
+                        renderComments: this.state.comments.map((c, idx) => <Comment key={idx} userName={this.state.userName} comment={c.text} profilePic={this.profilePic} acs={c.acs} />
                         )
                     })
                 })
@@ -82,6 +82,9 @@ class PostComment extends React.Component {
                         <Image style={styles.imgBox} source={StephenASmith} />
                         <Text style={styles.headerText}>
                             {this.props.route.params.name}
+                        </Text>
+                        <Text style={styles.headerAcs}>
+                            {this.props.route.params.acs}
                         </Text>
                     </View>
                     <Text style={styles.bodyText}
@@ -133,6 +136,13 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: "#333436",
         flex: 1
+    },
+    headerAcs: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: '#5792dc',
+        marginTop: 20,
+        paddingLeft: 10,
     },
     userInfo: {
         flexDirection: 'row',
